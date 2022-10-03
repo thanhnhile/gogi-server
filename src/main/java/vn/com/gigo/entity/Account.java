@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -36,19 +35,16 @@ public class Account {
 	)
 	private Set<Role> roles = new HashSet<>();
 
-	@OneToMany(mappedBy="account")
-	private Employee employee;
 	
 	public Account() {
 		super();
 	}
 
-	public Account(String username, String password, Set<Role> roles, Employee employee) {
+	public Account(String username, String password, Set<Role> roles) {
 		super();
 		this.username = username;
 		this.password = password;
 		this.roles = roles;
-		this.employee = employee;
 	}
 
 	public long getId() {
@@ -83,13 +79,6 @@ public class Account {
 		this.roles = roles;
 	}
 
-	public Employee getEmployee() {
-		return employee;
-	}
-
-	public void setEmployee(Employee employee) {
-		this.employee = employee;
-	}
-
+	
 	
 }

@@ -2,20 +2,22 @@ package vn.com.gigo.entity;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-
+import javax.persistence.Table;
+@Entity
+@Table(name = "stores")
 public class Store {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "store_id")
-	private Integer id;
+	private Long id;
 
 	@Column(nullable = false,unique = true)
 	private String storeName;
@@ -27,10 +29,10 @@ public class Store {
 	@Column
 	private String address;
 	
-	@OneToMany(mappedBy = "store", cascade = CascadeType.ALL) 
+	@OneToMany(mappedBy = "store") 
 	private List<Order> orders;
 	
-	@OneToMany(mappedBy = "store", cascade = CascadeType.ALL) 
+	@OneToMany(mappedBy = "store") 
 	private List<Employee> employees;
 
 	public Store() {
@@ -46,11 +48,11 @@ public class Store {
 		this.employees = employees;
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
