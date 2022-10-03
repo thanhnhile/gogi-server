@@ -46,15 +46,115 @@ public class Order {
 	@JoinColumn(name="customer_id")
 	private Customer customer;
 	
-//	@ManyToOne
-//	@JoinColumn(name="employee_id")
-//	private Employee employee;
+	@ManyToOne
+	@JoinColumn(name="employee_id")
+	private Employee employee;
 	
-//	@ManyToOne
-//	@JoinColumn(name="store_id")
-//	private Store store;
+	@ManyToOne
+	@JoinColumn(name="store_id")
+	private Store store;
 	
 	@CreationTimestamp
 	private Date createdDate;
+
+	public Order() {
+		super();
+	}
+
+	public Order(Boolean status, String orderType, Boolean pay, int total, List<OrderDetail> detailList,
+			Customer customer, Employee employee, Store store, Date createdDate) {
+		super();
+		this.status = status;
+		this.orderType = orderType;
+		this.pay = pay;
+		this.total = total;
+		this.detailList = detailList;
+		this.customer = customer;
+		this.employee = employee;
+		this.store = store;
+		this.createdDate = createdDate;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(Boolean status) {
+		this.status = status;
+	}
+
+	public String getOrderType() {
+		return orderType;
+	}
+
+	public void setOrderType(String orderType) {
+		this.orderType = orderType;
+	}
+
+	public Boolean getPay() {
+		return pay;
+	}
+
+	public void setPay(Boolean pay) {
+		this.pay = pay;
+	}
+
+	public int getTotal() {
+		return total;
+	}
+
+	public void setTotal(int total) {
+		this.total = total;
+	}
+
+	public List<OrderDetail> getDetailList() {
+		return detailList;
+	}
+
+	public void setDetailList(List<OrderDetail> detailList) {
+		this.detailList = detailList;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+
+	public Store getStore() {
+		return store;
+	}
+
+	public void setStore(Store store) {
+		this.store = store;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+	
+	
 }
 
