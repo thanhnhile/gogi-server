@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EnableJpaRepositories("vn.com.gigo.repository")
-@EntityScan(basePackages = { "vn.com.gigo.entity" })
+@EnableJpaRepositories("vn.com.gigo.repositories")
+@EntityScan(basePackages = { "vn.com.gigo.entities" })
 @EnableJpaAuditing
 public class GigoApplication {
 

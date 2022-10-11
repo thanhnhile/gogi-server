@@ -1,4 +1,4 @@
-package vn.com.gigo.dto;
+package vn.com.gigo.dtos;
 
 public class DataResponse {
 	private String errCode;

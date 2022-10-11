@@ -1,4 +1,4 @@
-package vn.com.gigo.entity;
+package vn.com.gigo.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -5,8 +5,8 @@ import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-import vn.com.gigo.dto.ProductDto;
-import vn.com.gigo.entity.Product;
+import vn.com.gigo.dtos.ProductDto;
+import vn.com.gigo.entities.Product;
 
 @Mapper(componentModel = "spring")
 public interface ProductMapper {

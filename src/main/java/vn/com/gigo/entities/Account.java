@@ -1,4 +1,4 @@
-package vn.com.gigo.entity;
+package vn.com.gigo.entities;
 
 import java.util.HashSet;
 import java.util.Set;
