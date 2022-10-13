@@ -15,19 +15,19 @@ import vn.com.gigo.services.CategoryService;
 public class CategoryServiceImpl implements CategoryService{
 	
 	@Autowired
-	CategoryRepository repo;
+	CategoryRepository categoryRepo;
 	
 	@Autowired
 	CategoryMapper mapper;
 
 	@Override
 	public Object getAll() {
-		return mapper.categorysToCategoryDtos(repo.findAll());
+		return mapper.categorysToCategoryDtos(categoryRepo.findAll());
 	}
 
 	@Override
 	public Object getById(Long id) {
-		Optional<Category> category = repo.findById(id);
+		Optional<Category> category = categoryRepo.findById(id);
 		return mapper.categoryToCategoryDto(category.get());
 	}
 
@@ -37,22 +37,17 @@ public class CategoryServiceImpl implements CategoryService{
 		if(cateToAdd.getStatus() == null) {
 			cateToAdd.setStatus(true);
 		}
-		return mapper.categoryToCategoryDto(repo.save(cateToAdd));
+		return mapper.categoryToCategoryDto(categoryRepo.save(cateToAdd));
 	}
 
 	@Override
 	public Object update(Long id, CategoryDto categoryDto) {
-		Optional<Category> categoryOptional = repo.findById(id);
+		Optional<Category> categoryOptional = categoryRepo.findById(id);
 		if(categoryOptional.isPresent()) {
 			Category category = categoryOptional.get();
 			category.setName(categoryDto.getName());
-			if(categoryDto.getStatus() == null) {
-				category.setStatus(true);
-			}
-			else {
-				category.setStatus(categoryDto.getStatus());
-			}
-			return mapper.categoryToCategoryDto(repo.save(category));
+			category.setStatus(categoryDto.getStatus());
+			return mapper.categoryToCategoryDto(categoryRepo.save(category));
 		}
 		else return null;
 	}
