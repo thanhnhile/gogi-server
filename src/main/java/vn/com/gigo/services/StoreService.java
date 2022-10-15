@@ -1,0 +1,19 @@
+package vn.com.gigo.services;
+
+import vn.com.gigo.dtos.StoreDto;
+
+public interface StoreService {
+	Object getAllStore();
+
+	Object getAllStorePagnation(int offSet, int pageSize);
+
+	Object getStore(Long id);
+
+	Object addStore(StoreDto storeDto);
+
+	void deleteStore(Long id);
+
+	Object updateStore(Long id, StoreDto storeDto);
+
+	Object getStoreByDistrictId(Long districtId);
+}
