@@ -1,6 +1,9 @@
 package vn.com.gigo.entities;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -13,29 +16,29 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.springframework.security.core.userdetails.UserDetails;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 @Entity
 @Table(name = "accounts")
-public class Account {
+public class Account implements UserDetails {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "account_id")
-	private long id;
-	
-	@Column(unique=true,nullable = false)
+	private Long id;
+
+	@Column(unique = true, nullable = false)
 	private String username;
 
 	@Column(nullable = false)
 	private String password;
 
 	@ManyToMany
-	@JoinTable(
-		name = "accounts_roles",
-		joinColumns = @JoinColumn(name = "account_id"),
-		inverseJoinColumns = @JoinColumn(name = "role_id")
-	)
+	@JoinTable(name = "accounts_roles", joinColumns = @JoinColumn(name = "account_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
-	
 	public Account() {
 		super();
 	}
@@ -47,11 +50,11 @@ public class Account {
 		this.roles = roles;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -79,6 +82,36 @@ public class Account {
 		this.roles = roles;
 	}
 
-	
-	
+	public void addRole(Role role) {
+		this.roles.add(role);
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+		for (Role role : roles) {
+			authorities.add(new SimpleGrantedAuthority(role.getName()));
+		}
+		return authorities;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
 }
