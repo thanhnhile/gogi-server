@@ -3,6 +3,7 @@ package vn.com.gigo.entities;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -38,7 +39,7 @@ public class Order {
 	@Column(columnDefinition="int default 0")
 	private int total;
 	
-	@OneToMany(mappedBy="order")
+	@OneToMany(mappedBy="order",cascade = CascadeType.ALL, orphanRemoval=true)
 	private List<OrderDetail> detailList;
 	
 	@Nullable
