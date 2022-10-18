@@ -1,5 +1,6 @@
 package vn.com.gigo.services.impl;
 
+import java.security.cert.PKIXRevocationChecker.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -61,6 +62,8 @@ public class OrderServiceImpl implements OrderService{
 		if(orderToAdd.getPay()==null) {
 			orderToAdd.setPay(false);
 		}
+		//caculate total
+		Double total = 0.0;
 		//save order detail
 		List<OrderDetailDto> detailDtos = orderInputDto.getDetailList();
 		orderToAdd.setDetailList(null);
@@ -72,8 +75,11 @@ public class OrderServiceImpl implements OrderService{
 			orderDetail.setOrder(newOrder);
 			orderDetailRepo.save(orderDetail);
 			details.add(orderDetail);
+			total += orderDetail.getPrice() * orderDetail.getQuantity();
 		}
 		newOrder.setDetailList(details);
+		newOrder.setTotal(total);
+		newOrder = orderRepo.save(newOrder);
 		return mapper.orderToOrderDto(newOrder);
 	}
 
@@ -97,6 +103,16 @@ public class OrderServiceImpl implements OrderService{
 		response.setTotalElements(page.getTotalElements());
 		response.setTotalPages(page.getTotalPages());
 		return response;
+	}
+
+	@Override
+	public Object updateOrder(Long id, OrderInputDto orderInputDto) {
+		Optional<Order> orderOptional = orderRepo.findById(id);
+		if(orderOptional.isPresent()) {
+			
+			return null;
+		}
+		else return "Not found order with id " +id;
 	}
 
 	

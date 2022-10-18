@@ -2,6 +2,7 @@ package vn.com.gigo.entities;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,7 +24,7 @@ public class Category {
 	@Column(columnDefinition="boolean default true")
 	private Boolean status;
 	
-	@OneToMany(mappedBy="category")
+	@OneToMany(mappedBy="category", cascade = CascadeType.ALL, orphanRemoval=true)
 	List<Product> productList;
 
 	public Category() {

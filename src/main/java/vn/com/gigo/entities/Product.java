@@ -7,33 +7,37 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.Table;
 
+@NamedNativeQuery(name = "Product.getAllProductsByCategoryId", query = "SELECT * FROM products WHERE category_id = ?1", resultClass = Product.class)
+@NamedNativeQuery(name = "Product.getAllProductsByCategoryId.count", query = "SELECT count(*) FROM products WHERE category_id = ?1")
 @Entity
-@Table(name="products")
+@Table(name = "products")
 public class Product {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@Column(nullable=false)
+
+	@Column(nullable = false)
 	private String name;
-	
+
 	private Double price;
-	
+
 	private Double discount;
-	
+
 	private String description;
-	
-	@Column(columnDefinition="boolean default true")
+
+	@Column(columnDefinition = "boolean default true")
 	private Boolean status;
-	
+
 	private String imgURL;
-	
+
 	@ManyToOne
-	@JoinColumn(name="category_id")
+	@JoinColumn(name = "category_id")
 	private Category category;
 
+	
 	public Product() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -112,5 +116,5 @@ public class Product {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
-	
+
 }
