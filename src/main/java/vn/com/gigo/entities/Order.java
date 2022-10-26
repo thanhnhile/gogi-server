@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -20,6 +21,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.sun.istack.Nullable;
 
+@NamedNativeQuery(name = "Order.getOrdersByStoreId", query = "SELECT * FROM orders WHERE store_id=?1 ORDER BY id desc", resultClass=Order.class)
+@NamedNativeQuery(name="Order.getOrdersByStoreId.count", query="SELECT count(*) FROM orders WHERE store_id=?1")
 @Entity
 @Table(name="orders")
 @EntityListeners(AuditingEntityListener.class)
@@ -28,16 +31,16 @@ public class Order {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(columnDefinition="boolean default true")
-	private Boolean status;
-	
-	private String orderType;
-	
-	@Column(columnDefinition="boolean default false")
-	private Boolean pay;
-	
 	@Column(columnDefinition="int default 0")
-	private int total;
+	private int status; // 0 - cho xu ly, 1 - dang giao, 2 - thanh cong, 4 - huy
+	
+	private int orderType;//0 online, 1 offline
+	
+	@Column(columnDefinition="int default false")
+	private int isPaid;  //
+	
+	@Column(columnDefinition="double default 0")
+	private double total;
 	
 	@OneToMany(mappedBy="order",cascade = CascadeType.ALL, orphanRemoval=true)
 	private List<OrderDetail> detailList;
@@ -62,18 +65,17 @@ public class Order {
 		super();
 	}
 
-	public Order(Boolean status, String orderType, Boolean pay, int total, List<OrderDetail> detailList,
-			Customer customer, Employee employee, Store store, Date createdDate) {
+	public Order(int status, int orderType, int isPaid, double total, List<OrderDetail> detailList, Customer customer,
+			Employee employee, Store store) {
 		super();
 		this.status = status;
 		this.orderType = orderType;
-		this.pay = pay;
+		this.isPaid = isPaid;
 		this.total = total;
 		this.detailList = detailList;
 		this.customer = customer;
 		this.employee = employee;
 		this.store = store;
-		this.createdDate = createdDate;
 	}
 
 	public Long getId() {
@@ -84,35 +86,35 @@ public class Order {
 		this.id = id;
 	}
 
-	public Boolean getStatus() {
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(Boolean status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 
-	public String getOrderType() {
+	public int getOrderType() {
 		return orderType;
 	}
 
-	public void setOrderType(String orderType) {
+	public void setOrderType(int orderType) {
 		this.orderType = orderType;
 	}
 
-	public Boolean getPay() {
-		return pay;
+	public int getIsPaid() {
+		return isPaid;
 	}
 
-	public void setPay(Boolean pay) {
-		this.pay = pay;
+	public void setIsPaid(int isPaid) {
+		this.isPaid = isPaid;
 	}
 
-	public int getTotal() {
+	public double getTotal() {
 		return total;
 	}
 
-	public void setTotal(int total) {
+	public void setTotal(double total) {
 		this.total = total;
 	}
 
@@ -158,4 +160,3 @@ public class Order {
 	
 	
 }
-

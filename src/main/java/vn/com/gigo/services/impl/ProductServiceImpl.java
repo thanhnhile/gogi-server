@@ -78,6 +78,18 @@ public class ProductServiceImpl implements ProductService{
 		return response;
 	}
 
+	@Override
+	public Object getAllProductsByCategoryId(Long id, int offSet, int limit) {
+		Pageable pageable = PageRequest.of(offSet-1, limit);
+		Page<Product> pageProduct = productRepo.getAllProductsByCategoryId(id, pageable);
+		PagingDto response = new PagingDto();
+		response.setContent(mapper.productsToProductDtos(pageProduct.getContent()));
+		response.setCurrentPage(offSet);
+		response.setTotalElements(pageProduct.getTotalElements());
+		response.setTotalPages(pageProduct.getTotalPages());
+		return response;
+	}
+
 
 
 }

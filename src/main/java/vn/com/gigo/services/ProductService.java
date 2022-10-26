@@ -10,4 +10,6 @@ public interface ProductService {
 	Object add(ProductDto productDto);
 
 	Object update(Long id, ProductDto productDto);
+	
+	Object getAllProductsByCategoryId(Long id,int offSet,int limit);
 }

@@ -10,13 +10,13 @@ public class OrderDto {
 	private Long id;
 	
 	@JsonProperty("status")
-	private Boolean status;
+	private int status;
 	
 	@JsonProperty("orderType")
-	private String orderType;
+	private int orderType;
 	
 	@JsonProperty("pay")
-	private Boolean pay;
+	private int pay;
 	
 	@JsonProperty("total")
 	private int total;
@@ -44,27 +44,27 @@ public class OrderDto {
 		this.id = id;
 	}
 
-	public Boolean getStatus() {
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(Boolean status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 
-	public String getOrderType() {
+	public int getOrderType() {
 		return orderType;
 	}
 
-	public void setOrderType(String orderType) {
+	public void setOrderType(int orderType) {
 		this.orderType = orderType;
 	}
 
-	public Boolean getPay() {
+	public int getPay() {
 		return pay;
 	}
 
-	public void setPay(Boolean pay) {
+	public void setPay(int pay) {
 		this.pay = pay;
 	}
 
@@ -115,6 +115,6 @@ public class OrderDto {
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
-	
+
 	
 }	

@@ -8,5 +8,8 @@ public interface OrderService {
 	
 	Object deleteOrder(Long id);
 	
+	//pending
+	Object updateOrder(Long id,OrderInputDto orderInputDto);
+	
 	Object getAllOrdersByStoreId(Long storeId,int offSet, int limit);
 }
