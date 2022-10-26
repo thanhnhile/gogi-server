@@ -23,6 +23,7 @@ import vn.com.gigo.repositories.OrderDetailRepository;
 import vn.com.gigo.repositories.OrderRepository;
 import vn.com.gigo.repositories.StoreRepository;
 import vn.com.gigo.services.OrderService;
+import vn.com.gigo.utils.OrderStatus;
 
 @Service
 public class OrderServiceImpl implements OrderService{
@@ -59,9 +60,7 @@ public class OrderServiceImpl implements OrderService{
 			orderToAdd.setCustomer(customerRepo.getReferenceById(orderInputDto.getCustomer()));
 		}
 		else orderToAdd.setCustomer(null);
-		if(orderToAdd.getPay()==null) {
-			orderToAdd.setPay(false);
-		}
+		orderToAdd.setStatus(OrderStatus.IN_PROGRESS.getValue());
 		//caculate total
 		Double total = 0.0;
 		//save order detail
