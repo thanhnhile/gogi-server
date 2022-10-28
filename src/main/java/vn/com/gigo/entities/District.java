@@ -2,6 +2,7 @@ package vn.com.gigo.entities;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,10 +21,10 @@ public class District {
 	@Column(nullable=false,unique=true)
 	private String name;
 	
-	@OneToMany(mappedBy = "district") 
+	@OneToMany(mappedBy = "district", cascade = CascadeType.ALL, orphanRemoval=true) 
 	private List<Store> stores;
 	
-	@OneToMany(mappedBy = "district") 
+	@OneToMany(mappedBy = "district", cascade = CascadeType.ALL, orphanRemoval=true) 
 	private List<Customer> customers;
 
 	public District() {

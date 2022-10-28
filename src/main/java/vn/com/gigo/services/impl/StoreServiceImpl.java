@@ -13,8 +13,10 @@ import org.springframework.stereotype.Service;
 
 import vn.com.gigo.dtos.PagingDto;
 import vn.com.gigo.dtos.StoreDto;
+import vn.com.gigo.entities.District;
 import vn.com.gigo.entities.Store;
 import vn.com.gigo.mapstruct.StoreMapper;
+import vn.com.gigo.repositories.DistrictRepository;
 import vn.com.gigo.repositories.StoreRepository;
 import vn.com.gigo.services.StoreService;
 
@@ -24,6 +26,10 @@ public class StoreServiceImpl implements StoreService{
 
 	@Autowired
 	private StoreRepository storeRepo;
+	
+	@Autowired
+	private DistrictRepository districtRepo;
+	
 	@Autowired
 	private StoreMapper storeMapper;
 
@@ -58,7 +64,10 @@ public class StoreServiceImpl implements StoreService{
 
 	@Override
 	public Object addStore(StoreDto storeDto) {
-		return storeRepo.save(storeMapper.storeDtoToStore(storeDto));
+		Store store = storeRepo.save(storeMapper.storeDtoToStore(storeDto));
+		District district = districtRepo.getReferenceById(storeDto.getDistrict().getId());
+		store.setDistrict(district);
+		return storeMapper.storeToStoreDto(storeRepo.save(store));
 	}
 
 	@Override

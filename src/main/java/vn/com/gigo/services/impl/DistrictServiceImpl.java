@@ -39,7 +39,8 @@ public class DistrictServiceImpl implements DistrictService{
 
 	@Override
 	public Object addDistrict(DistrictDto districtDto) {
-		return districtRepo.save(districtMapper.districtDtoToDistrict(districtDto));
+		District district = districtMapper.districtDtoToDistrict(districtDto);
+		return districtMapper.districtToDistrictDto(districtRepo.save(district));
 	}
 
 	@Override
