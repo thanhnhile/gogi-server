@@ -46,7 +46,9 @@ public class CategoryServiceImpl implements CategoryService{
 		if(categoryOptional.isPresent()) {
 			Category category = categoryOptional.get();
 			category.setName(categoryDto.getName());
-			category.setStatus(categoryDto.getStatus());
+			if(categoryDto.getStatus() != null) {
+				category.setStatus(categoryDto.getStatus());
+			}
 			return mapper.categoryToCategoryDto(categoryRepo.save(category));
 		}
 		else return null;

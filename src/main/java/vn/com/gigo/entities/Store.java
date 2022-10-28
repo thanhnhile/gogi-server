@@ -34,6 +34,7 @@ public class Store {
 	private List<Order> orders;
 	
 	@OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval=true) 
+
 	private List<Employee> employees;
 
 	public Store() {
