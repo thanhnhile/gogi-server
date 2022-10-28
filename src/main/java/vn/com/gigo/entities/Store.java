@@ -2,6 +2,7 @@ package vn.com.gigo.entities;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,10 +30,10 @@ public class Store {
 	@Column
 	private String address;
 	
-	@OneToMany(mappedBy = "store") 
+	@OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval=true) 
 	private List<Order> orders;
 	
-	@OneToMany(mappedBy = "store") 
+	@OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval=true) 
 	private List<Employee> employees;
 
 	public Store() {

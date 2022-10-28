@@ -11,7 +11,7 @@ import vn.com.gigo.entities.Role;
 @Mapper(componentModel = "spring")
 public interface RoleMapper {
 	// ----------------------------Entity To DTO---------------------------
-	RoleDto roleToRleDto(Role role);
+	RoleDto roleToRoleDto(Role role);
 
 	List<RoleDto> rolesToRoleDtos(List<Role> roles);
 

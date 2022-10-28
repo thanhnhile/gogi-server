@@ -46,7 +46,7 @@ public class RoleServiceImpl implements RoleService{
 
 	@Override
 	public Object getRole(Integer id) {
-		return roleMapper.roleToRleDto(roleRepo.findOneById(id));
+		return roleMapper.roleToRoleDto(roleRepo.findOneById(id));
 	}
 
 	@Override
@@ -65,7 +65,7 @@ public class RoleServiceImpl implements RoleService{
 		Role RoleOld = roleRepo.findOneById(id);
 		RoleOld.setName(RoleNew.getName());
 		roleRepo.save(RoleOld);
-		return roleMapper.roleToRleDto(RoleOld);
+		return roleMapper.roleToRoleDto(RoleOld);
 	}
 
 	@Override
