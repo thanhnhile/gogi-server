@@ -9,11 +9,11 @@ public interface EmployeeService {
 
 	Object getEmployee(Long id);
 
-	Object addEmployee(EmployeeDto EmployeeDto);
+	Object addEmployee(EmployeeDto employeeDto);
 
 	void deleteEmployee(Long id);
 
-	Object updateEmployee(Long id, EmployeeDto EmployeeDto);
+	Object updateEmployee(Long id, EmployeeDto employeeDto);
 
 	Object getEmployeeByStoreId(Long storeId);
 }

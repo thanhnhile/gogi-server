@@ -14,8 +14,10 @@ import org.springframework.stereotype.Service;
 import vn.com.gigo.dtos.EmployeeDto;
 import vn.com.gigo.dtos.PagingDto;
 import vn.com.gigo.entities.Employee;
+import vn.com.gigo.entities.Store;
 import vn.com.gigo.mapstruct.EmployeeMapper;
 import vn.com.gigo.repositories.EmployeeRepository;
+import vn.com.gigo.repositories.StoreRepository;
 import vn.com.gigo.services.EmployeeService;
 
 @Service
@@ -24,6 +26,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Autowired
 	private EmployeeRepository employeeRepo;
+	
+	@Autowired
+	private StoreRepository storeRepo;
+	
 	@Autowired
 	private EmployeeMapper employeeMapper;
 
@@ -56,8 +62,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public Object addEmployee(EmployeeDto EmployeeDto) {
-		return employeeRepo.save(employeeMapper.employeeDtoToEmployee(EmployeeDto));
+	public Object addEmployee(EmployeeDto employeeDto) {
+		Employee employee = employeeMapper.employeeDtoToEmployee(employeeDto);
+		Store store = storeRepo.getReferenceById(employeeDto.getStore().getId());
+		employee.setStore(store);
+		return employeeMapper.employeeToEmployeeDto(employeeRepo.save(employee));
 	}
 
 	@Override

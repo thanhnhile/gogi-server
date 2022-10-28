@@ -51,7 +51,8 @@ public class RoleServiceImpl implements RoleService{
 
 	@Override
 	public Object addRole(RoleDto roleDto) {
-		return roleRepo.save(roleMapper.roleDtoToRole(roleDto));
+		Role role = roleRepo.save(roleMapper.roleDtoToRole(roleDto));
+		return roleMapper.roleToRoleDto(roleRepo.save(role));
 	}
 
 	@Override
