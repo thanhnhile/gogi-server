@@ -1,6 +1,5 @@
 package vn.com.gigo.services.impl;
 
-import java.security.cert.PKIXRevocationChecker.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -56,10 +55,14 @@ public class OrderServiceImpl implements OrderService{
 		Order orderToAdd = mapper.orderInputDtoToOrder(orderInputDto);
 		orderToAdd.setStore(storeRepo.getReferenceById(orderInputDto.getStore()));
 		orderToAdd.setEmployee(employeeRepo.getReferenceById(orderInputDto.getEmployee()));
+		//set default property
 		if(orderInputDto.getCustomer() != null) {
 			orderToAdd.setCustomer(customerRepo.getReferenceById(orderInputDto.getCustomer()));
 		}
 		else orderToAdd.setCustomer(null);
+		if(orderToAdd.getPay() == null) {
+			orderToAdd.setPay(false);
+		}
 		orderToAdd.setStatus(OrderStatus.IN_PROGRESS.getValue());
 		//caculate total
 		Double total = 0.0;

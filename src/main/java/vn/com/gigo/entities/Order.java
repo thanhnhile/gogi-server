@@ -32,12 +32,16 @@ public class Order {
 	private Long id;
 	
 	@Column(columnDefinition="int default 0")
-	private int status; // 0 - cho xu ly, 1 - dang giao, 2 - thanh cong, 4 - huy
+	//0 - cho xu ly
+	//1 - dang giao
+	//2 - thanh cong
+	//4 - huy
+	private int status; 
 	
 	private int orderType;//0 online, 1 offline
 	
-	@Column(columnDefinition="int default false")
-	private int isPaid;  //
+	@Column(columnDefinition="boolean default false")
+	private Boolean pay;  //
 	
 	@Column(columnDefinition="double default 0")
 	private double total;
@@ -65,12 +69,12 @@ public class Order {
 		super();
 	}
 
-	public Order(int status, int orderType, int isPaid, double total, List<OrderDetail> detailList, Customer customer,
+	public Order(int status, int orderType, Boolean pay, double total, List<OrderDetail> detailList, Customer customer,
 			Employee employee, Store store) {
 		super();
 		this.status = status;
 		this.orderType = orderType;
-		this.isPaid = isPaid;
+		this.pay = pay;
 		this.total = total;
 		this.detailList = detailList;
 		this.customer = customer;
@@ -102,20 +106,20 @@ public class Order {
 		this.orderType = orderType;
 	}
 
-	public int getIsPaid() {
-		return isPaid;
-	}
-
-	public void setIsPaid(int isPaid) {
-		this.isPaid = isPaid;
-	}
-
 	public double getTotal() {
 		return total;
 	}
 
 	public void setTotal(double total) {
 		this.total = total;
+	}
+
+	public Boolean getPay() {
+		return pay;
+	}
+
+	public void setPay(Boolean pay) {
+		this.pay = pay;
 	}
 
 	public List<OrderDetail> getDetailList() {

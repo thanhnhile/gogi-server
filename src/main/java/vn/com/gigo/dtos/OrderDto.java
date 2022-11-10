@@ -16,10 +16,10 @@ public class OrderDto {
 	private int orderType;
 	
 	@JsonProperty("pay")
-	private int pay;
+	private Boolean pay;
 	
 	@JsonProperty("total")
-	private int total;
+	private double total;
 	
 	@JsonProperty("details")
 	private List<OrderDetailDto> detailList;
@@ -60,19 +60,19 @@ public class OrderDto {
 		this.orderType = orderType;
 	}
 
-	public int getPay() {
+	public Boolean getPay() {
 		return pay;
 	}
 
-	public void setPay(int pay) {
+	public void setPay(Boolean pay) {
 		this.pay = pay;
 	}
 
-	public int getTotal() {
+	public double getTotal() {
 		return total;
 	}
 
-	public void setTotal(int total) {
+	public void setTotal(double total) {
 		this.total = total;
 	}
 
