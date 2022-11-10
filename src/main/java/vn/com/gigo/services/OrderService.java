@@ -1,4 +1,7 @@
 package vn.com.gigo.services;
+import java.util.List;
+
+import vn.com.gigo.dtos.OrderDetailDto;
 import vn.com.gigo.dtos.OrderInputDto;
 
 public interface OrderService {
@@ -8,8 +11,11 @@ public interface OrderService {
 	
 	Object deleteOrder(Long id);
 	
-	//pending
-	Object updateOrder(Long id,OrderInputDto orderInputDto);
-	
 	Object getAllOrdersByStoreId(Long storeId,int offSet, int limit);
+	
+	Object updateOrderStatus(Long id,int status);
+	
+	Object updatePayStatus(Long id);
+	
+	Object updateOrderDetail(Long id, List<OrderDetailDto> orderDetailDtos);
 }

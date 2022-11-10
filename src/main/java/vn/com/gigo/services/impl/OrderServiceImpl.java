@@ -77,7 +77,7 @@ public class OrderServiceImpl implements OrderService{
 			orderDetail.setOrder(newOrder);
 			orderDetailRepo.save(orderDetail);
 			details.add(orderDetail);
-			total += orderDetail.getPrice() * orderDetail.getQuantity();
+			total += detailDto.getPrice() * detailDto.getQuantity();
 		}
 		newOrder.setDetailList(details);
 		newOrder.setTotal(total);
@@ -108,14 +108,48 @@ public class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
-	public Object updateOrder(Long id, OrderInputDto orderInputDto) {
+	public Object updateOrderStatus(Long id, int status) {
 		Optional<Order> orderOptional = orderRepo.findById(id);
 		if(orderOptional.isPresent()) {
-			
-			return null;
+			Order orderToUpdate = orderOptional.get();
+			orderToUpdate.setStatus(status);
+			return mapper.orderToOrderDto(orderRepo.save(orderToUpdate));
 		}
 		else return "Not found order with id " +id;
 	}
+
+	@Override
+	public Object updatePayStatus(Long id) {
+		Optional<Order> orderOptional = orderRepo.findById(id);
+		if(orderOptional.isPresent()) {
+			Order orderToUpdate = orderOptional.get();
+			orderToUpdate.setPay(true);
+			return mapper.orderToOrderDto(orderRepo.save(orderToUpdate));
+		}
+		else return "Not found order with id " +id;
+	}
+
+	@Override
+	public Object updateOrderDetail(Long id, List<OrderDetailDto> detailDtos) {
+		Optional<Order> orderOptional = orderRepo.findById(id);
+		if(orderOptional.isPresent()) {
+			Order orderToUpdate = orderOptional.get();
+			Double total = 0.0;
+			List<OrderDetail> newDetails = new ArrayList<OrderDetail>();
+			for(OrderDetailDto detailDto : detailDtos) {
+				OrderDetail orderDetail = mapper.detailDtoToDetail(detailDto);
+				orderDetail.setOrder(orderToUpdate);
+				orderDetailRepo.save(orderDetail);
+				newDetails.add(orderDetail);
+				total += detailDto.getPrice() * detailDto.getQuantity();
+			}
+			orderToUpdate.setDetailList(newDetails);
+			orderToUpdate.setTotal(total);
+			return mapper.orderToOrderDto(orderRepo.save(orderToUpdate));
+		}
+		else return "Not found order with id " +id;
+	}
+
 
 	
 

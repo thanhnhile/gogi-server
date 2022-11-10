@@ -90,6 +90,21 @@ public class ProductServiceImpl implements ProductService{
 		return response;
 	}
 
+	@Override
+	public Object searchByName(String search, int offSet, int limit) {
+		if(!(search == "" || search.isEmpty())) {
+			Pageable pageable = PageRequest.of(offSet-1, limit);
+			Page<Product> pageProduct = productRepo.searchByName(search.trim(), pageable);
+			PagingDto response = new PagingDto();
+			response.setContent(mapper.productsToProductDtos(pageProduct.getContent()));
+			response.setCurrentPage(offSet);
+			response.setTotalElements(pageProduct.getTotalElements());
+			response.setTotalPages(pageProduct.getTotalPages());
+			return response;
+		}
+		return null;
+	}
+
 
 
 }

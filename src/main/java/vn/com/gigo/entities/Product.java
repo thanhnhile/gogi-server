@@ -12,6 +12,9 @@ import javax.persistence.Table;
 
 @NamedNativeQuery(name = "Product.getAllProductsByCategoryId", query = "SELECT * FROM products WHERE category_id = ?1", resultClass = Product.class)
 @NamedNativeQuery(name = "Product.getAllProductsByCategoryId.count", query = "SELECT count(*) FROM products WHERE category_id = ?1")
+
+@NamedNativeQuery(name="Product.searchByName",query="SELECT * FROM products WHERE products.name LIKE %:search%",resultClass=Product.class)
+@NamedNativeQuery(name="Product.searchByName.count",query="SELECT count(*) FROM products WHERE name LIKE %:search%")
 @Entity
 @Table(name = "products")
 public class Product {

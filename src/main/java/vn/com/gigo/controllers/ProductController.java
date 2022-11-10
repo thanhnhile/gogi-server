@@ -21,7 +21,7 @@ public class ProductController {
 	@Autowired
 	private ProductServiceImpl productService;
 	
-	@GetMapping("/all")
+	@GetMapping()
 	private DataResponse getAllProductsPagination(
 			@RequestParam(value="limit", defaultValue="9") int limit,
 			@RequestParam(value="offSet", defaultValue="1") int offSet, @RequestParam(value="sortBy",defaultValue="id") String sortBy,
@@ -34,12 +34,19 @@ public class ProductController {
 		return new DataResponse(productService.getById(id));
 	}
 	
-	@GetMapping("")
+	@GetMapping("/category/{category_id}")
 	private DataResponse getAllProductsByCatetoryId(
-			@RequestParam(value="category_id") Long categoryId,
+			@PathVariable(value="category_id") Long categoryId,
 			@RequestParam(value="limit", defaultValue=DefaultRequestParam.LIMIT) int limit,
 			@RequestParam(value="offSet",defaultValue=DefaultRequestParam.OFFSET) int offSet){
 		return new DataResponse(productService.getAllProductsByCategoryId(categoryId, offSet, limit));
+	}
+	
+	@GetMapping("/search")
+	private DataResponse searchByName(@RequestParam(value = "s") String search,
+			@RequestParam(value = "limit", defaultValue = DefaultRequestParam.LIMIT) int limit,
+			@RequestParam(value = "offSet", defaultValue = DefaultRequestParam.OFFSET) int offSet) {
+		return new DataResponse(productService.searchByName(search, offSet, limit));
 	}
 	
 	@PostMapping

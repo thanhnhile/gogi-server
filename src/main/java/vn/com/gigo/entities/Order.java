@@ -1,5 +1,6 @@
 package vn.com.gigo.entities;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class Order {
 	private double total;
 	
 	@OneToMany(mappedBy="order",cascade = CascadeType.ALL, orphanRemoval=true)
-	private List<OrderDetail> detailList;
+	private List<OrderDetail> detailList = new ArrayList<OrderDetail>();
 	
 	@Nullable
 	@ManyToOne
@@ -127,7 +128,9 @@ public class Order {
 	}
 
 	public void setDetailList(List<OrderDetail> detailList) {
-		this.detailList = detailList;
+		this.detailList.clear();
+		this.detailList.addAll(detailList);
+			
 	}
 
 	public Customer getCustomer() {

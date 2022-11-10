@@ -15,4 +15,5 @@ public interface OrderRepository extends JpaRepository<Order,Long>{
 	@Query(value="SELECT * FROM orders WHERE store_id=?1 ORDER BY id desc",
 	countQuery="SELECT count(*) FROM orders WHERE store_id=?1",nativeQuery = true)
 	Page<Order> getOrdersByStoreId(Long storeId,Pageable pageable);
+	
 }
