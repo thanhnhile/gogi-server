@@ -2,8 +2,6 @@ package vn.com.gigo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,9 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import vn.com.gigo.dtos.AccountDto;
-import vn.com.gigo.dtos.AccountTokenResponse;
 import vn.com.gigo.dtos.DataResponse;
-import vn.com.gigo.entities.Account;
 import vn.com.gigo.security.JwtTokenUtil;
 import vn.com.gigo.services.impl.AccountServiceImpl;
 
@@ -32,18 +28,7 @@ public class AccountController {
 	@Autowired
 	JwtTokenUtil jwtUtil;
 
-	@PostMapping("/login")
-	public DataResponse login(@RequestBody AccountDto accountDto) {
-		Authentication authentication = authManager.authenticate(
-				new UsernamePasswordAuthenticationToken(accountDto.getUsername(), accountDto.getPassword()));
-
-		Account account = (Account) authentication.getPrincipal();
-		String accessToken = jwtUtil.generateAccessToken(account);
-		AccountTokenResponse response = new AccountTokenResponse(account.getUsername(), accessToken);
-
-		return new DataResponse(response);
-
-	}
+	
 
 	@GetMapping()
 	public DataResponse getAccount() {

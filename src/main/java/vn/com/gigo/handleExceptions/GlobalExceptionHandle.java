@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import vn.com.gigo.exception.DuplicateValueInResourceException;
+
 import vn.com.gigo.dtos.DataResponse;
 
 @ControllerAdvice
@@ -41,5 +43,10 @@ public class GlobalExceptionHandle{
 	@ResponseBody
 	public DataResponse handleSqlException(SQLException e) {
 		return new DataResponse("500",e.getMessage(),200);
+	}
+	@ExceptionHandler({DuplicateValueInResourceException.class})
+	@ResponseBody
+	public DataResponse handleDuplicateValueInResourceException(DuplicateValueInResourceException e) {
+		return new DataResponse("400",e.getMessage(),200);
 	}
 }

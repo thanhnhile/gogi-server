@@ -11,5 +11,7 @@ import vn.com.gigo.entities.Account;
 public interface AccountRepository extends JpaRepository<Account, Long>{
 	Account findOneById(Long id);
 	
+	Account findOneByUsername(String username);
+	
 	Optional<Account> findByUsername(String username);
 }

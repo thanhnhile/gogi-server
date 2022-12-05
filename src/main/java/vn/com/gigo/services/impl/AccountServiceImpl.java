@@ -16,9 +16,12 @@ import vn.com.gigo.dtos.AccountNoPassDto;
 import vn.com.gigo.entities.Account;
 import vn.com.gigo.entities.Role;
 import vn.com.gigo.exception.AccountException;
+import vn.com.gigo.exception.DuplicateValueInResourceException;
 import vn.com.gigo.mapstruct.AccountMapper;
 import vn.com.gigo.repositories.AccountRepository;
+import vn.com.gigo.repositories.RoleRepository;
 import vn.com.gigo.services.AccountService;
+import vn.com.gigo.utils.RoleType;
 
 @Service
 @Transactional
@@ -31,6 +34,8 @@ public class AccountServiceImpl implements AccountService {
 	private AccountRepository accountRepo;
 	@Autowired
 	private AccountMapper accountMapper;
+	@Autowired
+	private RoleRepository roleRepository;
 
 	@Autowired
 	public AccountServiceImpl(AccountMapper accountMapper, AccountRepository accountRepo) {
@@ -76,12 +81,25 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public Object addAccount(AccountDto accountDto) {
+		if(checkExistedAccount(accountDto.getUsername())) {
+			throw new DuplicateValueInResourceException("Số điện thoại đã tồn tại");
+		}
 		Account account = accountMapper.accountDtoToAccount(accountDto);
 		String rawPassword = account.getPassword();
 		String encodedPassword = passwordEncoder.encode(rawPassword);// thuat toan ma hoa BCrypt
 		account.setPassword(encodedPassword);
+		Role roleUser = roleRepository.findOneById(RoleType.ROLE_USER.getValue());
+		account.getRoles().add(roleUser);
 		accountRepo.save(account);
 		return accountDto;
+	}
+	
+	public Boolean checkExistedAccount(String username) {
+		Account account = accountRepo.findOneByUsername(username);
+		if(account != null) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override
