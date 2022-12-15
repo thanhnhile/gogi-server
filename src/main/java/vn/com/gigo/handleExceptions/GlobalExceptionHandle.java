@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import vn.com.gigo.exception.DuplicateValueInResourceException;
-
+import vn.com.gigo.exception.ResourceNotFoundException;
 import vn.com.gigo.dtos.DataResponse;
 
 @ControllerAdvice
@@ -48,5 +48,10 @@ public class GlobalExceptionHandle{
 	@ResponseBody
 	public DataResponse handleDuplicateValueInResourceException(DuplicateValueInResourceException e) {
 		return new DataResponse("400",e.getMessage(),200);
+	}
+	@ExceptionHandler(ResourceNotFoundException.class)
+	@ResponseBody
+	public DataResponse handleResourceNotFoundException(ResourceNotFoundException e) {
+		return new DataResponse("500",e.getMessage(),200);
 	}
 }

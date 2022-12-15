@@ -52,8 +52,8 @@ public class StoreController {
 		return new DataResponse(storeImpl.updateStore(id, storeDto));
 	}
 
-	@GetMapping("/district/{district_id}")
-	public DataResponse getStoreByProductId(@PathVariable(value = "district_id") Long districtId){
-		return new DataResponse(storeImpl.getStoreByDistrictId(districtId));
+	@GetMapping("/address/{province_id}/{district_id}")
+	public DataResponse getStoreByProductId(@PathVariable(value = "province_id") Long provinceId,@PathVariable(value = "district_id") Long districtId){
+		return new DataResponse(storeImpl.getStoreByAddress(provinceId, districtId));
 	}
 }

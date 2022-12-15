@@ -4,6 +4,8 @@ import vn.com.gigo.dtos.AccountDto;
 
 public interface AccountService {
 	Object getAccount(Long id);
+	
+	Object getCustomerInfoByUserName(String username);
 
 	Object getAllAccount();
 

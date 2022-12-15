@@ -10,8 +10,11 @@ public class StoreDto {
 	@JsonProperty("storeName")
 	private String storeName;
 	
-	@JsonProperty("district")
-	private DistrictDto district;
+	@JsonProperty("provinceId")
+	private Long provinceId;
+	
+	@JsonProperty("districtId")
+	private Long districtId;
 	
 	@JsonProperty("address")
 	private String address;
@@ -20,13 +23,6 @@ public class StoreDto {
 		super();
 	}
 
-	public StoreDto(Long id, String storeName, DistrictDto district, String address) {
-		super();
-		this.id = id;
-		this.storeName = storeName;
-		this.district = district;
-		this.address = address;
-	}
 
 	public Long getId() {
 		return id;
@@ -44,13 +40,27 @@ public class StoreDto {
 		this.storeName = storeName;
 	}
 
-	public DistrictDto getDistrict() {
-		return district;
+	
+
+	public Long getProvinceId() {
+		return provinceId;
 	}
 
-	public void setDistrict(DistrictDto district) {
-		this.district = district;
+
+	public void setProvinceId(Long provinceId) {
+		this.provinceId = provinceId;
 	}
+
+
+	public Long getDistrictId() {
+		return districtId;
+	}
+
+
+	public void setDistrictId(Long districtId) {
+		this.districtId = districtId;
+	}
+
 
 	public String getAddress() {
 		return address;

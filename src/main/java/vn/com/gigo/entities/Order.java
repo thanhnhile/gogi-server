@@ -65,6 +65,11 @@ public class Order {
 	
 	@CreationTimestamp
 	private Date createdDate;
+	
+	@Nullable
+	@ManyToOne
+	@JoinColumn(name="account",referencedColumnName = "username")
+	private Account account;
 
 	public Order() {
 		super();
@@ -163,6 +168,14 @@ public class Order {
 
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
+	}
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 	
 	

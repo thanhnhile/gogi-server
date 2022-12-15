@@ -12,6 +12,8 @@ import vn.com.gigo.entities.Store;
 public interface StoreRepository extends JpaRepository<Store, Long>{
 	Store findOneById(Long id);
 	
-	@Query("SELECT s FROM Store s, District d WHERE s.district.id = d.id AND d.id = :districtId")
-	List<Store> findByDistrictId(Long districtId);
+	@Query(value="SELECT * FROM stores WHERE province_id = ?1 AND district_id = ?2",nativeQuery=true)
+	List<Store> findByAddress(Long provinceId,Long districtId);
+	
+	List<Store> findOneByProvinceId(Long provinceId);
 }

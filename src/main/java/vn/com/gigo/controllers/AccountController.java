@@ -39,6 +39,12 @@ public class AccountController {
 	public DataResponse getAccount(@PathVariable(value = "id") Long id) {
 		return new DataResponse(accountImpl.getAccount(id));
 	}
+	
+	@GetMapping("/customer/{username}")
+	public DataResponse getCustomerInfoByUsername (@PathVariable(value="username") String username) {
+		return new DataResponse(accountImpl.getCustomerInfoByUserName(username));
+	}
+	
 
 	@PostMapping()
 	public DataResponse addAccount(@RequestBody AccountDto accountDto) {

@@ -18,6 +18,7 @@ import vn.com.gigo.entities.Role;
 import vn.com.gigo.exception.AccountException;
 import vn.com.gigo.exception.DuplicateValueInResourceException;
 import vn.com.gigo.mapstruct.AccountMapper;
+import vn.com.gigo.mapstruct.CustomerMapper;
 import vn.com.gigo.repositories.AccountRepository;
 import vn.com.gigo.repositories.RoleRepository;
 import vn.com.gigo.services.AccountService;
@@ -34,6 +35,10 @@ public class AccountServiceImpl implements AccountService {
 	private AccountRepository accountRepo;
 	@Autowired
 	private AccountMapper accountMapper;
+	
+	@Autowired
+	private CustomerMapper customerMapper;
+	
 	@Autowired
 	private RoleRepository roleRepository;
 
@@ -88,6 +93,7 @@ public class AccountServiceImpl implements AccountService {
 		String rawPassword = account.getPassword();
 		String encodedPassword = passwordEncoder.encode(rawPassword);// thuat toan ma hoa BCrypt
 		account.setPassword(encodedPassword);
+		account.setCustomer(null);
 		Role roleUser = roleRepository.findOneById(RoleType.ROLE_USER.getValue());
 		account.getRoles().add(roleUser);
 		accountRepo.save(account);
@@ -116,6 +122,15 @@ public class AccountServiceImpl implements AccountService {
 		String encodedPassword = passwordEncoder.encode(rawPassword);
 		accountOld.setPassword(encodedPassword);
 		return accountRepo.save(accountOld);
+	}
+
+	@Override
+	public Object getCustomerInfoByUserName(String username) {
+		Account account = accountRepo.findOneByUsername(username);
+		if(account != null) {
+			return customerMapper.customerToCustomerDto(account.getCustomer());
+		}
+		return null;
 	}
 
 }

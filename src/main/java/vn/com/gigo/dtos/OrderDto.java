@@ -35,6 +35,17 @@ public class OrderDto {
 	
 	@JsonProperty("createdDate")
 	private Date createdDate;
+	
+	@JsonProperty("account_username")
+	private String accountUsername;
+
+	public String getAccountUsername() {
+		return accountUsername;
+	}
+
+	public void setAccountUsername(String accountUsername) {
+		this.accountUsername = accountUsername;
+	}
 
 	public Long getId() {
 		return id;

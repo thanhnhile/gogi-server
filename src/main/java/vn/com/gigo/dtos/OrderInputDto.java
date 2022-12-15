@@ -18,14 +18,17 @@ public class OrderInputDto {
 	@JsonProperty("details")
 	private List<OrderDetailDto> detailList;
 
-	@JsonProperty("customer_id")
-	private Long customer;
+	@JsonProperty("customer")
+	private CustomerDto customer;
 
 	@JsonProperty("employee_id")
 	private Long employee;
 
 	@JsonProperty("store_id")
 	private Long store;
+	
+	@JsonProperty("account_username")
+	private String accountUsername;
 
 	public String getOrderType() {
 		return orderType;
@@ -59,11 +62,12 @@ public class OrderInputDto {
 		this.detailList = detailList;
 	}
 
-	public Long getCustomer() {
+
+	public CustomerDto getCustomer() {
 		return customer;
 	}
 
-	public void setCustomer(Long customer) {
+	public void setCustomer(CustomerDto customer) {
 		this.customer = customer;
 	}
 
@@ -82,6 +86,15 @@ public class OrderInputDto {
 	public void setStore(Long store) {
 		this.store = store;
 	}
+
+	public String getAccountUsername() {
+		return accountUsername;
+	}
+
+	public void setAccountUsername(String accountUsername) {
+		this.accountUsername = accountUsername;
+	}
+
 	
 	
 

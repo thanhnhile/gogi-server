@@ -23,10 +23,9 @@ public class Store {
 	@Column(nullable = false,unique = true)
 	private String storeName;
 	
-	@ManyToOne
-	@JoinColumn(name="district_id")
-	private District district;
+	private Long provinceId;
 	
+	private Long districtId;
 	@Column
 	private String address;
 	
@@ -41,14 +40,20 @@ public class Store {
 		super();
 	}
 
-	public Store(String storeName, District district, String address, List<Order> orders, List<Employee> employees) {
+	
+
+	public Store(String storeName, Long provinceId, Long districtId, String address, List<Order> orders,
+			List<Employee> employees) {
 		super();
 		this.storeName = storeName;
-		this.district = district;
+		this.provinceId = provinceId;
+		this.districtId = districtId;
 		this.address = address;
 		this.orders = orders;
 		this.employees = employees;
 	}
+
+
 
 	public Long getId() {
 		return id;
@@ -66,13 +71,30 @@ public class Store {
 		this.storeName = storeName;
 	}
 
-	public District getDistrict() {
-		return district;
+
+	public Long getProvinceId() {
+		return provinceId;
 	}
 
-	public void setDistrict(District district) {
-		this.district = district;
+
+
+	public void setProvinceId(Long provinceId) {
+		this.provinceId = provinceId;
 	}
+
+
+
+	public Long getDistrictId() {
+		return districtId;
+	}
+
+
+
+	public void setDistrictId(Long districtId) {
+		this.districtId = districtId;
+	}
+
+
 
 	public String getAddress() {
 		return address;

@@ -15,5 +15,5 @@ public interface StoreService {
 
 	Object updateStore(Long id, StoreDto storeDto);
 
-	Object getStoreByDistrictId(Long districtId);
+	Object getStoreByAddress(Long provinceId,Long districtId);
 }

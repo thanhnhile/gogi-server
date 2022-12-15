@@ -6,21 +6,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import vn.com.gigo.dtos.CustomerDto;
+import vn.com.gigo.entities.Account;
 import vn.com.gigo.entities.Customer;
-import vn.com.gigo.entities.District;
+import vn.com.gigo.exception.ResourceNotFoundException;
 import vn.com.gigo.mapstruct.CustomerMapper;
+import vn.com.gigo.repositories.AccountRepository;
 import vn.com.gigo.repositories.CustomerRepository;
-import vn.com.gigo.repositories.DistrictRepository;
 import vn.com.gigo.services.CustomerService;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
 	@Autowired
 	private CustomerRepository customerRepo;
-	
+
 	@Autowired
-	private DistrictRepository districtRepo;
-	
+	private AccountRepository accountRepo;
+
 	@Autowired
 	private CustomerMapper mapper;
 
@@ -32,30 +33,47 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public Object addCustomer(CustomerDto customerDto) {
 		Customer customerToAdd = mapper.customerDtoToCustomer(customerDto);
-		District district = districtRepo.findOneById(customerDto.getDistrict().getId());
-		customerToAdd.setDistrict(district);
-		return mapper.customerToCustomerDto(customerRepo.save(customerToAdd));
+		if (customerDto.getAccountUsername() == null) {
+			customerToAdd.setAccount(null);
+			return mapper.customerToCustomerDto(customerRepo.save(customerToAdd));
+		} else {
+			Account account = accountRepo.findOneByUsername(customerDto.getAccountUsername());
+			if (account == null) {
+				throw new ResourceNotFoundException("Tài khoản người dùng không tồn tại");
+			}
+			customerToAdd.setAccount(account);
+			Customer newCustomer = customerRepo.save(customerToAdd);
+			account.setCustomer(newCustomer);
+			accountRepo.save(account);
+			return mapper.customerToCustomerDto(newCustomer);
+		}
 	}
 
 	@Override
 	public Object updateCustomer(Long id, CustomerDto customerDto) {
+		;
 		Optional<Customer> customerOptional = customerRepo.findById(id);
-		if(customerOptional.isPresent()) {
+		if (customerOptional.isPresent()) {
 			customerDto.setId(id);
+			Account account = accountRepo.findOneByUsername(customerDto.getAccountUsername());
 			Customer customer = mapper.customerDtoToCustomer(customerDto);
-			return mapper.customerToCustomerDto(customerRepo.save(customer));
+			customer.setAccount(account);
+			Customer newCustomer = customerRepo.save(customer);
+			account.setCustomer(newCustomer);
+			accountRepo.save(account);
+			return mapper.customerToCustomerDto(customerRepo.save(newCustomer));
 		}
-		return "Not found customer with id"+id;
+		throw new ResourceNotFoundException("Không tìm thấy khách hàng có id " + id);
 	}
 
 	@Override
 	public Object deleteCustomer(Long id) {
 		Optional<Customer> customerOptional = customerRepo.findById(id);
-		if(customerOptional.isPresent()) {
+		if (customerOptional.isPresent()) {
 			customerRepo.delete(customerOptional.get());
 			return "Deleted";
 		}
-		return "Not found customer with id "+id;
+		throw new ResourceNotFoundException("Không tìm thấy khách hàng có id " + id);
 	}
 
 }

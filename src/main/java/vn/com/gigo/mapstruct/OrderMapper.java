@@ -28,7 +28,9 @@ public interface OrderMapper {
 
 	// --------------------------OrderInputDto------------------------------
 	//Order
-	@Mapping(source="customer", target="customer.id")
+//	@Mapping(source="customer", target="customer.id")
+	@Mapping(source = "customer.accountUsername", target = "customer.account.username")
+	@Mapping(source = "accountUsername", target = "account.username")
 	@Mapping(source="store", target="store.id")
 	@Mapping(source="employee", target="employee.id")
 	Order orderInputDtoToOrder(OrderInputDto orderInputDto);
@@ -36,12 +38,14 @@ public interface OrderMapper {
 	// --------------------------Order------------------------------
 	// Order
 	@Mapping(source="employee.name", target="employee")
+	@Mapping(source = "account.username", target = "accountUsername")
 	OrderDto orderToOrderDto(Order order);
 
 	List<OrderDto> ordersToOrderDtos(List<Order> list);
 
 	// OrderDto
 	@Mapping(source="employee", target="employee.name")
+	@Mapping(source = "accountUsername", target = "account.username")
 	Order orderDtoToOrder(OrderDto orderDto);
 
 	List<Order> orderDtosToOrders(List<OrderDto> list);

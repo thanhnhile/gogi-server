@@ -15,8 +15,14 @@ public class CustomerDto {
 	@JsonProperty("address")
 	private String address;
 	
-	@JsonProperty("district")
-	private DistrictDto district;
+	@JsonProperty("provinceId")
+	private Long provinceId;
+	
+	@JsonProperty("districtId")
+	private Long districtId;
+	
+	@JsonProperty("accountUsername")
+	private String accountUsername;
 
 	public Long getId() {
 		return id;
@@ -50,13 +56,33 @@ public class CustomerDto {
 		this.address = address;
 	}
 
-	public DistrictDto getDistrict() {
-		return district;
+	
+
+	public Long getProvinceId() {
+		return provinceId;
 	}
 
-	public void setDistrict(DistrictDto district) {
-		this.district = district;
+	public void setProvinceId(Long provinceId) {
+		this.provinceId = provinceId;
 	}
+
+	public Long getDistrictId() {
+		return districtId;
+	}
+
+	public void setDistrictId(Long districtId) {
+		this.districtId = districtId;
+	}
+
+	public String getAccountUsername() {
+		return accountUsername;
+	}
+
+	public void setAccountUsername(String accountUsername) {
+		this.accountUsername = accountUsername;
+	}
+
+	
 	
 	
 }
