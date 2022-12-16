@@ -68,7 +68,7 @@ public class OrderServiceImpl implements OrderService {
 	public Object addOrder(OrderInputDto orderInputDto) {
 		Order orderToAdd = mapper.orderInputDtoToOrder(orderInputDto);
 		orderToAdd.setStore(storeRepo.getReferenceById(orderInputDto.getStore()));
-		orderToAdd.setEmployee(employeeRepo.getReferenceById(orderInputDto.getEmployee()));
+		orderToAdd.setEmployee(null);
 		// set default property
 		Customer customer;
 		if (orderInputDto.getCustomer() == null) {
@@ -94,10 +94,6 @@ public class OrderServiceImpl implements OrderService {
 
 		// set order status
 		orderToAdd.setStatus(OrderStatus.IN_PROGRESS.getValue());
-		System.out.println(orderToAdd.getOrderType());
-		/// HERE
-
-		///
 		// save order detail
 		List<OrderDetailDto> detailDtos = orderInputDto.getDetailList();
 		//orderToAdd.setDetailList(null);
@@ -107,14 +103,11 @@ public class OrderServiceImpl implements OrderService {
 		for (OrderDetailDto detailDto : detailDtos) {
 			OrderDetail orderDetail = mapper.detailDtoToDetail(detailDto);
 			orderDetail.setOrder(newOrder);
-			System.out.println("DI DAY");
 			orderDetailRepo.save(orderDetail);
 			details.add(orderDetail);
 		}
-		newOrder.setDetailList(details);
-		System.out.println(orderToAdd.getCustomer().getName());
-		System.out.println(orderToAdd.getDetailList().size());
-		newOrder = orderRepo.save(newOrder);
+//		newOrder.setDetailList(details);
+//		newOrder = orderRepo.save(newOrder);
 		return mapper.orderToOrderDto(newOrder);
 	}
 
