@@ -23,8 +23,8 @@ public class ProductController {
 	
 	@GetMapping()
 	private DataResponse getAllProductsPagination(
-			@RequestParam(value="limit", defaultValue="9") int limit,
-			@RequestParam(value="offSet", defaultValue="1") int offSet, @RequestParam(value="sortBy",defaultValue="id") String sortBy,
+			@RequestParam(value="limit", defaultValue=DefaultRequestParam.LIMIT) int limit,
+			@RequestParam(value="offSet", defaultValue=DefaultRequestParam.OFFSET) int offSet, @RequestParam(value="sortBy",defaultValue="id") String sortBy,
 			@RequestParam(value="asc", defaultValue="true") Boolean asc) {
 		return new DataResponse(productService.getAllPagnation(offSet, limit, sortBy, asc));
 	}

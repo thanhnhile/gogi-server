@@ -6,6 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import vn.com.gigo.dtos.OrderDetailDto;
+import vn.com.gigo.dtos.OrderDetailResponseDto;
 import vn.com.gigo.dtos.OrderDto;
 import vn.com.gigo.dtos.OrderInputDto;
 import vn.com.gigo.entities.Order;
@@ -25,6 +26,16 @@ public interface OrderMapper {
 	OrderDetail detailDtoToDetail(OrderDetailDto orderDetailDto);
 
 	List<OrderDetail> detailDtosToDetail(List<OrderDetailDto> list);
+	
+	//OrderDetailResponseDto
+	@Mapping(source = "product.id", target = "productId")
+	@Mapping(source = "product.imgURL", target = "imgURL")
+	@Mapping(source = "product.name", target = "productName")
+	OrderDetailResponseDto detailToDetailResponseDto(OrderDetail orderDetail);
+
+	List<OrderDetailResponseDto> detailsToDetailResponseDtos(List<OrderDetail> list);
+	
+	
 
 	// --------------------------OrderInputDto------------------------------
 	//Order

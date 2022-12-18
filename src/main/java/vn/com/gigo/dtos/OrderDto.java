@@ -23,7 +23,7 @@ public class OrderDto {
 	private double total;
 	
 	@JsonProperty("details")
-	private List<OrderDetailDto> detailList;
+	private List<OrderDetailResponseDto> detailList;
 	
 	@JsonProperty("customer")
 	private CustomerDto customer;
@@ -89,13 +89,13 @@ public class OrderDto {
 	}
 
 
-	
 
-	public List<OrderDetailDto> getDetailList() {
+	
+	public List<OrderDetailResponseDto> getDetailList() {
 		return detailList;
 	}
 
-	public void setDetailList(List<OrderDetailDto> detailList) {
+	public void setDetailList(List<OrderDetailResponseDto> detailList) {
 		this.detailList = detailList;
 	}
 

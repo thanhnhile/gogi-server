@@ -16,7 +16,10 @@ public class OrderDetailResponseDto {
 	private String size;
 	
 	@JsonProperty("product_id")
-	private Long product;
+	private Long productId;
+	
+	@JsonProperty("productName")
+	private String productName;
 	
 	@JsonProperty("imgURL")
 	private String imgURL;
@@ -62,13 +65,24 @@ public class OrderDetailResponseDto {
 		this.size = size;
 	}
 
-	public Long getProduct() {
-		return product;
+	
+
+	public Long getProductId() {
+		return productId;
 	}
 
-	public void setProduct(Long product) {
-		this.product = product;
+	public void setProductId(Long productId) {
+		this.productId = productId;
 	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
 	
 
 }
