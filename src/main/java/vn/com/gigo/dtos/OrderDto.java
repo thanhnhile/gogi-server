@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
 public class OrderDto {
 	@JsonProperty("id")
 	private Long id;
@@ -86,6 +87,9 @@ public class OrderDto {
 	public void setTotal(double total) {
 		this.total = total;
 	}
+
+
+	
 
 	public List<OrderDetailDto> getDetailList() {
 		return detailList;

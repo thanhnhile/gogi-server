@@ -13,6 +13,8 @@ public interface OrderService {
 	
 	Object getAllOrdersByStoreId(Long storeId,int offSet, int limit);
 	
+	Object getAllOrdersByAccountUsername(String username);
+	
 	Object updateOrderStatus(Long id,int status);
 	
 	Object updatePayStatus(Long id);

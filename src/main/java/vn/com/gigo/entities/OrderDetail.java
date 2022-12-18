@@ -19,6 +19,8 @@ public class OrderDetail {
 	private Long id;
 	
 	private Double price;
+	
+	private String size;
 
 	@Column(columnDefinition="int default 0")
 	private int quantity;
@@ -36,11 +38,12 @@ public class OrderDetail {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public OrderDetail(Double price, int quantity, Product product) {
+	public OrderDetail(Double price, int quantity, Product product,String size) {
 		super();
 		this.price = price;
 		this.quantity = quantity;
 		this.product = product;
+		this.size= size;
 	}
 
 	public Long getId() {
@@ -73,6 +76,15 @@ public class OrderDetail {
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+	
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
 	}
 
 	public Order getOrder() {

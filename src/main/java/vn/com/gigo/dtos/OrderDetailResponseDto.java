@@ -2,7 +2,7 @@ package vn.com.gigo.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class OrderDetailDto {
+public class OrderDetailResponseDto {
 	@JsonProperty("detail_id")
 	private Long id;
 	
@@ -17,6 +17,9 @@ public class OrderDetailDto {
 	
 	@JsonProperty("product_id")
 	private Long product;
+	
+	@JsonProperty("imgURL")
+	private String imgURL;
 
 	public Long getId() {
 		return id;
@@ -42,7 +45,14 @@ public class OrderDetailDto {
 		this.quantity = quantity;
 	}
 	
-	
+
+	public String getImgURL() {
+		return imgURL;
+	}
+
+	public void setImgURL(String imgURL) {
+		this.imgURL = imgURL;
+	}
 
 	public String getSize() {
 		return size;
@@ -60,5 +70,5 @@ public class OrderDetailDto {
 		this.product = product;
 	}
 	
-	
+
 }

@@ -39,6 +39,11 @@ public class OrderController {
 		return new DataResponse(orderService.getAllOrdersByStoreId(storeId, offSet, limit));
 	}
 	
+	@GetMapping("/account/{username}")
+	private DataResponse getAllOrdersByAccountUsername(@PathVariable (value="username") String username) {
+		return new DataResponse(orderService.getAllOrdersByAccountUsername(username));
+	}
+	
 
 	@PostMapping
 	private DataResponse addOrder(@RequestBody OrderInputDto orderInputDto) {

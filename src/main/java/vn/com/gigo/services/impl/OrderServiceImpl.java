@@ -47,8 +47,8 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private CustomerServiceImpl customerImpl;
 
-	@Autowired
-	private EmployeeRepository employeeRepo;
+//	@Autowired
+//	private EmployeeRepository employeeRepo;
 
 	@Autowired
 	private StoreRepository storeRepo;
@@ -174,6 +174,11 @@ public class OrderServiceImpl implements OrderService {
 			return mapper.orderToOrderDto(orderRepo.save(orderToUpdate));
 		} else
 			return "Not found order with id " + id;
+	}
+
+	@Override
+	public Object getAllOrdersByAccountUsername(String username) {
+		return mapper.ordersToOrderDtos(orderRepo.getOrdersByAccountUsername(username));
 	}
 
 }

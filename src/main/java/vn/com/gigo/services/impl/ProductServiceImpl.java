@@ -55,7 +55,11 @@ public class ProductServiceImpl implements ProductService{
 		if(productOptional.isPresent()) {
 			productDto.setId(id);
 			Product productToUpdate = mapper.productDtoToProduct(productDto);
-			return mapper.productToProductDto(productToUpdate);
+			productToUpdate.setStatus(productOptional.get().getStatus());
+			if(productDto.getDiscount() == null) {
+				productToUpdate.setDiscount(productOptional.get().getDiscount());
+			}
+			return mapper.productToProductDto(productRepo.save(productToUpdate));
 		}
 		else return null;
 	}

@@ -83,7 +83,7 @@ public class StoreServiceImpl implements StoreService{
 	}
 	@Override
 	public Object getStoreByAddress(Long provinceId, Long districtId) {
-		if(districtId > 0)
+		if(districtId != -1)
 			return storeMapper.storesToStoreDtos(storeRepo.findByAddress(provinceId, districtId));
 		else return storeMapper.storesToStoreDtos(storeRepo.findOneByProvinceId(provinceId));
 	}
