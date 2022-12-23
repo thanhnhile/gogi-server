@@ -25,7 +25,7 @@ public class Employee {
 	private Store store;
 	
 	@OneToOne
-	@JoinColumn(name = "account_id")
+	@JoinColumn(name="account",referencedColumnName = "username")
 	private Account account;
 	
 	private String name;

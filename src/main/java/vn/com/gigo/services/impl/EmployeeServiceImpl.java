@@ -13,9 +13,11 @@ import org.springframework.stereotype.Service;
 
 import vn.com.gigo.dtos.EmployeeDto;
 import vn.com.gigo.dtos.PagingDto;
+import vn.com.gigo.entities.Account;
 import vn.com.gigo.entities.Employee;
 import vn.com.gigo.entities.Store;
 import vn.com.gigo.mapstruct.EmployeeMapper;
+import vn.com.gigo.repositories.AccountRepository;
 import vn.com.gigo.repositories.EmployeeRepository;
 import vn.com.gigo.repositories.StoreRepository;
 import vn.com.gigo.services.EmployeeService;
@@ -29,6 +31,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 	@Autowired
 	private StoreRepository storeRepo;
+	
+	@Autowired
+	private AccountRepository accountRepo;
 	
 	@Autowired
 	private EmployeeMapper employeeMapper;
@@ -65,7 +70,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public Object addEmployee(EmployeeDto employeeDto) {
 		Employee employee = employeeMapper.employeeDtoToEmployee(employeeDto);
 		Store store = storeRepo.getReferenceById(employeeDto.getStore().getId());
+		Account account = accountRepo.findOneByUsername(employeeDto.getAccount());
 		employee.setStore(store);
+		employee.setAccount(account);
 		return employeeMapper.employeeToEmployeeDto(employeeRepo.save(employee));
 	}
 
@@ -88,5 +95,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public Object getEmployeeByStoreId(Long storeId) {
 		return employeeMapper.employeesToEmployeeDtos(employeeRepo.findByStoreId(storeId));
+	}
+	@Override
+	public Object getEmployeeByUsername(String username) {
+		return employeeMapper.employeeToEmployeeDto(employeeRepo.findByAccount_Username(username));
 	}
 }

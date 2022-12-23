@@ -35,6 +35,11 @@ public class EmployeeController {
 	public DataResponse getEmployee(@PathVariable(value = "id") Long id) {
 		 return new DataResponse(employeeImpl.getEmployee(id));
 	}
+	
+	@GetMapping("/account/{username}")
+	public DataResponse getEmployeeByUsername (@PathVariable(value="username") String username) {
+		return new DataResponse(employeeImpl.getEmployeeByUsername(username));
+	}
 
 	@PostMapping()
 	public DataResponse addEmployee(@RequestBody EmployeeDto employeeDto) {

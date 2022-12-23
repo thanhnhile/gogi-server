@@ -14,5 +14,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
 	
 	@Query("SELECT e FROM Employee e, Store s WHERE e.store.id = s.id AND s.id = :storeId")
 	List<Employee> findByStoreId(Long storeId);
+	
+	Employee findByAccount_Username(String username);
 
 }

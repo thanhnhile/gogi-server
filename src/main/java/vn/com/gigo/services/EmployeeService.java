@@ -16,4 +16,6 @@ public interface EmployeeService {
 	Object updateEmployee(Long id, EmployeeDto employeeDto);
 
 	Object getEmployeeByStoreId(Long storeId);
+	
+	Object getEmployeeByUsername(String username);
 }

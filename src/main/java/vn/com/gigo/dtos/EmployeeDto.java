@@ -10,7 +10,7 @@ public class EmployeeDto {
 	private StoreDto store;
 	
 	@JsonProperty("account")
-	private AccountDto account;
+	private String account;
 	
 	@JsonProperty("name")
 	private String name;
@@ -19,7 +19,7 @@ public class EmployeeDto {
 		super();
 	}
 
-	public EmployeeDto(Long id, StoreDto store, AccountDto account, String name) {
+	public EmployeeDto(Long id, StoreDto store, String account, String name) {
 		super();
 		this.id = id;
 		this.store = store;
@@ -43,11 +43,12 @@ public class EmployeeDto {
 		this.store = store;
 	}
 
-	public AccountDto getAccount() {
+
+	public String getAccount() {
 		return account;
 	}
 
-	public void setAccount(AccountDto account) {
+	public void setAccount(String account) {
 		this.account = account;
 	}
 

@@ -1,8 +1,8 @@
 package vn.com.gigo.utils;
 
 public enum OrderType {
-	OFFLINE(1),
-	ONLINE(2);
+	OFFLINE(0),
+	ONLINE(1);
 	
 	private int value;
 	
