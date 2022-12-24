@@ -35,7 +35,6 @@ public class AuthController {
 				new UsernamePasswordAuthenticationToken(accountDto.getUsername(), accountDto.getPassword()));
 
 		Account account = (Account) authentication.getPrincipal();
-		System.out.print(account.getAuthorities());
 		String accessToken = jwtUtil.generateAccessToken(account);
 		AccountTokenResponse response = new AccountTokenResponse(account.getUsername(), accessToken,account.getAuthorities());
 
