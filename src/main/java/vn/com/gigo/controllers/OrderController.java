@@ -55,28 +55,28 @@ public class OrderController {
 		return new DataResponse(orderService.deleteOrder(id));
 	}
 	
-	@PutMapping("/update/{id}")
-	private DataResponse updateOrder(@PathVariable(value="id") Long id, @RequestBody List<OrderDetailDto> detailDtos) {
-		return new DataResponse(orderService.updateOrderDetail(id, detailDtos));
-	}
+//	@PutMapping("/update/{id}")
+//	private DataResponse updateOrder(@PathVariable(value="id") Long id, @RequestBody List<OrderDetailDto> detailDtos) {
+//		return new DataResponse(orderService.updateOrderDetail(id, detailDtos));
+//	}
 	//Update order status
 	
-	@PutMapping("/in_progress/{id}")
-	private DataResponse updateInprogress(@PathVariable(value="id") Long id) {
-		return new DataResponse(orderService.updateOrderStatus(id, OrderStatus.IN_PROGRESS.getValue()));
-	}
+//	@PutMapping("/update/in_progress/{id}")
+//	private DataResponse updateInprogress(@PathVariable(value="id") Long id) {
+//		return new DataResponse(orderService.updateOrderStatus(id, OrderStatus.IN_PROGRESS.getValue()));
+//	}
 	
-	@PutMapping("/delivering/{id}")
+	@PutMapping("/update/delivering/{id}")
 	private DataResponse updateDelivering(@PathVariable(value="id") Long id) {
 		return new DataResponse(orderService.updateOrderStatus(id, OrderStatus.DELIVERING.getValue()));
 	}
 	
-	@PutMapping("/success/{id}")
+	@PutMapping("/update/success/{id}")
 	private DataResponse updateSucess(@PathVariable(value="id") Long id) {
 		return new DataResponse(orderService.updateOrderStatus(id, OrderStatus.SUCCESS.getValue()));
 	}
 	
-	@PutMapping("/cancel/{id}")
+	@PutMapping("/update/cancel/{id}")
 	private DataResponse updateCancel(@PathVariable(value="id") Long id) {
 		return new DataResponse(orderService.updateOrderStatus(id, OrderStatus.CANCELED.getValue()));
 	}

@@ -49,12 +49,12 @@ public class ProductController {
 		return new DataResponse(productService.searchByName(search, offSet, limit));
 	}
 	
-	@PostMapping
+	@PostMapping("/add")
 	private DataResponse add(@RequestBody ProductDto productDto) {
 		return new DataResponse(productService.add(productDto));
 	}
 	
-	@PutMapping("/{id}")
+	@PutMapping("/update/{id}")
 	private DataResponse update(@PathVariable(value="id") Long id,@RequestBody ProductDto productDto) {
 		return new DataResponse(productService.update(id, productDto));
 	}

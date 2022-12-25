@@ -1,5 +1,6 @@
 package vn.com.gigo.controllers;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,12 +31,12 @@ public class CategoryController {
 		return new DataResponse(categoryService.getById(id));
 	}
 	
-	@PostMapping
+	@PostMapping("/add")
 	private DataResponse add(@RequestBody CategoryDto categoryDto) {
 		return new DataResponse(categoryService.add(categoryDto));
 	}
 	
-	@PutMapping("/{id}")
+	@PutMapping("/update/{id}")
 	private DataResponse update(@PathVariable(value="id") Long id, @RequestBody CategoryDto categoryDto) {
 		return new DataResponse(categoryService.update(id, categoryDto)); 
 	}

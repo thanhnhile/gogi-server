@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.catalina.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +17,7 @@ import vn.com.gigo.dtos.OrderInputDto;
 import vn.com.gigo.dtos.PagingDto;
 import vn.com.gigo.entities.Account;
 import vn.com.gigo.entities.Customer;
+import vn.com.gigo.entities.Employee;
 import vn.com.gigo.entities.Order;
 import vn.com.gigo.entities.OrderDetail;
 import vn.com.gigo.mapstruct.CustomerMapper;
@@ -26,6 +28,7 @@ import vn.com.gigo.repositories.EmployeeRepository;
 import vn.com.gigo.repositories.OrderDetailRepository;
 import vn.com.gigo.repositories.OrderRepository;
 import vn.com.gigo.repositories.StoreRepository;
+import vn.com.gigo.security.SecurityUtils;
 import vn.com.gigo.services.OrderService;
 import vn.com.gigo.utils.OrderStatus;
 
@@ -47,8 +50,8 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private CustomerServiceImpl customerImpl;
 
-//	@Autowired
-//	private EmployeeRepository employeeRepo;
+	@Autowired
+	private EmployeeRepository employeeRepo;
 
 	@Autowired
 	private StoreRepository storeRepo;
@@ -135,10 +138,14 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public Object updateOrderStatus(Long id, int status) {
+		String loggedUser = SecurityUtils.getLoggedUsername();
+		System.out.println(loggedUser);
+		Employee employee = employeeRepo.findByAccount_Username(loggedUser);
 		Optional<Order> orderOptional = orderRepo.findById(id);
 		if (orderOptional.isPresent()) {
 			Order orderToUpdate = orderOptional.get();
 			orderToUpdate.setStatus(status);
+			orderToUpdate.setEmployee(employee);
 			return mapper.orderToOrderDto(orderRepo.save(orderToUpdate));
 		} else
 			return "Not found order with id " + id;
