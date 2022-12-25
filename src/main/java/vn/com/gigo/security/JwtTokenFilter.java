@@ -90,7 +90,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
 		accountDetails.setId(Long.parseLong(jwtSubject[0]));
 		accountDetails.setUsername(jwtSubject[1]);
-
+		System.out.println(accountDetails.getUsername());
 		return accountDetails;
 	}
 }
