@@ -53,5 +53,16 @@ public class CategoryServiceImpl implements CategoryService{
 		}
 		else return null;
 	}
+
+	@Override
+	public Object updateStatus(Long id) {
+		Optional<Category> categoryOptional = categoryRepo.findById(id);
+		if(categoryOptional.isPresent()) {
+			Category category = categoryOptional.get();
+			category.setStatus(false);
+			return mapper.categoryToCategoryDto(categoryRepo.save(category));
+		}
+		else return null;
+	}
 	
 }

@@ -58,4 +58,9 @@ public class ProductController {
 	private DataResponse update(@PathVariable(value="id") Long id,@RequestBody ProductDto productDto) {
 		return new DataResponse(productService.update(id, productDto));
 	}
+	
+	@PutMapping("/product/{id}")
+	private DataResponse updateStatus(@PathVariable(value="id") Long id) {
+		return new DataResponse(productService.updateStatus(id));
+	}
 }

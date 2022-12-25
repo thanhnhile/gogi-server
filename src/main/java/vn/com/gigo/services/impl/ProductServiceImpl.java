@@ -19,14 +19,14 @@ import vn.com.gigo.repositories.ProductRepository;
 import vn.com.gigo.services.ProductService;
 
 @Service
-public class ProductServiceImpl implements ProductService{
-	
+public class ProductServiceImpl implements ProductService {
+
 	@Autowired
 	private ProductRepository productRepo;
-	
+
 	@Autowired
 	private CategoryRepository categoryRepo;
-	
+
 	@Autowired
 	private ProductMapper mapper;
 
@@ -37,10 +37,10 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public Object add(ProductDto productDto) {
-		if(productDto.getDiscount() == null) {
+		if (productDto.getDiscount() == null) {
 			productDto.setDiscount(0.0);
 		}
-		if(productDto.getStatus() == null) {
+		if (productDto.getStatus() == null) {
 			productDto.setStatus(true);
 		}
 		Category category = categoryRepo.getReferenceById(productDto.getCategory().getId());
@@ -52,26 +52,27 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public Object update(Long id, ProductDto productDto) {
 		Optional<Product> productOptional = productRepo.findById(id);
-		if(productOptional.isPresent()) {
+		if (productOptional.isPresent()) {
 			productDto.setId(id);
 			Product productToUpdate = mapper.productDtoToProduct(productDto);
-			productToUpdate.setStatus(productOptional.get().getStatus());
-			if(productDto.getDiscount() == null) {
+			if (productDto.getStatus() == null) {
+				productToUpdate.setStatus(productOptional.get().getStatus());
+			}
+			if (productDto.getDiscount() == null) {
 				productToUpdate.setDiscount(productOptional.get().getDiscount());
 			}
 			return mapper.productToProductDto(productRepo.save(productToUpdate));
-		}
-		else return null;
+		} else
+			return null;
 	}
 
 	@Override
 	public Object getAllPagnation(int offSet, int limit, String sortBy, Boolean asc) {
 		Pageable pageable;
-		if(asc) {
-			pageable = PageRequest.of(offSet-1, limit, Sort.by(sortBy).ascending());
-		}
-		else {
-			pageable = PageRequest.of(offSet-1, limit, Sort.by(sortBy).descending());
+		if (asc) {
+			pageable = PageRequest.of(offSet - 1, limit, Sort.by(sortBy).ascending());
+		} else {
+			pageable = PageRequest.of(offSet - 1, limit, Sort.by(sortBy).descending());
 		}
 		Page<Product> pageProduct = productRepo.findAll(pageable);
 		PagingDto response = new PagingDto();
@@ -84,7 +85,7 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public Object getAllProductsByCategoryId(Long id, int offSet, int limit) {
-		Pageable pageable = PageRequest.of(offSet-1, limit);
+		Pageable pageable = PageRequest.of(offSet - 1, limit);
 		Page<Product> pageProduct = productRepo.getAllProductsByCategoryId(id, pageable);
 		PagingDto response = new PagingDto();
 		response.setContent(mapper.productsToProductDtos(pageProduct.getContent()));
@@ -96,8 +97,8 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public Object searchByName(String search, int offSet, int limit) {
-		if(!(search == "" || search.isEmpty())) {
-			Pageable pageable = PageRequest.of(offSet-1, limit);
+		if (!(search == "" || search.isEmpty())) {
+			Pageable pageable = PageRequest.of(offSet - 1, limit);
 			Page<Product> pageProduct = productRepo.searchByName(search.trim(), pageable);
 			PagingDto response = new PagingDto();
 			response.setContent(mapper.productsToProductDtos(pageProduct.getContent()));
@@ -109,6 +110,15 @@ public class ProductServiceImpl implements ProductService{
 		return null;
 	}
 
-
+	@Override
+	public Object updateStatus(Long id) {
+		Optional<Product> productOptional = productRepo.findById(id);
+		if (productOptional.isPresent()) {
+			Product product = productOptional.get();
+			product.setStatus(false);
+			return mapper.productToProductDto(productRepo.save(product));
+		} else
+			return null;
+	}
 
 }

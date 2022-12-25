@@ -30,7 +30,7 @@ public class Employee {
 	
 	private String name;
 	
-	@OneToMany(mappedBy="employee", cascade = CascadeType.ALL, orphanRemoval=true)
+	@OneToMany(mappedBy="employee")
 	private List<Order> orders;
 
 	public Employee() {

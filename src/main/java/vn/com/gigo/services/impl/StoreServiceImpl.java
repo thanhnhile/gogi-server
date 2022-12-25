@@ -75,8 +75,8 @@ public class StoreServiceImpl implements StoreService{
 		Optional<Store> store = storeRepo.findById(id);
 		if(store.isPresent()) {
 			storeDto.setId(id);
-			Store update = storeMapper.storeDtoToStore(storeDto);
-			return storeMapper.storeToStoreDto(update);
+			Store storeToUpdate = storeMapper.storeDtoToStore(storeDto);
+			return storeMapper.storeToStoreDto(storeRepo.save(storeToUpdate));
 		}
 		else 
 			return null;
