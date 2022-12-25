@@ -10,4 +10,6 @@ public interface CategoryService {
 	Object add(CategoryDto categoryDto);
 	
 	Object update(Long id,CategoryDto categoryDto);
+	
+	Object updateStatus(Long id);
 }

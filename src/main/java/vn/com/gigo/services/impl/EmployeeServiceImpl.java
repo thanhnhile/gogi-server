@@ -83,11 +83,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Object updateEmployee(Long id, EmployeeDto employeeDto) {
-		Optional<Employee> employee = employeeRepo.findById(id);
-		if(employee.isPresent()) {
-			employeeDto.setId(id);
-			Employee update = employeeMapper.employeeDtoToEmployee(employeeDto);
-			return employeeMapper.employeeToEmployeeDto(update);
+		Optional<Employee> employeeOptional = employeeRepo.findById(id);
+		if(employeeOptional.isPresent()) {
+			Employee employee = employeeMapper.employeeDtoToEmployee(employeeDto);
+			Store store = storeRepo.getReferenceById(employeeDto.getStore().getId());
+			Account account = accountRepo.findOneByUsername(employeeDto.getAccount());
+			employee.setId(id);
+			employee.setStore(store);
+			employee.setAccount(account);
+			return employeeMapper.employeeToEmployeeDto(employeeRepo.save(employee));
+
 		}
 		else 
 			return null;

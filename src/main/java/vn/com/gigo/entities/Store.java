@@ -29,10 +29,10 @@ public class Store {
 	@Column
 	private String address;
 	
-	@OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval=true) 
+	@OneToMany(mappedBy = "store") 
 	private List<Order> orders;
 	
-	@OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval=true) 
+	@OneToMany(mappedBy = "store") 
 
 	private List<Employee> employees;
 
