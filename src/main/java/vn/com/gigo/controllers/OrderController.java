@@ -1,6 +1,5 @@
 package vn.com.gigo.controllers;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import vn.com.gigo.dtos.DataResponse;
-import vn.com.gigo.dtos.OrderDetailDto;
 import vn.com.gigo.dtos.OrderInputDto;
 import vn.com.gigo.services.impl.OrderServiceImpl;
 import vn.com.gigo.utils.DefaultRequestParam;
