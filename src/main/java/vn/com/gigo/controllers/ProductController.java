@@ -60,8 +60,13 @@ public class ProductController {
 		return new DataResponse(productService.update(id, productDto));
 	}
 	
-	@PutMapping("/product/{id}")
+	@PutMapping("/update/product/{id}")
 	private DataResponse updateStatus(@PathVariable(value="id") Long id) {
 		return new DataResponse(productService.updateStatus(id));
+	}
+	
+	@GetMapping("/all")
+	private DataResponse getAllProducts() {
+		return new DataResponse(productService.getAllProduct());
 	}
 }

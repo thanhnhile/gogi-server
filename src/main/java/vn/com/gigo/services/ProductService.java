@@ -16,4 +16,6 @@ public interface ProductService {
 	Object searchByName(String search,int offSet,int limit);
 	
 	Object updateStatus(Long id);
+	
+	Object getAllProduct();
 }

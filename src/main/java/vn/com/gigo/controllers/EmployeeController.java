@@ -12,13 +12,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 import vn.com.gigo.dtos.DataResponse;
 import vn.com.gigo.dtos.EmployeeDto;
+import vn.com.gigo.entities.Employee;
+import vn.com.gigo.mapstruct.EmployeeMapper;
+import vn.com.gigo.services.impl.AccountServiceImpl;
 import vn.com.gigo.services.impl.EmployeeServiceImpl;
 
 @RestController
 @RequestMapping("/employees")
 public class EmployeeController {
+	
+	@Autowired
+	private EmployeeMapper employeeMapper;
+	
 	@Autowired
 	private EmployeeServiceImpl employeeImpl;
+	
+	@Autowired
+	private AccountServiceImpl accountImpl;
 
 	@GetMapping()
 	public DataResponse getAllEmployee() {
@@ -43,12 +53,14 @@ public class EmployeeController {
 
 	@PostMapping()
 	public DataResponse addEmployee(@RequestBody EmployeeDto employeeDto) {
+		accountImpl.addRoleEmployee(employeeDto.getAccount().toString());
 		return new DataResponse(employeeImpl.addEmployee(employeeDto));
 	}
 
 	@DeleteMapping("/{id}")
 	public void deleteEmployee(@PathVariable(value = "id") Long id) {
-		 employeeImpl.deleteEmployee(id);
+		accountImpl.removeRoleEmployee(id);
+		employeeImpl.deleteEmployee(id);
 	}
 
 	@PutMapping("/{id}")
