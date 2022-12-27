@@ -2,13 +2,17 @@ package vn.com.gigo.services.impl;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.catalina.Store;
+import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import vn.com.gigo.entities.custom.StoreAndCountOrders;
+import vn.com.gigo.entities.custom.DailyRevenue;
 import vn.com.gigo.repositories.OrderRepository;
 import vn.com.gigo.repositories.ProductRepository;
 import vn.com.gigo.services.StatisticsService;
@@ -38,21 +42,38 @@ public class StatisticsServiceImpl implements StatisticsService {
 		result.put("success", orderRepo.countByStatusEquals(OrderStatus.SUCCESS.getValue()));
 		result.put("canceled", orderRepo.countByStatusEquals(OrderStatus.CANCELED.getValue()));
 		//get count order group by store today
+		List<StoreAndCountOrders> list = getCountOrdersGroupByStore();
+		result.put("stores", list);
+		//get Weekly Revenue
+		List<DailyRevenue> list2 = getDailyRevenue();
+		result.put("weeklyRevenue", list2);
+//		List<Object[]> rs = orderRepo.getWeeklyRevenue();
+		return result;
+	}
+	private List<StoreAndCountOrders> getCountOrdersGroupByStore(){
 		List<StoreAndCountOrders> list = new ArrayList<StoreAndCountOrders>();
 		List<Object[]> rs = orderRepo.getCountOrderGroupByStore();
 		rs.forEach(row -> {
 			StoreAndCountOrders item = new StoreAndCountOrders();
-			System.out.println(row[0]);
 			item.setStoreId(((BigInteger)row[0]).longValue());
 			item.setStoreName((String) row[1]);
 			item.setStoreAddress((String) row[2]);
 			item.setCountOrders(((BigInteger)row[3]).intValue());
 			list.add(item);
 		});
-		result.put("stores", list);
-		//get Weekly Revenue
+		return list;
+	}
+	private List<DailyRevenue> getDailyRevenue(){
+		List<DailyRevenue> list = new ArrayList<>();
 		List<Object[]> rs = orderRepo.getWeeklyRevenue();
-		return result;
+		rs.forEach(row -> {
+			DailyRevenue item = new DailyRevenue();
+			item.setRevenue((Double)row[0]);
+			item.setDate((Date) row[2]);
+			item.setCountOrders(((BigInteger)row[1]).intValue());
+			list.add(item);
+		});
+		return list;
 	}
 
 }

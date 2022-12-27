@@ -136,6 +136,7 @@ public class OrderServiceImpl implements OrderService {
 				break;
 			case 3:
 				orderToUpdate.setStatus(status);
+				orderToUpdate.setEmployee(employee);
 				break;
 			default:throw new ResourceNotFoundException("Not found order status id " + id);
 			}

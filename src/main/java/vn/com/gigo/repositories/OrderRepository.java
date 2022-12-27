@@ -30,7 +30,7 @@ public interface OrderRepository extends JpaRepository<Order,Long>{
 	@Query(value="SELECT count(*) FROM ORDERS WHERE status = ?1 AND (DATE(created_date) = CURDATE())",nativeQuery=true)
 	Integer countByStatusEquals(int status);
 	
-	@Query(value="SELECT sum(total), WEEK(created_date) as Week FROM ORDERS WHERE MONTH(created_date) = MONTH(NOW()) AND pay=1 GROUP BY week",nativeQuery=true)
+	@Query(value="SELECT sum(total),count(id),DATE(created_date) FROM ORDERS WHERE pay=1 GROUP BY DATE(created_date) ORDER BY created_date DESC",nativeQuery=true)
 	List<Object[]>getWeeklyRevenue();
 	
 }
