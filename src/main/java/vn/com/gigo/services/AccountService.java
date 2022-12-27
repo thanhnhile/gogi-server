@@ -14,4 +14,8 @@ public interface AccountService {
 	void deleteAccount(Long id);
 
 	Object updateAccount(Long id, AccountDto accountDto);
+	
+	Object addRoleEmployee(String username);
+	
+	Object removeRoleEmployee(Long id);
 }

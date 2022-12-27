@@ -41,7 +41,7 @@ public class CategoryController {
 		return new DataResponse(categoryService.update(id, categoryDto)); 
 	}
 	
-	@PutMapping("/category/{id}")
+	@PutMapping("/update/category/{id}")
 	private DataResponse updateStatus(@PathVariable(value="id") Long id) {
 		return new DataResponse(categoryService.updateStatus(id)); 
 	}

@@ -121,4 +121,9 @@ public class ProductServiceImpl implements ProductService {
 			return null;
 	}
 
+	@Override
+	public Object getAllProduct() {
+		return mapper.productsToProductDtos(productRepo.findAll());
+	}
+
 }

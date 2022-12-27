@@ -3,6 +3,7 @@ package vn.com.gigo.services.impl;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.transaction.Transactional;
@@ -13,13 +14,17 @@ import org.springframework.stereotype.Service;
 
 import vn.com.gigo.dtos.AccountDto;
 import vn.com.gigo.dtos.AccountNoPassDto;
+import vn.com.gigo.dtos.EmployeeDto;
 import vn.com.gigo.entities.Account;
+import vn.com.gigo.entities.Product;
 import vn.com.gigo.entities.Role;
 import vn.com.gigo.exception.AccountException;
 import vn.com.gigo.exception.DuplicateValueInResourceException;
 import vn.com.gigo.mapstruct.AccountMapper;
 import vn.com.gigo.mapstruct.CustomerMapper;
+import vn.com.gigo.mapstruct.EmployeeMapper;
 import vn.com.gigo.repositories.AccountRepository;
+import vn.com.gigo.repositories.EmployeeRepository;
 import vn.com.gigo.repositories.RoleRepository;
 import vn.com.gigo.services.AccountService;
 import vn.com.gigo.utils.RoleType;
@@ -35,12 +40,18 @@ public class AccountServiceImpl implements AccountService {
 	private AccountRepository accountRepo;
 	@Autowired
 	private AccountMapper accountMapper;
-	
+
 	@Autowired
 	private CustomerMapper customerMapper;
-	
+
 	@Autowired
 	private RoleRepository roleRepository;
+	
+	@Autowired
+	private EmployeeRepository employeeRepo;
+	
+	@Autowired
+	private EmployeeMapper employeeMapper;
 
 	@Autowired
 	public AccountServiceImpl(AccountMapper accountMapper, AccountRepository accountRepo) {
@@ -86,7 +97,7 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public Object addAccount(AccountDto accountDto) {
-		if(checkExistedAccount(accountDto.getUsername())) {
+		if (checkExistedAccount(accountDto.getUsername())) {
 			throw new DuplicateValueInResourceException("Số điện thoại đã tồn tại");
 		}
 		Account account = accountMapper.accountDtoToAccount(accountDto);
@@ -99,10 +110,10 @@ public class AccountServiceImpl implements AccountService {
 		accountRepo.save(account);
 		return accountDto;
 	}
-	
+
 	public Boolean checkExistedAccount(String username) {
 		Account account = accountRepo.findOneByUsername(username);
-		if(account != null) {
+		if (account != null) {
 			return true;
 		}
 		return false;
@@ -127,8 +138,32 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public Object getCustomerInfoByUserName(String username) {
 		Account account = accountRepo.findOneByUsername(username);
-		if(account != null) {
+		if (account != null) {
 			return customerMapper.customerToCustomerDto(account.getCustomer());
+		}
+		return null;
+	}
+
+	@Override
+	public Object addRoleEmployee(String username) {
+		// TODO Auto-generated method stub
+		Account account = accountRepo.findOneByUsername(username);
+		if (account != null) {
+			Role roleEmployee = roleRepository.findOneById(RoleType.ROLE_EMPLOYEE.getValue());
+			account.getRoles().add(roleEmployee);
+			return accountMapper.accountToAccountDto(accountRepo.save(account));
+		}
+		return null;
+	}
+
+	@Override
+	public Object removeRoleEmployee(Long id) {
+		EmployeeDto employee = employeeMapper.employeeToEmployeeDto(employeeRepo.findOneById(id));
+		Account account = accountRepo.findOneByUsername(employee.getAccount());
+		if (account != null) {
+			Role roleEmployee = roleRepository.findOneById(RoleType.ROLE_EMPLOYEE.getValue());
+			account.getRoles().remove(roleEmployee);
+			return accountMapper.accountToAccountDto(accountRepo.save(account));
 		}
 		return null;
 	}
