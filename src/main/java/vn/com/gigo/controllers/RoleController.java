@@ -25,13 +25,11 @@ public class RoleController {
 	private RoleServiceImpl roleImpl;
 
 	@GetMapping()
-	@RolesAllowed({"ROLE_ADMIN"})
 	public DataResponse getAllRole() {
 		return new DataResponse( roleImpl.getAllRole());
 	}
 
 	@GetMapping("/{offSet}/{pageSize}")
-	@RolesAllowed({"ROLE_ADMIN"})
 	public DataResponse getAllRole(@PathVariable int offSet, @PathVariable int pageSize) {
 		return new DataResponse( roleImpl.getAllRolePagnation(offSet, pageSize));
 	}
@@ -43,25 +41,21 @@ public class RoleController {
 	}
 
 	@PostMapping()
-	@RolesAllowed({"ROLE_ADMIN"})
 	public DataResponse addRole(@RequestBody RoleDto roleDto) {
 		return new DataResponse(roleImpl.addRole(roleDto));
 	}
 	
 	@PostMapping("/permission")
-	@RolesAllowed({"ROLE_ADMIN"})
 	public DataResponse addAccountToRole(@RequestBody AccountRoleDto accountRoleDto) {
 		return new DataResponse(roleImpl.addAccountToRole(accountRoleDto));
 	}
 
 	@DeleteMapping("/{id}")
-	@RolesAllowed({"ROLE_ADMIN"})
 	public void deleteRole(@PathVariable(value = "id") Integer id) {
 		roleImpl.deleteRole(id);
 	}
 
 	@PutMapping("/{id}")
-	@RolesAllowed({"ROLE_ADMIN","ROLE_EDITOR"})
 	public DataResponse updateRole(@PathVariable(value = "id") Integer id, @RequestBody RoleDto roleDto) {
 		return new DataResponse(roleImpl.updateRole(id, roleDto));
 	}

@@ -72,7 +72,7 @@ public class ApplicationSecurity {
 		// permitAll api
 		http.authorizeRequests().antMatchers("/auth", "/register").permitAll();
 
-		http.authorizeRequests().antMatchers("/categories/**", "/products/**","/orders/**","/customers/**","/stores/**").permitAll();
+		http.authorizeRequests().antMatchers("/admin/statistics","/categories/**", "/products/**","/orders/**","/customers/**","/stores/**").permitAll();
 
 		// role admin
 		http.authorizeRequests().antMatchers("/categories/add","/products/add").hasAuthority("ADMIN");
