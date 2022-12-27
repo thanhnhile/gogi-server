@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.catalina.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,10 +19,10 @@ import vn.com.gigo.entities.Customer;
 import vn.com.gigo.entities.Employee;
 import vn.com.gigo.entities.Order;
 import vn.com.gigo.entities.OrderDetail;
+import vn.com.gigo.exception.ResourceNotFoundException;
 import vn.com.gigo.mapstruct.CustomerMapper;
 import vn.com.gigo.mapstruct.OrderMapper;
 import vn.com.gigo.repositories.AccountRepository;
-import vn.com.gigo.repositories.CustomerRepository;
 import vn.com.gigo.repositories.EmployeeRepository;
 import vn.com.gigo.repositories.OrderDetailRepository;
 import vn.com.gigo.repositories.OrderRepository;
@@ -40,9 +39,6 @@ public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	private OrderDetailRepository orderDetailRepo;
-
-	@Autowired
-	private CustomerRepository customerRepo;
 
 	@Autowired
 	private AccountRepository accountRepo;
@@ -73,16 +69,12 @@ public class OrderServiceImpl implements OrderService {
 		orderToAdd.setStore(storeRepo.getReferenceById(orderInputDto.getStore()));
 		orderToAdd.setEmployee(null);
 		// set default property
-		Customer customer;
+		
 		if (orderInputDto.getCustomer() == null) {
 			orderToAdd.setCustomer(null);
 		} else {
-			if (orderInputDto.getCustomer().getId() != null) {
-				customer = customerRepo.getReferenceById(orderInputDto.getCustomer().getId());
-			} else {
-				customer = customerMapper
-						.customerDtoToCustomer((CustomerDto) customerImpl.addCustomer(orderInputDto.getCustomer()));
-			}
+			Customer customer = customerMapper
+					.customerDtoToCustomer((CustomerDto) customerImpl.addCustomer(orderInputDto.getCustomer()));
 			orderToAdd.setCustomer(customer);
 		}
 
@@ -139,16 +131,27 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public Object updateOrderStatus(Long id, int status) {
 		String loggedUser = SecurityUtils.getLoggedUsername();
-		System.out.println(loggedUser);
 		Employee employee = employeeRepo.findByAccount_Username(loggedUser);
 		Optional<Order> orderOptional = orderRepo.findById(id);
 		if (orderOptional.isPresent()) {
 			Order orderToUpdate = orderOptional.get();
-			orderToUpdate.setStatus(status);
-			orderToUpdate.setEmployee(employee);
+			switch (status) {
+			case 1:
+				orderToUpdate.setStatus(status);
+				orderToUpdate.setEmployee(employee);
+				break;
+			case 2:
+				orderToUpdate.setStatus(status);
+				orderToUpdate.setPay(true);
+				break;
+			case 3:
+				orderToUpdate.setStatus(status);
+				break;
+			default:throw new ResourceNotFoundException("Not found order status id " + id);
+			}
 			return mapper.orderToOrderDto(orderRepo.save(orderToUpdate));
 		} else
-			return "Not found order with id " + id;
+			throw new ResourceNotFoundException("Not found order with id " + id);
 	}
 
 	@Override
@@ -159,7 +162,7 @@ public class OrderServiceImpl implements OrderService {
 			orderToUpdate.setPay(true);
 			return mapper.orderToOrderDto(orderRepo.save(orderToUpdate));
 		} else
-			return "Not found order with id " + id;
+			throw new ResourceNotFoundException("Not found order with id " + id);
 	}
 
 	@Override
@@ -180,7 +183,7 @@ public class OrderServiceImpl implements OrderService {
 			orderToUpdate.setTotal(total);
 			return mapper.orderToOrderDto(orderRepo.save(orderToUpdate));
 		} else
-			return "Not found order with id " + id;
+			throw new ResourceNotFoundException("Not found order with id " + id);
 	}
 
 	@Override
