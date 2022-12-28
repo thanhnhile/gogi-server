@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import vn.com.gigo.dtos.DataResponse;
 import vn.com.gigo.dtos.OrderInputDto;
 import vn.com.gigo.services.impl.OrderServiceImpl;
-import vn.com.gigo.utils.DefaultRequestParam;
 import vn.com.gigo.utils.OrderStatus;
 
 @RestController
@@ -31,10 +30,8 @@ public class OrderController {
 
 	@GetMapping()
 	private DataResponse getAllOrdersByStoreId(
-			@RequestParam(value="store_id") Long storeId,
-			@RequestParam(value = "limit", defaultValue = DefaultRequestParam.LIMIT) int limit,
-			@RequestParam(value = "offSet", defaultValue = DefaultRequestParam.OFFSET) int offSet) {
-		return new DataResponse(orderService.getAllOrdersByStoreId(storeId, offSet, limit));
+			@RequestParam(value="store_id") Long storeId) {
+		return new DataResponse(orderService.getAllOrdersByStoreId(storeId));
 	}
 	
 	@GetMapping("/account/{username}")

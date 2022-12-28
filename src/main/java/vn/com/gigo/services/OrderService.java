@@ -11,7 +11,7 @@ public interface OrderService {
 	
 	Object deleteOrder(Long id);
 	
-	Object getAllOrdersByStoreId(Long storeId,int offSet, int limit);
+	Object getAllOrdersByStoreId(Long storeId);
 	
 	Object getAllOrdersByAccountUsername(String username);
 	

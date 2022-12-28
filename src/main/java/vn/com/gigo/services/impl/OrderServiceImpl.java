@@ -5,15 +5,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import vn.com.gigo.dtos.CustomerDto;
 import vn.com.gigo.dtos.OrderDetailDto;
 import vn.com.gigo.dtos.OrderInputDto;
-import vn.com.gigo.dtos.PagingDto;
 import vn.com.gigo.entities.Account;
 import vn.com.gigo.entities.Customer;
 import vn.com.gigo.entities.Employee;
@@ -117,15 +113,9 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Object getAllOrdersByStoreId(Long storeId, int offSet, int limit) {
-		Pageable pageable = PageRequest.of(offSet - 1, limit);
-		Page<Order> page = orderRepo.getOrdersByStoreId(storeId, pageable);
-		PagingDto response = new PagingDto();
-		response.setContent(mapper.ordersToOrderDtos(page.getContent()));
-		response.setCurrentPage(offSet);
-		response.setTotalElements(page.getTotalElements());
-		response.setTotalPages(page.getTotalPages());
-		return response;
+	public Object getAllOrdersByStoreId(Long storeId) {
+		List<Order> list = orderRepo.getOrdersByStoreId(storeId);
+		return mapper.ordersToOrderDtos(list);
 	}
 
 	@Override
@@ -146,6 +136,7 @@ public class OrderServiceImpl implements OrderService {
 				break;
 			case 3:
 				orderToUpdate.setStatus(status);
+				orderToUpdate.setEmployee(employee);
 				break;
 			default:throw new ResourceNotFoundException("Not found order status id " + id);
 			}
