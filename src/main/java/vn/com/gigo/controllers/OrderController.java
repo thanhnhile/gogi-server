@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import vn.com.gigo.dtos.DataResponse;
 import vn.com.gigo.dtos.OrderInputDto;
 import vn.com.gigo.services.impl.OrderServiceImpl;
+import vn.com.gigo.services.impl.SSEServiceImpl;
 import vn.com.gigo.utils.OrderStatus;
 
 @RestController
@@ -22,6 +23,9 @@ import vn.com.gigo.utils.OrderStatus;
 public class OrderController {
 	@Autowired
 	OrderServiceImpl orderService;
+	
+	@Autowired
+	SSEServiceImpl sseService;
 
 	@GetMapping("/{id}")
 	private DataResponse getOrder(@PathVariable(value = "id") Long id) {
@@ -42,7 +46,9 @@ public class OrderController {
 
 	@PostMapping
 	private DataResponse addOrder(@RequestBody OrderInputDto orderInputDto) {
-		return new DataResponse(orderService.addOrder(orderInputDto));
+		DataResponse response = new DataResponse(orderService.addOrder(orderInputDto));
+		sseService.sendNewOrders(orderInputDto.getStore());
+		return response;
 	}
 
 	@DeleteMapping("/{id}")
