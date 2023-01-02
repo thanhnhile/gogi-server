@@ -1,5 +1,6 @@
 package vn.com.gigo.controllers;
 
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,11 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import vn.com.gigo.exception.ResourceNotFoundException;
 import vn.com.gigo.services.impl.SSEServiceImpl;
 
 @RestController
 public class SSEController {
-	public static Map<Long, SseEmitter> storeEmitters = new HashMap<>();
+	public static final Map<Long, SseEmitter> storeEmitters = new HashMap<>();
 	
 	@Autowired
 	SSEServiceImpl serviceImpl;
@@ -24,6 +26,7 @@ public class SSEController {
 	private SseEmitter subscribeOrderEvent(@PathVariable(value = "storeId") Long storeId) {
 		SseEmitter sseEmitter = new SseEmitter(Long.MAX_VALUE);
 		storeEmitters.put(storeId, sseEmitter);
+		
 		serviceImpl.sendNewOrders(storeId);
 		sseEmitter.onCompletion(() -> storeEmitters.remove(storeId));
 		sseEmitter.onTimeout(() -> storeEmitters.remove(storeId));

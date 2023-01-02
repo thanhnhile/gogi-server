@@ -13,6 +13,7 @@ import vn.com.gigo.exception.ResourceNotFoundException;
 import vn.com.gigo.mapstruct.OrderMapper;
 import vn.com.gigo.repositories.OrderRepository;
 import vn.com.gigo.services.SSEService;
+import vn.com.gigo.utils.OrderStatus;
 
 @Service
 public class SSEServiceImpl implements SSEService{
@@ -26,21 +27,23 @@ public class SSEServiceImpl implements SSEService{
 
 	@Override
 	public void sendEvent(SseEmitter emitter, String eventName, Object data) {
-		
+		if(emitter == null) {
+			return;
+//			throw new ResourceNotFoundException("Not found client");
+		}
+		try {
+			emitter.send(SseEmitter.event().name(eventName).data(data,MediaType.APPLICATION_JSON));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 
 	@Override
 	public void sendNewOrders(Long storeId) {
+		System.out.println(SSEController.storeEmitters.size());
 		SseEmitter emitter = SSEController.storeEmitters.get(storeId);
-		if(emitter == null) {
-			throw new ResourceNotFoundException("Not found client");
-		}
-		try {
-			emitter.send(SseEmitter.event().name("newOrders").data(orderMapper.ordersToOrderDtos(orderRepo.getOrdersByStoreId(storeId)),MediaType.APPLICATION_JSON));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		sendEvent(emitter, "newOrders", orderMapper.ordersToOrderDtos(orderRepo.findByStore_IdAndStatus(storeId,OrderStatus.IN_PROGRESS.getValue())));
 		
 	}
 

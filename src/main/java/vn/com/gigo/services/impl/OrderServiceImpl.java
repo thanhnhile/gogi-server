@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import vn.com.gigo.controllers.SSEController;
 import vn.com.gigo.dtos.CustomerDto;
 import vn.com.gigo.dtos.OrderDetailDto;
 import vn.com.gigo.dtos.OrderInputDto;
@@ -53,6 +54,9 @@ public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	private CustomerMapper customerMapper;
+	
+	@Autowired
+	private SSEServiceImpl sseService;
 
 	@Override
 	public Object getOrder(Long id) {
@@ -97,8 +101,7 @@ public class OrderServiceImpl implements OrderService {
 			orderDetailRepo.save(orderDetail);
 			details.add(orderDetail);
 		}
-//		newOrder.setDetailList(details);
-//		newOrder = orderRepo.save(newOrder);
+		sseService.sendNewOrders(orderInputDto.getStore());
 		return mapper.orderToOrderDto(newOrder);
 	}
 
@@ -137,9 +140,12 @@ public class OrderServiceImpl implements OrderService {
 			case 3:
 				orderToUpdate.setStatus(status);
 				orderToUpdate.setEmployee(employee);
+				//sseService.sendNewOrders(orderToUpdate.getStore().getId());
 				break;
 			default:throw new ResourceNotFoundException("Not found order status id " + id);
 			}
+//			sseService.sendNewOrders(orderToUpdate.getStore().getId());
+//			System.out.println(orderToUpdate.getStore().getId()+" "+SSEController.storeEmitters.size());
 			return mapper.orderToOrderDto(orderRepo.save(orderToUpdate));
 		} else
 			throw new ResourceNotFoundException("Not found order with id " + id);

@@ -1,6 +1,8 @@
 package vn.com.gigo.controllers;
 
 
+import javax.xml.crypto.Data;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,9 +25,6 @@ import vn.com.gigo.utils.OrderStatus;
 public class OrderController {
 	@Autowired
 	OrderServiceImpl orderService;
-	
-	@Autowired
-	SSEServiceImpl sseService;
 
 	@GetMapping("/{id}")
 	private DataResponse getOrder(@PathVariable(value = "id") Long id) {
@@ -47,7 +46,6 @@ public class OrderController {
 	@PostMapping
 	private DataResponse addOrder(@RequestBody OrderInputDto orderInputDto) {
 		DataResponse response = new DataResponse(orderService.addOrder(orderInputDto));
-		sseService.sendNewOrders(orderInputDto.getStore());
 		return response;
 	}
 
