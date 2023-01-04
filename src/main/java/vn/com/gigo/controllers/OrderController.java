@@ -22,6 +22,11 @@ import vn.com.gigo.utils.OrderStatus;
 public class OrderController {
 	@Autowired
 	OrderServiceImpl orderService;
+	
+	@GetMapping("/all")
+	private DataResponse getAllOrders() {
+		return new DataResponse(orderService.getAllOrders());
+	}
 
 	@GetMapping("/{id}")
 	private DataResponse getOrder(@PathVariable(value = "id") Long id) {
