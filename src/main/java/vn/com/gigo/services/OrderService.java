@@ -5,6 +5,8 @@ import vn.com.gigo.dtos.OrderDetailDto;
 import vn.com.gigo.dtos.OrderInputDto;
 
 public interface OrderService {
+	Object getAllOrders();
+	
 	Object getOrder(Long id);
 	
 	Object addOrder (OrderInputDto orderInputDto);

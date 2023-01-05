@@ -188,4 +188,9 @@ public class OrderServiceImpl implements OrderService {
 		return mapper.ordersToOrderDtos(orderRepo.getOrdersByAccountUsername(username));
 	}
 
+	@Override
+	public Object getAllOrders() {
+		return mapper.ordersToOrderDtos(orderRepo.findAll());
+	}
+
 }
