@@ -1,6 +1,7 @@
 package vn.com.gigo.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +11,8 @@ import org.springframework.data.jpa.repository.Query;
 import vn.com.gigo.entities.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Long>{
+	Product findOneById(Long id);
+	
 	@Query(value="SELECT * FROM products WHERE category_id = ?1",
 			countQuery="SELECT count(*) FROM products WHERE category_id = ?1",nativeQuery=true)
 	Page<Product> getAllProductsByCategoryId(Long categoryId,Pageable pageable);

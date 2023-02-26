@@ -1,6 +1,10 @@
 package vn.com.gigo.dtos;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import vn.com.gigo.entities.Rate;
 
 public class ProductDto {
 	@JsonProperty("id")
@@ -24,8 +28,11 @@ public class ProductDto {
 	@JsonProperty("status")
 	private Boolean status;
 	
-	@JsonProperty("imgURL")
+	@JsonProperty("img_url")
 	private String imgURL;
+	
+	@JsonProperty("rates")
+	private List<RateDto> rates;
 
 	public Long getId() {
 		return id;
@@ -90,8 +97,14 @@ public class ProductDto {
 	public void setImgURL(String imgURL) {
 		this.imgURL = imgURL;
 	}
-	
-	
+
+	public List<RateDto> getRates() {
+		return rates;
+	}
+
+	public void setRates(List<RateDto> rates) {
+		this.rates = rates;
+	}
 	
 }
 

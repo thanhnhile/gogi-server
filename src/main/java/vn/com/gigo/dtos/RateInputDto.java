@@ -1,0 +1,51 @@
+package vn.com.gigo.dtos;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class RateInputDto {
+	@JsonProperty("point")
+	private int point;
+	
+	@JsonProperty("content")
+	private String content;
+	
+	@JsonProperty("username")
+	private String user;
+	
+	@JsonProperty("product_id")
+	private Long product;
+
+	public int getPoint() {
+		return point;
+	}
+
+	public void setPoint(int point) {
+		this.point = point;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
+	public Long getProduct() {
+		return product;
+	}
+
+	public void setProduct(Long product) {
+		this.product = product;
+	}
+	
+	
+}
