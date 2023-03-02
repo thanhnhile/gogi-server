@@ -3,7 +3,6 @@ package vn.com.gigo.services.impl;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import javax.transaction.Transactional;
@@ -16,7 +15,6 @@ import vn.com.gigo.dtos.AccountDto;
 import vn.com.gigo.dtos.AccountNoPassDto;
 import vn.com.gigo.dtos.EmployeeDto;
 import vn.com.gigo.entities.Account;
-import vn.com.gigo.entities.Product;
 import vn.com.gigo.entities.Role;
 import vn.com.gigo.exception.AccountException;
 import vn.com.gigo.exception.DuplicateValueInResourceException;

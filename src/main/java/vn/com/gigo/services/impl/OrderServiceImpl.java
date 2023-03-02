@@ -6,8 +6,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import vn.com.gigo.controllers.SSEController;
 import vn.com.gigo.dtos.CustomerDto;
 import vn.com.gigo.dtos.OrderDetailDto;
 import vn.com.gigo.dtos.OrderInputDto;
@@ -112,7 +110,7 @@ public class OrderServiceImpl implements OrderService {
 			orderRepo.deleteById(id);
 			return "Deleted";
 		}
-		return "Not found order with id " + id;
+		throw new ResourceNotFoundException("Not found order with id " + id);
 	}
 
 	@Override

@@ -13,6 +13,7 @@ import vn.com.gigo.dtos.PagingDto;
 import vn.com.gigo.dtos.ProductDto;
 import vn.com.gigo.entities.Category;
 import vn.com.gigo.entities.Product;
+import vn.com.gigo.exception.ResourceNotFoundException;
 import vn.com.gigo.mapstruct.ProductMapper;
 import vn.com.gigo.repositories.CategoryRepository;
 import vn.com.gigo.repositories.ProductRepository;
@@ -32,7 +33,10 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Object getById(Long id) {
-		return mapper.productToProductDto(productRepo.getReferenceById(id));
+		Product product = productRepo.findById(id).orElse(null);
+		if(product != null)
+			return mapper.productToProductDto(product);
+		else throw new ResourceNotFoundException("Not found product with id " + id);
 	}
 
 	@Override
@@ -62,8 +66,8 @@ public class ProductServiceImpl implements ProductService {
 				productToUpdate.setDiscount(productOptional.get().getDiscount());
 			}
 			return mapper.productToProductDto(productRepo.save(productToUpdate));
-		} else
-			return null;
+		} else throw new ResourceNotFoundException("Not found product with id " + id);
+			
 	}
 
 	@Override
@@ -118,7 +122,7 @@ public class ProductServiceImpl implements ProductService {
 			product.setStatus(false);
 			return mapper.productToProductDto(productRepo.save(product));
 		} else
-			return null;
+			throw new ResourceNotFoundException("Not found product with id " + id);
 	}
 
 	@Override

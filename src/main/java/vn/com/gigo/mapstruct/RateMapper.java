@@ -12,7 +12,6 @@ import vn.com.gigo.entities.Rate;
 @Mapper(componentModel = "spring")
 public interface RateMapper {
 	//RateInputDto
-	@Mapping(source="user", target="user.username")
 	@Mapping(source="product", target="product.id")
 	Rate rateInputDtoToRate (RateInputDto dto);
 	//RateDto

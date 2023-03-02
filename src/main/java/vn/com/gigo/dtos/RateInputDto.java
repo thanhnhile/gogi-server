@@ -9,9 +9,6 @@ public class RateInputDto {
 	@JsonProperty("content")
 	private String content;
 	
-	@JsonProperty("username")
-	private String user;
-	
 	@JsonProperty("product_id")
 	private Long product;
 
@@ -29,14 +26,6 @@ public class RateInputDto {
 
 	public void setContent(String content) {
 		this.content = content;
-	}
-
-	public String getUser() {
-		return user;
-	}
-
-	public void setUser(String user) {
-		this.user = user;
 	}
 
 	public Long getProduct() {

@@ -1,6 +1,7 @@
 package vn.com.gigo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,11 @@ import vn.com.gigo.services.impl.RateServiceImpl;
 public class RateController {
 	@Autowired
 	private RateServiceImpl rateService;
+	
+	@GetMapping("/username")
+	private DataResponse getRateByUsername() {
+		return new DataResponse(rateService.getRatesByUsername());
+	}
 	
 	@PostMapping
 	private DataResponse add(@RequestBody RateInputDto rateInputDto) {
