@@ -45,6 +45,11 @@ public class Account implements UserDetails {
 	@Column(nullable = false)
 	private String password;
 	
+	@Column(unique = true, nullable = false)
+	private String email;
+	
+	private String token;
+	
 	@OneToMany(mappedBy="account",cascade=CascadeType.ALL,orphanRemoval=true)
 	private List<Order> orderList;
 	
@@ -71,10 +76,12 @@ public class Account implements UserDetails {
 
 
 
-	public Account(String username, String password, Set<Role> roles) {
+	public Account(String username, String password, String email, String token, Set<Role> roles) {
 		super();
 		this.username = username;
 		this.password = password;
+		this.email = email;
+		this.token = token;
 		this.roles = roles;
 	}
 
@@ -101,6 +108,34 @@ public class Account implements UserDetails {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	public String getEmail() {
+		return email;
+	}
+
+
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+
+
+	public String getToken() {
+		return token;
+	}
+
+
+
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+
+
 
 	public Set<Role> getRoles() {
 		return roles;

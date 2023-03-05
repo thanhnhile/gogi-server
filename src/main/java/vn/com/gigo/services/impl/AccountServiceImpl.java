@@ -3,8 +3,8 @@ package vn.com.gigo.services.impl;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.transaction.Transactional;
 
@@ -16,7 +16,6 @@ import vn.com.gigo.dtos.AccountDto;
 import vn.com.gigo.dtos.AccountNoPassDto;
 import vn.com.gigo.dtos.EmployeeDto;
 import vn.com.gigo.entities.Account;
-import vn.com.gigo.entities.Product;
 import vn.com.gigo.entities.Role;
 import vn.com.gigo.exception.AccountException;
 import vn.com.gigo.exception.DuplicateValueInResourceException;
@@ -166,6 +165,34 @@ public class AccountServiceImpl implements AccountService {
 			return accountMapper.accountToAccountDto(accountRepo.save(account));
 		}
 		return null;
+	}
+
+	@Override
+	public String updateToken(String email) {
+		Account account = accountRepo.findByEmail(email);
+        if (account != null) {
+        	account.setToken(UUID.randomUUID().toString());
+        	//return accountMapper.accountToAccountDto(accountRepo.save(account));
+        	Account newAccount = accountRepo.save(account);
+        	return newAccount.getToken();
+        }
+        return null;
+	}
+
+	@Override
+	public Object getByToken(String token) {
+		Account account = accountRepo.findByToken(token);
+		return accountMapper.accountToAccountDto(account);
+	}
+
+	@Override
+	public Object resetPassword(AccountDto accountDto, String token) {
+		Account accountNew = accountMapper.accountDtoToAccount(accountDto);
+		Account accountOld = accountRepo.findByToken(token);
+		String rawPassword = accountNew.getPassword();
+		String encodedPassword = passwordEncoder.encode(rawPassword);
+		accountOld.setPassword(encodedPassword);
+		return accountRepo.save(accountOld);
 	}
 
 }

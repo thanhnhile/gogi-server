@@ -18,4 +18,10 @@ public interface AccountService {
 	Object addRoleEmployee(String username);
 	
 	Object removeRoleEmployee(Long id);
+	
+	String updateToken(String email);
+	
+	Object getByToken(String token);
+	
+	Object resetPassword(AccountDto accountDto, String token);
 }
