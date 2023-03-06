@@ -64,15 +64,15 @@ public class AccountController {
 		accountImpl.deleteAccount(id);
 	}
 
-	@PutMapping("/{id}")
-	public DataResponse updateAccount(@PathVariable(value = "id") Long id, @RequestBody AccountDto accountDto) {
-		return new DataResponse(accountImpl.updateAccount(id, accountDto));
-	}
+//	@PutMapping("/{id}")
+//	public DataResponse updateAccount(@PathVariable(value = "id") Long id, @RequestBody AccountDto accountDto) {
+//		return new DataResponse(accountImpl.updateAccount(id, accountDto));
+//	}
 
 	@PostMapping("/forgot_password/{email}")
 	public void processForgotPassword(@PathVariable(value = "email") String email) throws UnsupportedEncodingException, MessagingException {
 		String token = accountImpl.updateToken(email);
-		String resetPasswordLink = "http://localhost:8089/reset_password?token=" + token;
+		String resetPasswordLink = "http://localhost:3000/resetPassword/" + token;
 		sendEmail(email, resetPasswordLink);
 	}
 
@@ -80,7 +80,7 @@ public class AccountController {
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message);
 
-		helper.setFrom("contact@shopme.com", "Shopme Support");
+		helper.setFrom("thanhhai6398@gmail.com", "Shopme Support");
 		helper.setTo(recipientEmail);
 
 		String subject = "Here's the link to reset your password";
@@ -100,7 +100,7 @@ public class AccountController {
 	@PutMapping("/reset_password/{token}")
 	public DataResponse processResetPassword(@PathVariable(value = "token") String token, @RequestBody AccountDto accountDto) {
 	     
-	    return new DataResponse(accountImpl.resetPassword(accountDto, token));
+	    return new DataResponse(accountImpl.resetPassword(token, accountDto));
 	    
 	}
 	

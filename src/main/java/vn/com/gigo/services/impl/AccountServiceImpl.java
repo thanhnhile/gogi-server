@@ -186,7 +186,7 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public Object resetPassword(AccountDto accountDto, String token) {
+	public Object resetPassword(String token, AccountDto accountDto) {
 		Account accountNew = accountMapper.accountDtoToAccount(accountDto);
 		Account accountOld = accountRepo.findByToken(token);
 		String rawPassword = accountNew.getPassword();

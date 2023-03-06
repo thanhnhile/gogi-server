@@ -23,5 +23,5 @@ public interface AccountService {
 	
 	Object getByToken(String token);
 	
-	Object resetPassword(AccountDto accountDto, String token);
+	Object resetPassword(String token, AccountDto accountDto);
 }
