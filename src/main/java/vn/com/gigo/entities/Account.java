@@ -16,7 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -49,13 +48,14 @@ public class Account implements UserDetails {
 	private List<Order> orderList;
 	
 	@Nullable
-	@OneToOne(cascade=CascadeType.ALL,optional=true)
-	private Customer customer;
+	@OneToMany(mappedBy="")
+	private List<Customer> listCustomer;
 	
 
 	@ManyToMany
 	@JoinTable(name = "accounts_roles", joinColumns = @JoinColumn(name = "account_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
+	
 	
 
 	public Account() {
@@ -119,27 +119,26 @@ public class Account implements UserDetails {
 	}
 
 
-
-
 	public void setOrderList(List<Order> orderList) {
 		this.orderList = orderList;
 	}
+	
 
 
-
-
-	public Customer getCustomer() {
-		return customer;
+	public List<Customer> getListCustomer() {
+		return listCustomer;
 	}
 
 
-
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
+	public void setListCustomer(List<Customer> listCustomer) {
+		this.listCustomer = listCustomer;
 	}
 
-
+	public void addCustomer(Customer customer) {
+		if(customer!=null) {
+			getListCustomer().add(customer);
+		}
+	}
 
 
 	@Override

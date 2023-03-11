@@ -1,5 +1,6 @@
 package vn.com.gigo.controllers;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +36,10 @@ public class CustomerController {
 			@RequestBody CustomerDto customerDto) {
 		return new DataResponse(customerService.updateCustomer(id, customerDto));
 		
+	}
+	@PutMapping("account/{id}")
+	private DataResponse updateDefaultCustomerInfo(@PathVariable(value="id") Long id) {
+		return new DataResponse(customerService.updateDefaultCustomerInfo(id));
 	}
 	@DeleteMapping("/{id}")
 	private DataResponse deleteCustomer (@PathVariable(value="id") Long id) {

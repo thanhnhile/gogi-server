@@ -5,7 +5,7 @@ import vn.com.gigo.dtos.AccountDto;
 public interface AccountService {
 	Object getAccount(Long id);
 	
-	Object getCustomerInfoByUserName(String username);
+	Object getCustomerInfoByUserName();
 
 	Object getAllAccount();
 
@@ -18,4 +18,8 @@ public interface AccountService {
 	Object addRoleEmployee(String username);
 	
 	Object removeRoleEmployee(Long id);
+
+	Object getCustomerInfoDefault();
+
+	
 }

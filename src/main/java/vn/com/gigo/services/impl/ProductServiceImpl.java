@@ -36,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
 		Product product = productRepo.findById(id).orElse(null);
 		if(product != null)
 			return mapper.productToProductDto(product);
-		else throw new ResourceNotFoundException("Not found product with id " + id);
+		else throw new ResourceNotFoundException("Product with id "+id+" does not exist");
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class ProductServiceImpl implements ProductService {
 				productToUpdate.setDiscount(productOptional.get().getDiscount());
 			}
 			return mapper.productToProductDto(productRepo.save(productToUpdate));
-		} else throw new ResourceNotFoundException("Not found product with id " + id);
+		} else throw new ResourceNotFoundException("Product with id "+id+" does not exist");
 			
 	}
 
@@ -121,8 +121,7 @@ public class ProductServiceImpl implements ProductService {
 			Product product = productOptional.get();
 			product.setStatus(false);
 			return mapper.productToProductDto(productRepo.save(product));
-		} else
-			throw new ResourceNotFoundException("Not found product with id " + id);
+		} else throw new ResourceNotFoundException("Product with id "+id+" does not exist");
 	}
 
 	@Override

@@ -17,6 +17,8 @@ import vn.com.gigo.entities.OrderDetail;
 import vn.com.gigo.exception.ResourceNotFoundException;
 import vn.com.gigo.mapstruct.CustomerMapper;
 import vn.com.gigo.mapstruct.OrderMapper;
+import vn.com.gigo.notification.Notification;
+import vn.com.gigo.notification.OrderNotificaion;
 import vn.com.gigo.repositories.AccountRepository;
 import vn.com.gigo.repositories.EmployeeRepository;
 import vn.com.gigo.repositories.OrderDetailRepository;
@@ -54,7 +56,7 @@ public class OrderServiceImpl implements OrderService {
 	private CustomerMapper customerMapper;
 	
 	@Autowired
-	private SSEServiceImpl sseService;
+	private OrderNotificaion orderNotification;
 
 	@Override
 	public Object getOrder(Long id) {
@@ -99,9 +101,15 @@ public class OrderServiceImpl implements OrderService {
 			orderDetailRepo.save(orderDetail);
 			details.add(orderDetail);
 		}
-		sseService.sendNewOrders(orderInputDto.getStore());
+		//sendNotification(orderToAdd.getStore().getId());
 		return mapper.orderToOrderDto(newOrder);
 	}
+	
+//	private void sendNotification(Long storeId) {
+//		Object content = getAllOrdersByStoreId(storeId);
+//		Notification notification = new Notification(storeId, content);
+//		orderNotification.setNotification(notification);
+//	}
 
 	@Override
 	public Object deleteOrder(Long id) {
@@ -142,8 +150,7 @@ public class OrderServiceImpl implements OrderService {
 				break;
 			default:throw new ResourceNotFoundException("Not found order status id " + id);
 			}
-//			sseService.sendNewOrders(orderToUpdate.getStore().getId());
-//			System.out.println(orderToUpdate.getStore().getId()+" "+SSEController.storeEmitters.size());
+			//sendNotification(orderToUpdate.getStore().getId());
 			return mapper.orderToOrderDto(orderRepo.save(orderToUpdate));
 		} else
 			throw new ResourceNotFoundException("Not found order with id " + id);

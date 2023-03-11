@@ -22,7 +22,7 @@ public class SSEController {
 	SSEServiceImpl serviceImpl;
 	
 
-	@RequestMapping(value="/subscribe/{storeId}",consumes=MediaType.ALL_VALUE)
+	//@RequestMapping(value="/subscribe/{storeId}",consumes=MediaType.ALL_VALUE)
 	private SseEmitter subscribeOrderEvent(@PathVariable(value = "storeId") Long storeId) {
 		SseEmitter sseEmitter = new SseEmitter(Long.MAX_VALUE);
 		storeEmitters.put(storeId, sseEmitter);

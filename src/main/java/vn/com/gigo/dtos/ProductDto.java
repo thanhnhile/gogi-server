@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import vn.com.gigo.entities.Rate;
-
 public class ProductDto {
 	@JsonProperty("id")
 	private Long id;

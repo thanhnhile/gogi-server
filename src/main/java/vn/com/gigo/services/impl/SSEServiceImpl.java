@@ -1,15 +1,11 @@
 package vn.com.gigo.services.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import vn.com.gigo.controllers.SSEController;
-import vn.com.gigo.exception.ResourceNotFoundException;
 import vn.com.gigo.mapstruct.OrderMapper;
 import vn.com.gigo.repositories.OrderRepository;
 import vn.com.gigo.services.SSEService;
