@@ -37,10 +37,7 @@ public class CustomerController {
 		return new DataResponse(customerService.updateCustomer(id, customerDto));
 		
 	}
-	@PutMapping("account/{id}")
-	private DataResponse updateDefaultCustomerInfo(@PathVariable(value="id") Long id) {
-		return new DataResponse(customerService.updateDefaultCustomerInfo(id));
-	}
+	
 	@DeleteMapping("/{id}")
 	private DataResponse deleteCustomer (@PathVariable(value="id") Long id) {
 		return new DataResponse(customerService.deleteCustomer(id));

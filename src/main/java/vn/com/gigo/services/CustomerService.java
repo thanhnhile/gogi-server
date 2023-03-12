@@ -10,6 +10,4 @@ public interface CustomerService {
 	Object updateCustomer(Long id,CustomerDto customerDto);
 	
 	Object deleteCustomer(Long id);
-
-	Object updateDefaultCustomerInfo(Long id);
 }

@@ -49,6 +49,10 @@ public class AccountController {
 		return new DataResponse(accountImpl.getCustomerInfoDefault());
 	}
 	
+	@PutMapping("customers/default/{id}")
+	private DataResponse updateDefaultCustomerInfo(@PathVariable(value="id") Long id) {
+		return new DataResponse(accountImpl.updateDefaultCustomerInfo(id));
+	}
 
 	@PostMapping()
 	public DataResponse addAccount(@RequestBody AccountDto accountDto) {

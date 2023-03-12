@@ -3,6 +3,7 @@ package vn.com.gigo.services.impl;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.transaction.Transactional;
@@ -176,6 +177,27 @@ public class AccountServiceImpl implements AccountService {
 	public Object getCustomerInfoDefault() {
 		String username = SecurityUtils.getLoggedUsername();
 		return customerMapper.customerToCustomerDto(customerRepo.getCustomerInfoDefaultByUsername(username));
+	}
+	
+	@Override
+	public Object updateDefaultCustomerInfo(Long id) {
+		String loggedUsername = SecurityUtils.getLoggedUsername();
+		Optional<Customer> customerOptional = customerRepo.findById(id);
+		
+		if (customerOptional.isPresent()) {
+			Customer customerToUpdate = customerOptional.get();
+			List<Customer> listCustomer = customerRepo.findAllByAccount_Username(loggedUsername);
+			if (listCustomer.contains(customerToUpdate)) {
+				Customer oldDefault = customerRepo.getCustomerInfoDefaultByUsername(loggedUsername);
+				oldDefault.setIsDefault(false);
+				customerRepo.save(oldDefault);
+				customerToUpdate.setIsDefault(true);
+				return customerMapper.customerToCustomerDto(customerRepo.save(customerToUpdate));
+			} else
+				throw new ResourceNotFoundException("Customer with id " + id
+						+ " does not exist in list customer address of account " + loggedUsername);
+		}
+		throw new ResourceNotFoundException("Customer with id " + id + " does not exist");
 	}
 
 }

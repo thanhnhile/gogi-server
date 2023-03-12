@@ -21,5 +21,7 @@ public interface AccountService {
 
 	Object getCustomerInfoDefault();
 
+	Object updateDefaultCustomerInfo(Long id);
+
 	
 }
