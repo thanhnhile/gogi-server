@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.transaction.Transactional;
 
@@ -16,16 +17,19 @@ import vn.com.gigo.dtos.AccountDto;
 import vn.com.gigo.dtos.AccountNoPassDto;
 import vn.com.gigo.dtos.EmployeeDto;
 import vn.com.gigo.entities.Account;
-import vn.com.gigo.entities.Product;
+import vn.com.gigo.entities.Customer;
 import vn.com.gigo.entities.Role;
 import vn.com.gigo.exception.AccountException;
 import vn.com.gigo.exception.DuplicateValueInResourceException;
+import vn.com.gigo.exception.ResourceNotFoundException;
 import vn.com.gigo.mapstruct.AccountMapper;
 import vn.com.gigo.mapstruct.CustomerMapper;
 import vn.com.gigo.mapstruct.EmployeeMapper;
 import vn.com.gigo.repositories.AccountRepository;
+import vn.com.gigo.repositories.CustomerRepository;
 import vn.com.gigo.repositories.EmployeeRepository;
 import vn.com.gigo.repositories.RoleRepository;
+import vn.com.gigo.security.SecurityUtils;
 import vn.com.gigo.services.AccountService;
 import vn.com.gigo.utils.RoleType;
 
@@ -38,6 +42,10 @@ public class AccountServiceImpl implements AccountService {
 
 	@Autowired
 	private AccountRepository accountRepo;
+	
+	@Autowired
+	private CustomerRepository customerRepo;
+	
 	@Autowired
 	private AccountMapper accountMapper;
 
@@ -104,7 +112,7 @@ public class AccountServiceImpl implements AccountService {
 		String rawPassword = account.getPassword();
 		String encodedPassword = passwordEncoder.encode(rawPassword);// thuat toan ma hoa BCrypt
 		account.setPassword(encodedPassword);
-		account.setCustomer(null);
+		account.setListCustomer(null);
 		Role roleUser = roleRepository.findOneById(RoleType.ROLE_USER.getValue());
 		account.getRoles().add(roleUser);
 		accountRepo.save(account);
@@ -136,12 +144,10 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public Object getCustomerInfoByUserName(String username) {
-		Account account = accountRepo.findOneByUsername(username);
-		if (account != null) {
-			return customerMapper.customerToCustomerDto(account.getCustomer());
-		}
-		return null;
+	public Object getCustomerInfoByUserName() {
+		String username = SecurityUtils.getLoggedUsername();
+		List<Customer> listCustomerOfAccount = customerRepo.findAllByAccount_Username(username);
+		return customerMapper.customersToCustomerDtos(listCustomerOfAccount);
 	}
 
 	@Override
@@ -153,7 +159,7 @@ public class AccountServiceImpl implements AccountService {
 			account.getRoles().add(roleEmployee);
 			return accountMapper.accountToAccountDto(accountRepo.save(account));
 		}
-		return null;
+		else throw new ResourceNotFoundException("Account with username "+username+" does not exist");
 	}
 
 	@Override
@@ -165,7 +171,62 @@ public class AccountServiceImpl implements AccountService {
 			account.getRoles().remove(roleEmployee);
 			return accountMapper.accountToAccountDto(accountRepo.save(account));
 		}
-		return null;
+		else throw new ResourceNotFoundException("Account with id "+id+" does not exist");
+	}
+
+	@Override
+	public Object getCustomerInfoDefault() {
+		String username = SecurityUtils.getLoggedUsername();
+		return customerMapper.customerToCustomerDto(customerRepo.getCustomerInfoDefaultByUsername(username));
+	}
+	
+	@Override
+	public Object updateDefaultCustomerInfo(Long id) {
+		String loggedUsername = SecurityUtils.getLoggedUsername();
+		Optional<Customer> customerOptional = customerRepo.findById(id);
+		
+		if (customerOptional.isPresent()) {
+			Customer customerToUpdate = customerOptional.get();
+			List<Customer> listCustomer = customerRepo.findAllByAccount_Username(loggedUsername);
+			if (listCustomer.contains(customerToUpdate)) {
+				Customer oldDefault = customerRepo.getCustomerInfoDefaultByUsername(loggedUsername);
+				oldDefault.setIsDefault(false);
+				customerRepo.save(oldDefault);
+				customerToUpdate.setIsDefault(true);
+				return customerMapper.customerToCustomerDto(customerRepo.save(customerToUpdate));
+			} else
+				throw new ResourceNotFoundException("Customer with id " + id
+						+ " does not exist in list customer address of account " + loggedUsername);
+		}
+		throw new ResourceNotFoundException("Customer with id " + id + " does not exist");
+	}
+
+	@Override
+	public String updateToken(String email) {
+		Account account = accountRepo.findByEmail(email);
+        if (account != null) {
+        	account.setToken(UUID.randomUUID().toString());
+        	//return accountMapper.accountToAccountDto(accountRepo.save(account));
+        	Account newAccount = accountRepo.save(account);
+        	return newAccount.getToken();
+        }
+        return null;
+	}
+
+	@Override
+	public Object getByToken(String token) {
+		Account account = accountRepo.findByToken(token);
+		return accountMapper.accountToAccountDto(account);
+	}
+
+	@Override
+	public Object resetPassword(String token, AccountDto accountDto) {
+		Account accountNew = accountMapper.accountDtoToAccount(accountDto);
+		Account accountOld = accountRepo.findByToken(token);
+		String rawPassword = accountNew.getPassword();
+		String encodedPassword = passwordEncoder.encode(rawPassword);
+		accountOld.setPassword(encodedPassword);
+		return accountRepo.save(accountOld);
 	}
 
 }

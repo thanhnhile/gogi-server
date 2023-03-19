@@ -3,6 +3,7 @@ package vn.com.gigo.repositories;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import vn.com.gigo.entities.Account;
@@ -14,4 +15,10 @@ public interface AccountRepository extends JpaRepository<Account, Long>{
 	Account findOneByUsername(String username);
 	
 	Optional<Account> findByUsername(String username);
+	
+	@Query("SELECT a FROM Account a WHERE a.email = ?1")
+	Account findByEmail(String email);
+	
+	@Query("SELECT a FROM Account a WHERE a.token = ?1")
+	Account findByToken(String token);
 }

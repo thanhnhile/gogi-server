@@ -16,7 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -45,17 +44,23 @@ public class Account implements UserDetails {
 	@Column(nullable = false)
 	private String password;
 	
+	@Column(unique = true, nullable = false)
+	private String email;
+	
+	private String token;
+	
 	@OneToMany(mappedBy="account",cascade=CascadeType.ALL,orphanRemoval=true)
 	private List<Order> orderList;
 	
 	@Nullable
-	@OneToOne(cascade=CascadeType.ALL,optional=true)
-	private Customer customer;
+	@OneToMany(mappedBy="")
+	private List<Customer> listCustomer;
 	
 
 	@ManyToMany
 	@JoinTable(name = "accounts_roles", joinColumns = @JoinColumn(name = "account_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
+	
 	
 
 	public Account() {
@@ -71,10 +76,12 @@ public class Account implements UserDetails {
 
 
 
-	public Account(String username, String password, Set<Role> roles) {
+	public Account(String username, String password, String email, String token, Set<Role> roles) {
 		super();
 		this.username = username;
 		this.password = password;
+		this.email = email;
+		this.token = token;
 		this.roles = roles;
 	}
 
@@ -102,6 +109,34 @@ public class Account implements UserDetails {
 		this.password = password;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+
+
+	public String getToken() {
+		return token;
+	}
+
+
+
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+
+
+
 	public Set<Role> getRoles() {
 		return roles;
 	}
@@ -119,27 +154,26 @@ public class Account implements UserDetails {
 	}
 
 
-
-
 	public void setOrderList(List<Order> orderList) {
 		this.orderList = orderList;
 	}
+	
 
 
-
-
-	public Customer getCustomer() {
-		return customer;
+	public List<Customer> getListCustomer() {
+		return listCustomer;
 	}
 
 
-
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
+	public void setListCustomer(List<Customer> listCustomer) {
+		this.listCustomer = listCustomer;
 	}
 
-
+	public void addCustomer(Customer customer) {
+		if(customer!=null) {
+			getListCustomer().add(customer);
+		}
+	}
 
 
 	@Override

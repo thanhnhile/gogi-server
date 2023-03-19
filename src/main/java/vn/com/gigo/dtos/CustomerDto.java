@@ -21,6 +21,9 @@ public class CustomerDto {
 	@JsonProperty("districtId")
 	private Long districtId;
 	
+	@JsonProperty("isDefault")
+	private Boolean isDefault;
+	
 	@JsonProperty("accountUsername")
 	private String accountUsername;
 
@@ -72,6 +75,15 @@ public class CustomerDto {
 
 	public void setDistrictId(Long districtId) {
 		this.districtId = districtId;
+	}
+	
+	
+	public Boolean getIsDefault() {
+		return isDefault;
+	}
+
+	public void setIsDefault(Boolean isDefault) {
+		this.isDefault = isDefault;
 	}
 
 	public String getAccountUsername() {

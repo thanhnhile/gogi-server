@@ -2,13 +2,14 @@ package vn.com.gigo.entities;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.sun.istack.Nullable;
@@ -30,7 +31,10 @@ public class Customer {
 	
 	private Long districtId;
 	
-	@OneToOne
+	@Column(columnDefinition="boolean default false")
+	private Boolean isDefault;
+	
+	@ManyToOne
 	@JoinColumn(name="account",referencedColumnName = "username")
 	@Nullable
 	private Account account;
@@ -115,6 +119,17 @@ public class Customer {
 
 	public Account getAccount() {
 		return account;
+	}
+
+
+	public Boolean getIsDefault() {
+		return isDefault;
+	}
+
+
+
+	public void setIsDefault(Boolean isDefault) {
+		this.isDefault = isDefault;
 	}
 
 
