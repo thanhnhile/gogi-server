@@ -18,10 +18,10 @@ public class OrderDetailResponseDto {
 	@JsonProperty("product_id")
 	private Long productId;
 	
-	@JsonProperty("productName")
+	@JsonProperty("product_name")
 	private String productName;
 	
-	@JsonProperty("imgURL")
+	@JsonProperty("img_url")
 	private String imgURL;
 
 	public Long getId() {

@@ -5,7 +5,7 @@ import vn.com.gigo.dtos.AccountDto;
 public interface AccountService {
 	Object getAccount(Long id);
 	
-	Object getCustomerInfoByUserName(String username);
+	Object getCustomerInfoByUserName();
 
 	Object getAllAccount();
 
@@ -24,4 +24,9 @@ public interface AccountService {
 	Object getByToken(String token);
 	
 	Object resetPassword(String token, AccountDto accountDto);
+
+	Object getCustomerInfoDefault();
+
+	Object updateDefaultCustomerInfo(Long id);
+
 }

@@ -39,11 +39,12 @@ public class CustomerServiceImpl implements CustomerService {
 		} else {
 			Account account = accountRepo.findOneByUsername(customerDto.getAccountUsername());
 			if (account == null) {
-				throw new ResourceNotFoundException("Tài khoản người dùng không tồn tại");
+				throw new ResourceNotFoundException(
+						"Account with username " + customerDto.getAccountUsername() + " does not exist");
 			}
 			customerToAdd.setAccount(account);
 			Customer newCustomer = customerRepo.save(customerToAdd);
-			account.setCustomer(newCustomer);
+			account.addCustomer(newCustomer);
 			accountRepo.save(account);
 			return mapper.customerToCustomerDto(newCustomer);
 		}
@@ -51,7 +52,6 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public Object updateCustomer(Long id, CustomerDto customerDto) {
-		;
 		Optional<Customer> customerOptional = customerRepo.findById(id);
 		if (customerOptional.isPresent()) {
 			customerDto.setId(id);
@@ -59,21 +59,23 @@ public class CustomerServiceImpl implements CustomerService {
 			Customer customer = mapper.customerDtoToCustomer(customerDto);
 			customer.setAccount(account);
 			Customer newCustomer = customerRepo.save(customer);
-			account.setCustomer(newCustomer);
-			accountRepo.save(account);
 			return mapper.customerToCustomerDto(customerRepo.save(newCustomer));
 		}
-		throw new ResourceNotFoundException("Không tìm thấy khách hàng có id " + id);
+		throw new ResourceNotFoundException("Customer with id " + id + " does not exist");
 	}
 
 	@Override
 	public Object deleteCustomer(Long id) {
 		Optional<Customer> customerOptional = customerRepo.findById(id);
 		if (customerOptional.isPresent()) {
+			Customer customerToDelete = customerOptional.get();
+			customerToDelete.getAccount().getListCustomer().remove(customerToDelete);
 			customerRepo.delete(customerOptional.get());
 			return "Deleted";
 		}
-		throw new ResourceNotFoundException("Không tìm thấy khách hàng có id " + id);
+		throw new ResourceNotFoundException("Customer with id " + id + " does not exist");
 	}
+
+	
 
 }

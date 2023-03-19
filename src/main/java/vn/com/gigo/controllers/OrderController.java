@@ -47,7 +47,8 @@ public class OrderController {
 
 	@PostMapping
 	private DataResponse addOrder(@RequestBody OrderInputDto orderInputDto) {
-		return new DataResponse(orderService.addOrder(orderInputDto));
+		DataResponse response = new DataResponse(orderService.addOrder(orderInputDto));
+		return response;
 	}
 
 	@DeleteMapping("/{id}")

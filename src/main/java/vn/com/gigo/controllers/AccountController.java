@@ -49,9 +49,18 @@ public class AccountController {
 		return new DataResponse(accountImpl.getAccount(id));
 	}
 
-	@GetMapping("/customer/{username}")
-	public DataResponse getCustomerInfoByUsername(@PathVariable(value = "username") String username) {
-		return new DataResponse(accountImpl.getCustomerInfoByUserName(username));
+	@GetMapping("/customers")
+	public DataResponse getCustomerInfoByUsername () {
+		return new DataResponse(accountImpl.getCustomerInfoByUserName());
+	}
+	@GetMapping("/customers/default")
+	public DataResponse getDefaultCustomerInfo() {
+		return new DataResponse(accountImpl.getCustomerInfoDefault());
+	}
+	
+	@PutMapping("customers/default/{id}")
+	private DataResponse updateDefaultCustomerInfo(@PathVariable(value="id") Long id) {
+		return new DataResponse(accountImpl.updateDefaultCustomerInfo(id));
 	}
 
 	@PostMapping()

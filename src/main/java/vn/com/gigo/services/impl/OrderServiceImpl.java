@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import vn.com.gigo.dtos.CustomerDto;
 import vn.com.gigo.dtos.OrderDetailDto;
 import vn.com.gigo.dtos.OrderInputDto;
@@ -18,6 +17,8 @@ import vn.com.gigo.entities.OrderDetail;
 import vn.com.gigo.exception.ResourceNotFoundException;
 import vn.com.gigo.mapstruct.CustomerMapper;
 import vn.com.gigo.mapstruct.OrderMapper;
+import vn.com.gigo.notification.Notification;
+import vn.com.gigo.notification.OrderNotificaion;
 import vn.com.gigo.repositories.AccountRepository;
 import vn.com.gigo.repositories.EmployeeRepository;
 import vn.com.gigo.repositories.OrderDetailRepository;
@@ -53,6 +54,9 @@ public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	private CustomerMapper customerMapper;
+	
+	@Autowired
+	private OrderNotificaion orderNotification;
 
 	@Override
 	public Object getOrder(Long id) {
@@ -97,10 +101,15 @@ public class OrderServiceImpl implements OrderService {
 			orderDetailRepo.save(orderDetail);
 			details.add(orderDetail);
 		}
-//		newOrder.setDetailList(details);
-//		newOrder = orderRepo.save(newOrder);
+		//sendNotification(orderToAdd.getStore().getId());
 		return mapper.orderToOrderDto(newOrder);
 	}
+	
+//	private void sendNotification(Long storeId) {
+//		Object content = getAllOrdersByStoreId(storeId);
+//		Notification notification = new Notification(storeId, content);
+//		orderNotification.setNotification(notification);
+//	}
 
 	@Override
 	public Object deleteOrder(Long id) {
@@ -109,7 +118,7 @@ public class OrderServiceImpl implements OrderService {
 			orderRepo.deleteById(id);
 			return "Deleted";
 		}
-		return "Not found order with id " + id;
+		throw new ResourceNotFoundException("Not found order with id " + id);
 	}
 
 	@Override
@@ -137,9 +146,11 @@ public class OrderServiceImpl implements OrderService {
 			case 3:
 				orderToUpdate.setStatus(status);
 				orderToUpdate.setEmployee(employee);
+				//sseService.sendNewOrders(orderToUpdate.getStore().getId());
 				break;
 			default:throw new ResourceNotFoundException("Not found order status id " + id);
 			}
+			//sendNotification(orderToUpdate.getStore().getId());
 			return mapper.orderToOrderDto(orderRepo.save(orderToUpdate));
 		} else
 			throw new ResourceNotFoundException("Not found order with id " + id);
