@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import vn.com.gigo.dtos.AccountDto;
 import vn.com.gigo.dtos.DataResponse;
-import vn.com.gigo.entities.Account;
 import vn.com.gigo.security.JwtTokenUtil;
 import vn.com.gigo.services.impl.AccountServiceImpl;
 
@@ -58,7 +57,7 @@ public class AccountController {
 		return new DataResponse(accountImpl.getCustomerInfoDefault());
 	}
 	
-	@PutMapping("customers/default/{id}")
+	@PutMapping("/customers/default/{id}")
 	private DataResponse updateDefaultCustomerInfo(@PathVariable(value="id") Long id) {
 		return new DataResponse(accountImpl.updateDefaultCustomerInfo(id));
 	}
