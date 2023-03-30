@@ -53,8 +53,8 @@ public class Account implements UserDetails {
 	private List<Order> orderList;
 	
 	@Nullable
-	@OneToMany(mappedBy="")
-	private List<Customer> listCustomer;
+	@OneToMany(mappedBy="account",cascade=CascadeType.ALL,orphanRemoval=true)
+	private List<Customer> customerList;
 	
 
 	@ManyToMany
@@ -171,18 +171,23 @@ public class Account implements UserDetails {
 	
 
 
-	public List<Customer> getListCustomer() {
-		return listCustomer;
+	
+
+	public List<Customer> getCustomerList() {
+		return customerList;
 	}
 
 
-	public void setListCustomer(List<Customer> listCustomer) {
-		this.listCustomer = listCustomer;
+
+
+	public void setCustomerList(List<Customer> customerList) {
+		this.customerList = customerList;
 	}
+
 
 	public void addCustomer(Customer customer) {
 		if(customer!=null) {
-			getListCustomer().add(customer);
+			getCustomerList().add(customer);
 		}
 	}
 

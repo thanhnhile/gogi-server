@@ -69,7 +69,7 @@ public class CustomerServiceImpl implements CustomerService {
 		Optional<Customer> customerOptional = customerRepo.findById(id);
 		if (customerOptional.isPresent()) {
 			Customer customerToDelete = customerOptional.get();
-			customerToDelete.getAccount().getListCustomer().remove(customerToDelete);
+			customerToDelete.getAccount().getCustomerList().remove(customerToDelete);
 			customerRepo.delete(customerOptional.get());
 			return "Deleted";
 		}

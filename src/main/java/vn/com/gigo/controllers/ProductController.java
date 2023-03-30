@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import vn.com.gigo.dtos.DataResponse;
 import vn.com.gigo.dtos.ProductDto;
 import vn.com.gigo.services.impl.ProductServiceImpl;
-import vn.com.gigo.services.impl.StatisticsServiceImpl;
 import vn.com.gigo.utils.DefaultRequestParam;
 
 @RestController

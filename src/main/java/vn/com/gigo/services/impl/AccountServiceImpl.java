@@ -48,10 +48,10 @@ public class AccountServiceImpl implements AccountService {
 
 	@Autowired
 	private ProductRepository productRepo;
-	
+
 	@Autowired
 	private CustomerRepository customerRepo;
-	
+
 	@Autowired
 	private AccountMapper accountMapper;
 	
@@ -63,10 +63,10 @@ public class AccountServiceImpl implements AccountService {
 
 	@Autowired
 	private RoleRepository roleRepository;
-	
+
 	@Autowired
 	private EmployeeRepository employeeRepo;
-	
+
 	@Autowired
 	private EmployeeMapper employeeMapper;
 
@@ -117,24 +117,37 @@ public class AccountServiceImpl implements AccountService {
 		if (checkExistedAccount(accountDto.getUsername())) {
 			throw new DuplicateValueInResourceException("Số điện thoại đã tồn tại");
 		}
+		if(checkExistedEmail(accountDto.getEmail())) {
+			throw new DuplicateValueInResourceException("Email đã tồn tại");
+		}
 		Account account = accountMapper.accountDtoToAccount(accountDto);
 		String rawPassword = account.getPassword();
 		String encodedPassword = passwordEncoder.encode(rawPassword);// thuat toan ma hoa BCrypt
 		account.setPassword(encodedPassword);
-		account.setListCustomer(null);
+		account.setCustomerList(null);
 		Role roleUser = roleRepository.findOneById(RoleType.ROLE_USER.getValue());
 		account.getRoles().add(roleUser);
 		accountRepo.save(account);
 		return accountDto;
 	}
 
-	public Boolean checkExistedAccount(String username) {
+	private Boolean checkExistedAccount(String username) {
 		Account account = accountRepo.findOneByUsername(username);
 		if (account != null) {
 			return true;
 		}
 		return false;
 	}
+	
+	private Boolean checkExistedEmail(String email) {
+		Account account = accountRepo.findByEmail(email);
+		if (account != null) {
+			return true;
+		}
+		return false;
+	}
+	
+	
 
 	@Override
 	public void deleteAccount(Long id) {
@@ -167,8 +180,8 @@ public class AccountServiceImpl implements AccountService {
 			Role roleEmployee = roleRepository.findOneById(RoleType.ROLE_EMPLOYEE.getValue());
 			account.getRoles().add(roleEmployee);
 			return accountMapper.accountToAccountDto(accountRepo.save(account));
-		}
-		else throw new ResourceNotFoundException("Account with username "+username+" does not exist");
+		} else
+			throw new ResourceNotFoundException("Account with username " + username + " does not exist");
 	}
 
 	@Override
@@ -179,8 +192,8 @@ public class AccountServiceImpl implements AccountService {
 			Role roleEmployee = roleRepository.findOneById(RoleType.ROLE_EMPLOYEE.getValue());
 			account.getRoles().remove(roleEmployee);
 			return accountMapper.accountToAccountDto(accountRepo.save(account));
-		}
-		else throw new ResourceNotFoundException("Account with id "+id+" does not exist");
+		} else
+			throw new ResourceNotFoundException("Account with id " + id + " does not exist");
 	}
 
 	@Override
@@ -188,24 +201,34 @@ public class AccountServiceImpl implements AccountService {
 		String username = SecurityUtils.getLoggedUsername();
 		return customerMapper.customerToCustomerDto(customerRepo.getCustomerInfoDefaultByUsername(username));
 	}
-	
+
 	@Override
 	public Object updateDefaultCustomerInfo(Long id) {
 		String loggedUsername = SecurityUtils.getLoggedUsername();
 		Optional<Customer> customerOptional = customerRepo.findById(id);
-		
+
 		if (customerOptional.isPresent()) {
 			Customer customerToUpdate = customerOptional.get();
 			List<Customer> listCustomer = customerRepo.findAllByAccount_Username(loggedUsername);
-			if (listCustomer.contains(customerToUpdate)) {
-				Customer oldDefault = customerRepo.getCustomerInfoDefaultByUsername(loggedUsername);
-				oldDefault.setIsDefault(false);
-				customerRepo.save(oldDefault);
+			if (listCustomer.size() <= 0) {
 				customerToUpdate.setIsDefault(true);
 				return customerMapper.customerToCustomerDto(customerRepo.save(customerToUpdate));
-			} else
-				throw new ResourceNotFoundException("Customer with id " + id
-						+ " does not exist in list customer address of account " + loggedUsername);
+			} else {
+				if (listCustomer.contains(customerToUpdate)) {
+					Customer oldDefault = customerRepo.getCustomerInfoDefaultByUsername(loggedUsername);
+					System.out.println(oldDefault);
+					if(oldDefault != null) {
+						oldDefault.setIsDefault(false);
+						customerRepo.save(oldDefault);
+					}
+					customerToUpdate.setIsDefault(true);
+					return customerMapper.customerToCustomerDto(customerRepo.save(customerToUpdate));
+				} else
+					throw new ResourceNotFoundException("Customer with id " + id
+							+ " does not exist in list customer address of account " + loggedUsername);
+
+			}
+
 		}
 		throw new ResourceNotFoundException("Customer with id " + id + " does not exist");
 	}
@@ -213,13 +236,13 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public String updateToken(String email) {
 		Account account = accountRepo.findByEmail(email);
-        if (account != null) {
-        	account.setToken(UUID.randomUUID().toString());
-        	//return accountMapper.accountToAccountDto(accountRepo.save(account));
-        	Account newAccount = accountRepo.save(account);
-        	return newAccount.getToken();
-        }
-        return null;
+		if (account != null) {
+			account.setToken(UUID.randomUUID().toString());
+			// return accountMapper.accountToAccountDto(accountRepo.save(account));
+			Account newAccount = accountRepo.save(account);
+			return newAccount.getToken();
+		}
+		return null;
 	}
 
 	@Override
