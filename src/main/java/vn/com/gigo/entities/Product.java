@@ -1,7 +1,9 @@
 package vn.com.gigo.entities;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.OneToMany;
@@ -52,6 +55,8 @@ public class Product {
 	@OneToMany(mappedBy="product",cascade = CascadeType.ALL,fetch=FetchType.LAZY,orphanRemoval=true)
 	private List<Rate> rates = new ArrayList<Rate>();
 
+	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE }, mappedBy = "roles")
+	private Set<Account> accounts = new HashSet<>();
 	
 	public Product() {
 		super();
@@ -138,6 +143,14 @@ public class Product {
 
 	public void setRates(List<Rate> rates) {
 		this.rates = rates;
+	}
+
+	public Set<Account> getAccounts() {
+		return accounts;
+	}
+
+	public void setAccounts(Set<Account> accounts) {
+		this.accounts = accounts;
 	}
 
 }

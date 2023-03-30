@@ -18,6 +18,7 @@ import vn.com.gigo.dtos.AccountNoPassDto;
 import vn.com.gigo.dtos.EmployeeDto;
 import vn.com.gigo.entities.Account;
 import vn.com.gigo.entities.Customer;
+import vn.com.gigo.entities.Product;
 import vn.com.gigo.entities.Role;
 import vn.com.gigo.exception.AccountException;
 import vn.com.gigo.exception.DuplicateValueInResourceException;
@@ -25,9 +26,11 @@ import vn.com.gigo.exception.ResourceNotFoundException;
 import vn.com.gigo.mapstruct.AccountMapper;
 import vn.com.gigo.mapstruct.CustomerMapper;
 import vn.com.gigo.mapstruct.EmployeeMapper;
+import vn.com.gigo.mapstruct.ProductMapper;
 import vn.com.gigo.repositories.AccountRepository;
 import vn.com.gigo.repositories.CustomerRepository;
 import vn.com.gigo.repositories.EmployeeRepository;
+import vn.com.gigo.repositories.ProductRepository;
 import vn.com.gigo.repositories.RoleRepository;
 import vn.com.gigo.security.SecurityUtils;
 import vn.com.gigo.services.AccountService;
@@ -42,12 +45,18 @@ public class AccountServiceImpl implements AccountService {
 
 	@Autowired
 	private AccountRepository accountRepo;
+
+	@Autowired
+	private ProductRepository productRepo;
 	
 	@Autowired
 	private CustomerRepository customerRepo;
 	
 	@Autowired
 	private AccountMapper accountMapper;
+	
+	@Autowired
+	private ProductMapper productMapper;
 
 	@Autowired
 	private CustomerMapper customerMapper;
@@ -227,6 +236,38 @@ public class AccountServiceImpl implements AccountService {
 		String encodedPassword = passwordEncoder.encode(rawPassword);
 		accountOld.setPassword(encodedPassword);
 		return accountRepo.save(accountOld);
+	}
+
+	@Override
+	public Object likeProduct(Long id) {
+		String username = SecurityUtils.getLoggedUsername();
+		Account account = accountRepo.findOneByUsername(username);
+		if (account != null) {
+			Product product = productRepo.findOneById(id);
+			account.getProducts().add(product);
+			return accountMapper.accountToAccountDto(accountRepo.save(account));
+		}
+		else throw new ResourceNotFoundException("Account does not exist");
+	}
+
+	@Override
+	public Object unlikeProduct(Long id) {
+		String username = SecurityUtils.getLoggedUsername();
+		Account account = accountRepo.findOneByUsername(username);
+		if (account != null) {
+			Product product = productRepo.findOneById(id);
+			account.getProducts().remove(product);
+			return accountMapper.accountToAccountDto(accountRepo.save(account));
+		}
+		else throw new ResourceNotFoundException("Account does not exist");
+	}
+
+	@Override
+	public Object getAllProductsLiked() {
+		String username = SecurityUtils.getLoggedUsername();
+		Account account = accountRepo.findOneByUsername(username);
+		List<Product> listProductsLiked = productRepo.getAllProductsLiked(account.getId());
+		return productMapper.productsToProductDtos(listProductsLiked);
 	}
 
 }

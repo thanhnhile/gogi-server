@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import vn.com.gigo.dtos.AccountDto;
 import vn.com.gigo.dtos.DataResponse;
-import vn.com.gigo.entities.Account;
 import vn.com.gigo.security.JwtTokenUtil;
 import vn.com.gigo.services.impl.AccountServiceImpl;
 
@@ -111,6 +110,11 @@ public class AccountController {
 	     
 	    return new DataResponse(accountImpl.resetPassword(token, accountDto));
 	    
+	}
+	
+	@GetMapping("/productsLiked")
+	public DataResponse getProductsLikedByUsername () {
+		return new DataResponse(accountImpl.getAllProductsLiked());
 	}
 	
 }

@@ -28,5 +28,11 @@ public interface AccountService {
 	Object getCustomerInfoDefault();
 
 	Object updateDefaultCustomerInfo(Long id);
+	
+	Object likeProduct(Long id);
+	
+	Object unlikeProduct(Long id);
+	
+	Object getAllProductsLiked();
 
 }

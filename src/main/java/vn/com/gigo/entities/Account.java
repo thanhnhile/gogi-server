@@ -61,7 +61,9 @@ public class Account implements UserDetails {
 	@JoinTable(name = "accounts_roles", joinColumns = @JoinColumn(name = "account_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 	
-	
+	@ManyToMany
+	@JoinTable(name = "accounts_products", joinColumns = @JoinColumn(name = "account_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
+	private Set<Product> products = new HashSet<>();
 
 	public Account() {
 		super();
@@ -76,13 +78,14 @@ public class Account implements UserDetails {
 
 
 
-	public Account(String username, String password, String email, String token, Set<Role> roles) {
+	public Account(String username, String password, String email, String token, Set<Role> roles, Set<Product> products) {
 		super();
 		this.username = username;
 		this.password = password;
 		this.email = email;
 		this.token = token;
 		this.roles = roles;
+		this.products = products;
 	}
 
 	public Long getId() {
@@ -147,6 +150,14 @@ public class Account implements UserDetails {
 
 	public void addRole(Role role) {
 		this.roles.add(role);
+	}
+
+	public Set<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(Set<Product> products) {
+		this.products = products;
 	}
 
 	public List<Order> getOrderList() {
