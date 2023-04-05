@@ -129,4 +129,10 @@ public class ProductServiceImpl implements ProductService {
 		return mapper.productsToProductDtos(productRepo.findAll());
 	}
 
+	@Override
+	public Object search(String keyword) {
+		// TODO Auto-generated method stub
+		return mapper.productsToProductDtos(productRepo.search(keyword.trim()));
+	}
+
 }

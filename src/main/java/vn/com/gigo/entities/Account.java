@@ -61,8 +61,14 @@ public class Account implements UserDetails {
 	@JoinTable(name = "accounts_roles", joinColumns = @JoinColumn(name = "account_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 	
-	
+	@ManyToMany
+	@JoinTable(name = "accounts_products", joinColumns = @JoinColumn(name = "account_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
+	private Set<Product> products = new HashSet<>();
 
+	@ManyToMany
+	@JoinTable(name = "accounts_vouchers", joinColumns = @JoinColumn(name = "account_id"), inverseJoinColumns = @JoinColumn(name = "voucher_id"))
+	private Set<Voucher> vouchers = new HashSet<>();
+	
 	public Account() {
 		super();
 	}
@@ -73,16 +79,20 @@ public class Account implements UserDetails {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
 
-
-
-	public Account(String username, String password, String email, String token, Set<Role> roles) {
+	public Account(String username, String password, String email, String token, List<Order> orderList,
+			List<Customer> customerList, Set<Role> roles, Set<Product> products, Set<Voucher> vouchers) {
 		super();
 		this.username = username;
 		this.password = password;
 		this.email = email;
 		this.token = token;
+		this.orderList = orderList;
+		this.customerList = customerList;
 		this.roles = roles;
+		this.products = products;
+		this.vouchers = vouchers;
 	}
 
 	public Long getId() {
@@ -148,6 +158,27 @@ public class Account implements UserDetails {
 	public void addRole(Role role) {
 		this.roles.add(role);
 	}
+
+	public Set<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(Set<Product> products) {
+		this.products = products;
+	}
+	
+
+	public Set<Voucher> getVouchers() {
+		return vouchers;
+	}
+
+
+	public void setVouchers(Set<Voucher> vouchers) {
+		this.vouchers = vouchers;
+	}
+
+
+
 
 	public List<Order> getOrderList() {
 		return orderList;
