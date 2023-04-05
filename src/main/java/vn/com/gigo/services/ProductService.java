@@ -18,4 +18,6 @@ public interface ProductService {
 	Object updateStatus(Long id);
 	
 	Object getAllProduct();
+	
+	Object search(String keyword);
 }
