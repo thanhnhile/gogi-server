@@ -20,6 +20,7 @@ import vn.com.gigo.mapstruct.OrderMapper;
 import vn.com.gigo.notification.Notification;
 import vn.com.gigo.notification.OrderNotificaion;
 import vn.com.gigo.repositories.AccountRepository;
+import vn.com.gigo.repositories.CustomerRepository;
 import vn.com.gigo.repositories.EmployeeRepository;
 import vn.com.gigo.repositories.OrderDetailRepository;
 import vn.com.gigo.repositories.OrderRepository;
@@ -42,6 +43,9 @@ public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	private CustomerServiceImpl customerImpl;
+	
+	@Autowired
+	private CustomerRepository customerRepo;
 
 	@Autowired
 	private EmployeeRepository employeeRepo;
@@ -69,12 +73,18 @@ public class OrderServiceImpl implements OrderService {
 		orderToAdd.setStore(storeRepo.getReferenceById(orderInputDto.getStore()));
 		orderToAdd.setEmployee(null);
 		// set default property
-		
-		if (orderInputDto.getCustomer() == null) {
+		CustomerDto customerDto = orderInputDto.getCustomer();
+		if (customerDto == null) {
 			orderToAdd.setCustomer(null);
-		} else {
-			Customer customer = customerMapper
-					.customerDtoToCustomer((CustomerDto) customerImpl.addCustomer(orderInputDto.getCustomer()));
+		} else{
+			Customer customer;
+			if(customerDto.getId() != null) {
+				customer = customerRepo.findById(customerDto.getId()).orElse(null);
+			}
+			else {
+				customer = customerMapper
+						.customerDtoToCustomer((CustomerDto) customerImpl.addCustomer(customerDto));
+			}
 			orderToAdd.setCustomer(customer);
 		}
 
