@@ -112,4 +112,9 @@ public class AccountController {
 	    
 	}
 	
+	@GetMapping("/productsLiked")
+	public DataResponse getProductsLikedByUsername () {
+		return new DataResponse(accountImpl.getAllProductsLiked());
+	}
+	
 }
