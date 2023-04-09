@@ -14,6 +14,7 @@ import vn.com.gigo.entities.Customer;
 import vn.com.gigo.entities.Employee;
 import vn.com.gigo.entities.Order;
 import vn.com.gigo.entities.OrderDetail;
+import vn.com.gigo.entities.Voucher;
 import vn.com.gigo.exception.ResourceNotFoundException;
 import vn.com.gigo.mapstruct.CustomerMapper;
 import vn.com.gigo.mapstruct.OrderMapper;
@@ -25,6 +26,7 @@ import vn.com.gigo.repositories.EmployeeRepository;
 import vn.com.gigo.repositories.OrderDetailRepository;
 import vn.com.gigo.repositories.OrderRepository;
 import vn.com.gigo.repositories.StoreRepository;
+import vn.com.gigo.repositories.VoucherRepository;
 import vn.com.gigo.security.SecurityUtils;
 import vn.com.gigo.services.OrderService;
 import vn.com.gigo.utils.OrderStatus;
@@ -52,6 +54,9 @@ public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	private StoreRepository storeRepo;
+	
+	@Autowired
+	private VoucherRepository voucherRepo;
 
 	@Autowired
 	private OrderMapper mapper;
@@ -71,12 +76,9 @@ public class OrderServiceImpl implements OrderService {
 	public Object addOrder(OrderInputDto orderInputDto) {
 		Order orderToAdd = mapper.orderInputDtoToOrder(orderInputDto);
 		orderToAdd.setStore(storeRepo.getReferenceById(orderInputDto.getStore()));
-		orderToAdd.setEmployee(null);
-		// set default property
 		CustomerDto customerDto = orderInputDto.getCustomer();
-		if (customerDto == null) {
-			orderToAdd.setCustomer(null);
-		} else{
+		Account account = null;
+		if(customerDto != null) {
 			Customer customer;
 			if(customerDto.getId() != null) {
 				customer = customerRepo.findById(customerDto.getId()).orElse(null);
@@ -87,21 +89,28 @@ public class OrderServiceImpl implements OrderService {
 			}
 			orderToAdd.setCustomer(customer);
 		}
-
 		if (orderToAdd.getPay() == null) {
 			orderToAdd.setPay(false);
 		}
 		if (orderInputDto.getAccountUsername() != null) {
-			Account account = accountRepo.findOneByUsername(orderInputDto.getAccountUsername());
+			account = accountRepo.findOneByUsername(orderInputDto.getAccountUsername());
 			orderToAdd.setAccount(account);
-		} else
-			orderToAdd.setAccount(null);
+		}
+		else orderToAdd.setAccount(null);
+		if(orderInputDto.getVoucher() != null ) {
+			Voucher voucher = voucherRepo.findOneById(orderInputDto.getVoucher());
+			if(account != null) {
+				account.getVouchers().add(voucher);
+				
+			}
+			orderToAdd.setVoucher(voucher);
+		}
+		else orderToAdd.setVoucher(null);
 
 		// set order status
 		orderToAdd.setStatus(OrderStatus.IN_PROGRESS.getValue());
 		// save order detail
 		List<OrderDetailDto> detailDtos = orderInputDto.getDetailList();
-		//orderToAdd.setDetailList(null);
 		// save order
 		Order newOrder = orderRepo.save(orderToAdd);
 		List<OrderDetail> details = new ArrayList<OrderDetail>();

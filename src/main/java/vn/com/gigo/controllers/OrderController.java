@@ -56,16 +56,6 @@ public class OrderController {
 		return new DataResponse(orderService.deleteOrder(id));
 	}
 	
-//	@PutMapping("/update/{id}")
-//	private DataResponse updateOrder(@PathVariable(value="id") Long id, @RequestBody List<OrderDetailDto> detailDtos) {
-//		return new DataResponse(orderService.updateOrderDetail(id, detailDtos));
-//	}
-	//Update order status
-	
-//	@PutMapping("/update/in_progress/{id}")
-//	private DataResponse updateInprogress(@PathVariable(value="id") Long id) {
-//		return new DataResponse(orderService.updateOrderStatus(id, OrderStatus.IN_PROGRESS.getValue()));
-//	}
 	
 	@PutMapping("/update/delivering/{id}")
 	private DataResponse updateDelivering(@PathVariable(value="id") Long id) {

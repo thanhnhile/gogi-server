@@ -39,10 +39,14 @@ public class OrderDto {
 	
 	@JsonProperty("account_username")
 	private String accountUsername;
+	
+	@JsonProperty("voucher")
+	private VoucherDto voucher;
 
 	public String getAccountUsername() {
 		return accountUsername;
 	}
+	
 
 	public void setAccountUsername(String accountUsername) {
 		this.accountUsername = accountUsername;
@@ -131,5 +135,14 @@ public class OrderDto {
 		this.createdDate = createdDate;
 	}
 
-	
+
+	public VoucherDto getVoucher() {
+		return voucher;
+	}
+
+
+	public void setVoucher(VoucherDto voucher) {
+		this.voucher = voucher;
+	}
+
 }	
