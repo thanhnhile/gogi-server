@@ -12,8 +12,9 @@ import vn.com.gigo.entities.Voucher;
 public interface VoucherRepository extends JpaRepository<Voucher, Long>{
 	Voucher findOneById(Long id);
 	
+	@Query(value="SELECT * FROM vouchers WHERE upper(code) = upper(?1) LIMIT 1", nativeQuery=true)
 	Voucher findOneByCode(String code);
 
-	@Query(value="SELECT * FROM vouchers WHERE id NOT IN (SELECT voucher_id FROM vouchers_products WHERE account_id = ?1)", nativeQuery=true)
+	@Query(value="SELECT * FROM vouchers WHERE end_date >= current_timestamp() AND id NOT IN (SELECT voucher_id FROM accounts_vouchers WHERE account_id = ?1) ORDER BY end_date", nativeQuery=true)
 	List<Voucher> getVoucherByAccountId(Long accountId);
 }

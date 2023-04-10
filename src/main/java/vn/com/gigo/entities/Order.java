@@ -33,13 +33,9 @@ public class Order {
 	private Long id;
 	
 	@Column(columnDefinition="int default 0")
-	//0 - cho xu ly
-	//1 - dang giao
-	//2 - thanh cong
-	//4 - huy
 	private int status; 
 	
-	private int orderType;//0 online, 1 offline
+	private int orderType;
 	
 	@Column(columnDefinition="boolean default false")
 	private Boolean pay;  //
@@ -71,6 +67,11 @@ public class Order {
 	@ManyToOne
 	@JoinColumn(name="account",referencedColumnName = "username")
 	private Account account;
+	
+	@Nullable
+	@ManyToOne()
+	@JoinColumn(name="voucher_id")
+	private Voucher voucher;
 
 	public Order() {
 		super();
@@ -177,6 +178,14 @@ public class Order {
 
 	public void setAccount(Account account) {
 		this.account = account;
+	}
+
+	public Voucher getVoucher() {
+		return voucher;
+	}
+
+	public void setVoucher(Voucher voucher) {
+		this.voucher = voucher;
 	}
 	
 	

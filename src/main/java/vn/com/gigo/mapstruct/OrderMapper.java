@@ -43,7 +43,7 @@ public interface OrderMapper {
 	@Mapping(source = "customer.accountUsername", target = "customer.account.username")
 	@Mapping(source = "accountUsername", target = "account.username")
 	@Mapping(source="store", target="store.id")
-	@Mapping(source="employee", target="employee.id")
+	@Mapping(source="voucher", target="voucher.id")
 	Order orderInputDtoToOrder(OrderInputDto orderInputDto);
 
 	// --------------------------Order------------------------------

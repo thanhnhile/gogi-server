@@ -1,7 +1,11 @@
 package vn.com.gigo.services.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.TimeZone;
 
 import javax.transaction.Transactional;
 
@@ -10,8 +14,8 @@ import org.springframework.stereotype.Service;
 
 import vn.com.gigo.dtos.VoucherDto;
 import vn.com.gigo.entities.Account;
-import vn.com.gigo.entities.Product;
 import vn.com.gigo.entities.Voucher;
+import vn.com.gigo.exception.ResourceNotFoundException;
 import vn.com.gigo.mapstruct.VoucherMapper;
 import vn.com.gigo.repositories.AccountRepository;
 import vn.com.gigo.repositories.VoucherRepository;
@@ -44,13 +48,19 @@ public class VoucherServiceImpl implements VoucherService{
 
 	@Override
 	public Object addVoucher(VoucherDto voucherDto) {
-		Voucher voucher = voucherRepo.save(voucherMapper.voucherDtoToVoucher(voucherDto));
-		return voucherMapper.voucherToVoucherDto(voucher);
-//		Voucher voucherToAdd = voucherMapper.voucherDtoToVoucher(voucherDto);
-//		voucherToAdd.setStartDate(voucherDto.getStartDate());
-//		voucherToAdd.setEndDate(voucherDto.getEndDate());
-//		Voucher voucher = voucherRepo.save(voucherToAdd);
-//		return voucherMapper.voucherToVoucherDto(voucher);
+		Voucher voucherToAdd = voucherMapper.voucherDtoToVoucher(voucherDto);
+		SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		isoFormat.setTimeZone(TimeZone.getTimeZone("GMT-7:00"));
+		try {
+			Date startDate = isoFormat.parse(voucherDto.getStartDate().toString());
+			Date endDate = isoFormat.parse(voucherDto.getEndDate().toString());
+			voucherToAdd.setStartDate(startDate);
+			voucherToAdd.setEndDate(endDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return voucherMapper.voucherToVoucherDto(voucherRepo.save(voucherToAdd));
 	}
 
 	@Override
@@ -86,6 +96,17 @@ public class VoucherServiceImpl implements VoucherService{
 		Account account = accountRepo.findOneByUsername(username);
 		List<Voucher> listVoucher = voucherRepo.getVoucherByAccountId(account.getId());
 		return voucherMapper.vouchersToVoucherDtos(listVoucher);
+	}
+
+	@Override
+	public Object addVoucherToAccount(String username, Long voucherId) {
+		Account account = accountRepo.findOneByUsername(username);
+		Voucher voucher = voucherRepo.findOneById(voucherId);
+		if(account != null && voucher != null) {
+			account.getVouchers().add(voucher);
+			return "Added";
+		}
+		else throw new ResourceNotFoundException("Account or Voucher does not exist");
 	}
 
 }

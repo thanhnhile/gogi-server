@@ -2,6 +2,7 @@ package vn.com.gigo.entities;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -12,9 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -47,7 +47,9 @@ public class Voucher {
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE }, mappedBy = "roles")
 	private Set<Account> accounts = new HashSet<>();
 
-
+	@OneToMany(mappedBy="voucher", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+	private List<Order> orderList;
+	
 	public Voucher() {
 		super();
 	}
@@ -140,5 +142,16 @@ public class Voucher {
 	public void setAccounts(Set<Account> accounts) {
 		this.accounts = accounts;
 	}
+
+
+	public List<Order> getOrderList() {
+		return orderList;
+	}
+
+
+	public void setOrderList(List<Order> orderList) {
+		this.orderList = orderList;
+	}
+	
 	
 }

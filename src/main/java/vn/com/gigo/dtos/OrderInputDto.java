@@ -21,14 +21,14 @@ public class OrderInputDto {
 	@JsonProperty("customer")
 	private CustomerDto customer;
 
-	@JsonProperty("employee_id")
-	private Long employee;
-
 	@JsonProperty("store_id")
 	private Long store;
 	
 	@JsonProperty("account_username")
 	private String accountUsername;
+	
+	@JsonProperty("voucher_id")
+	private Long voucher;
 
 	public String getOrderType() {
 		return orderType;
@@ -71,14 +71,6 @@ public class OrderInputDto {
 		this.customer = customer;
 	}
 
-	public Long getEmployee() {
-		return employee;
-	}
-
-	public void setEmployee(Long employee) {
-		this.employee = employee;
-	}
-
 	public Long getStore() {
 		return store;
 	}
@@ -95,7 +87,12 @@ public class OrderInputDto {
 		this.accountUsername = accountUsername;
 	}
 
-	
-	
+	public Long getVoucher() {
+		return voucher;
+	}
+
+	public void setVoucher(Long voucher) {
+		this.voucher = voucher;
+	}
 
 }
