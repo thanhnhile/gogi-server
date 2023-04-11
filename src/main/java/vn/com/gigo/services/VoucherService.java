@@ -16,4 +16,6 @@ public interface VoucherService {
 	Object getVoucher(String code);
 
 	Object getVoucherByAccount();
+	
+	Object addVoucherToAccount(String username, Long voucherId);
 }
