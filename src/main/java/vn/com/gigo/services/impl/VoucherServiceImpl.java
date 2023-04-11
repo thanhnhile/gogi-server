@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import vn.com.gigo.dtos.VoucherDto;
 import vn.com.gigo.entities.Account;
-import vn.com.gigo.entities.Product;
 import vn.com.gigo.entities.Voucher;
 import vn.com.gigo.mapstruct.VoucherMapper;
 import vn.com.gigo.repositories.AccountRepository;
@@ -46,11 +45,6 @@ public class VoucherServiceImpl implements VoucherService{
 	public Object addVoucher(VoucherDto voucherDto) {
 		Voucher voucher = voucherRepo.save(voucherMapper.voucherDtoToVoucher(voucherDto));
 		return voucherMapper.voucherToVoucherDto(voucher);
-//		Voucher voucherToAdd = voucherMapper.voucherDtoToVoucher(voucherDto);
-//		voucherToAdd.setStartDate(voucherDto.getStartDate());
-//		voucherToAdd.setEndDate(voucherDto.getEndDate());
-//		Voucher voucher = voucherRepo.save(voucherToAdd);
-//		return voucherMapper.voucherToVoucherDto(voucher);
 	}
 
 	@Override
@@ -64,7 +58,7 @@ public class VoucherServiceImpl implements VoucherService{
 		if(voucher.isPresent()) {
 			voucherDto.setId(id);
 			Voucher voucherToUpdate = voucherMapper.voucherDtoToVoucher(voucherDto);
-			return voucherMapper.voucherToVoucherDto(voucherToUpdate);
+			return voucherMapper.voucherToVoucherDto(voucherRepo.save(voucherToUpdate));
 		}
 		else
 			return null;

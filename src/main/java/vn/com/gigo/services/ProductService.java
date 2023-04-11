@@ -20,4 +20,6 @@ public interface ProductService {
 	Object getAllProduct();
 	
 	Object search(String keyword);
+	
+	Object getProductsByCategoryId(Long id);
 }
