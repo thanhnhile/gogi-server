@@ -263,7 +263,7 @@ public class AccountServiceImpl implements AccountService {
 		String rawPassword = accountNew.getPassword();
 		String encodedPassword = passwordEncoder.encode(rawPassword);
 		accountOld.setPassword(encodedPassword);
-		return accountRepo.save(accountOld);
+		return accountMapper.accountToAccountDto(accountRepo.save(accountOld));
 	}
 
 	@Override
