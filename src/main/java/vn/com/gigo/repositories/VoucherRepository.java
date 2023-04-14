@@ -17,4 +17,5 @@ public interface VoucherRepository extends JpaRepository<Voucher, Long>{
 
 	@Query(value="SELECT * FROM vouchers WHERE end_date >= current_timestamp() AND id NOT IN (SELECT voucher_id FROM accounts_vouchers WHERE account_id = ?1) ORDER BY end_date", nativeQuery=true)
 	List<Voucher> getVoucherByAccountId(Long accountId);
+	
 }
