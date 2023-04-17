@@ -74,7 +74,7 @@ public class VoucherServiceImpl implements VoucherService{
 		if(voucher.isPresent()) {
 			voucherDto.setId(id);
 			Voucher voucherToUpdate = voucherMapper.voucherDtoToVoucher(voucherDto);
-			return voucherMapper.voucherToVoucherDto(voucherToUpdate);
+			return voucherMapper.voucherToVoucherDto(voucherRepo.save(voucherToUpdate));
 		}
 		else
 			return null;

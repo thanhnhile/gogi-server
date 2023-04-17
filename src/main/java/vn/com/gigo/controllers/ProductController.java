@@ -73,4 +73,8 @@ public class ProductController {
 	private DataResponse search(@RequestParam(value = "k") String keyword) {
 		return new DataResponse(productService.search(keyword));
 	}
+	@GetMapping("/categoryId/{category_id}")
+	private DataResponse getProductsByCatetoryId(@PathVariable(value="category_id") Long categoryId){
+		return new DataResponse(productService.getProductsByCategoryId(categoryId));
+	}
 }

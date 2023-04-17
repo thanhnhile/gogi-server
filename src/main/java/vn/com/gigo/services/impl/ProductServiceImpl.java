@@ -135,4 +135,10 @@ public class ProductServiceImpl implements ProductService {
 		return mapper.productsToProductDtos(productRepo.search(keyword.trim()));
 	}
 
+	@Override
+	public Object getProductsByCategoryId(Long id) {
+		// TODO Auto-generated method stub
+		return mapper.productsToProductDtos(productRepo.getProductsByCategoryId(id));
+	}
+
 }

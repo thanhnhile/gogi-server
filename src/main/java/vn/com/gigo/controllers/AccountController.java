@@ -78,10 +78,11 @@ public class AccountController {
 //	}
 
 	@PostMapping("/forgot_password/{email}")
-	public void processForgotPassword(@PathVariable(value = "email") String email) throws UnsupportedEncodingException, MessagingException {
+	public DataResponse processForgotPassword(@PathVariable(value = "email") String email) throws UnsupportedEncodingException, MessagingException {
 		String token = accountImpl.updateToken(email);
 		String resetPasswordLink = "http://localhost:3000/resetPassword/" + token;
 		sendEmail(email, resetPasswordLink);
+		return new DataResponse(token);
 	}
 
 	public void sendEmail(String recipientEmail, String link) throws MessagingException, UnsupportedEncodingException {
