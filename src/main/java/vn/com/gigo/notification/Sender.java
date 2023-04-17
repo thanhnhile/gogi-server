@@ -1,5 +1,5 @@
 package vn.com.gigo.notification;
 
 public interface Sender {
-	public void sendNotification();
+	void sendNotification(Notification notification);
 }

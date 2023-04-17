@@ -15,8 +15,9 @@ public class OrderNotificationSSEController {
 	@Autowired
 	private OrderNotificaion orderNotificaion;
 	
-	@RequestMapping(value="/subscribe/{storeId}/employees/{employeeId}",consumes=MediaType.ALL_VALUE)
-	private SseEmitter subscribeOrderEvent(@PathVariable(value = "storeId") Long storeId,@PathVariable(value="employeeId") Long employeeId) {
-		return orderNotificaion.addNewEmitter(storeId, employeeId);
+	@RequestMapping(value="/subscribe/stores/{storeId}/employees/{employeeId}",consumes=MediaType.ALL_VALUE)
+	private SseEmitter subscribeOrderEvent(@PathVariable(value = "storeId") Long storeId,
+			@PathVariable(value = "employeeId") Long employeeId) {
+		return orderNotificaion.addNewEmitter(storeId,employeeId);
 	}
 }

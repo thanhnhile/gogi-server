@@ -208,8 +208,8 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Object getAllOrdersByAccountUsername(String username) {
-		return mapper.ordersToOrderDtos(orderRepo.getOrdersByAccountUsername(username));
+	public Object getAllOrdersByAccountUsername() {
+		return mapper.ordersToOrderDtos(orderRepo.getOrdersByAccountUsername(SecurityUtils.getLoggedUsername()));
 	}
 
 	@Override
