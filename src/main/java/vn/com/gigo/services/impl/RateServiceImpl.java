@@ -1,4 +1,6 @@
 package vn.com.gigo.services.impl;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,9 @@ public class RateServiceImpl implements RateService{
 
 	@Override
 	public Object add(RateInputDto rateInputDto) {
+		if(checkProductHasRated(rateInputDto.getProduct())) {
+			return "The Product has rated by user";
+		}
 		Rate rateToAdd = rateMapper.rateInputDtoToRate(rateInputDto);
 		Product product = productRepo.findOneById(rateInputDto.getProduct());
 		String loggedUser = SecurityUtils.getLoggedUsername();
@@ -36,6 +41,13 @@ public class RateServiceImpl implements RateService{
 		rateToAdd.setProduct(product);
 		rateToAdd.setUser(user);
 		return rateMapper.rateToRateDto(rateRepo.save(rateToAdd));
+	}
+	
+	private Boolean checkProductHasRated(Long productId) {
+		@SuppressWarnings("unchecked")
+		List<Long> ratedProduct = (List<Long>) getRatesByUsername();
+		return ratedProduct.contains(productId);
+		
 	}
 
 	@Override

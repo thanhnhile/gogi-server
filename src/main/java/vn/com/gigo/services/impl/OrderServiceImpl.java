@@ -62,8 +62,8 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private CustomerMapper customerMapper;
 	
-	@Autowired
-	//private OrderNotificaion orderNotification;
+//	@Autowired
+//	private OrderNotificaion orderNotification;
 
 	@Override
 	public Object getOrder(Long id) {
