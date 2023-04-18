@@ -15,7 +15,7 @@ public interface OrderService {
 	
 	Object getAllOrdersByStoreId(Long storeId);
 	
-	Object getAllOrdersByAccountUsername(String username);
+	Object getAllOrdersByAccountUsername();
 	
 	Object updateOrderStatus(Long id,int status);
 	

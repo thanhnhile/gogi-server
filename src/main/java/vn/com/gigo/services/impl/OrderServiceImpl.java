@@ -18,8 +18,6 @@ import vn.com.gigo.entities.Voucher;
 import vn.com.gigo.exception.ResourceNotFoundException;
 import vn.com.gigo.mapstruct.CustomerMapper;
 import vn.com.gigo.mapstruct.OrderMapper;
-import vn.com.gigo.notification.Notification;
-import vn.com.gigo.notification.OrderNotificaion;
 import vn.com.gigo.repositories.AccountRepository;
 import vn.com.gigo.repositories.CustomerRepository;
 import vn.com.gigo.repositories.EmployeeRepository;
@@ -64,8 +62,8 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private CustomerMapper customerMapper;
 	
-	@Autowired
-	private OrderNotificaion orderNotification;
+//	@Autowired
+//	private OrderNotificaion orderNotification;
 
 	@Override
 	public Object getOrder(Long id) {
@@ -120,9 +118,11 @@ public class OrderServiceImpl implements OrderService {
 			orderDetailRepo.save(orderDetail);
 			details.add(orderDetail);
 		}
-		//sendNotification(orderToAdd.getStore().getId());
 		return mapper.orderToOrderDto(newOrder);
 	}
+	
+	
+	
 	
 //	private void sendNotification(Long storeId) {
 //		Object content = getAllOrdersByStoreId(storeId);
@@ -208,8 +208,8 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Object getAllOrdersByAccountUsername(String username) {
-		return mapper.ordersToOrderDtos(orderRepo.getOrdersByAccountUsername(username));
+	public Object getAllOrdersByAccountUsername() {
+		return mapper.ordersToOrderDtos(orderRepo.getOrdersByAccountUsername(SecurityUtils.getLoggedUsername()));
 	}
 
 	@Override

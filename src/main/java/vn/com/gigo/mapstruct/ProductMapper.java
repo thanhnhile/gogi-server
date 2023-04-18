@@ -7,6 +7,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import vn.com.gigo.dtos.ProductDto;
+import vn.com.gigo.dtos.ProductInputDto;
 import vn.com.gigo.dtos.RateDto;
 import vn.com.gigo.entities.Product;
 import vn.com.gigo.entities.Rate;
@@ -15,6 +16,7 @@ import vn.com.gigo.entities.Rate;
 public interface ProductMapper {
 	ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
 
+	/**Rate*/
 	// ----------------------------Entity To DTO---------------------------
 	@Mapping(source = "user.username", target = "user")
 	RateDto rateToRateDto(Rate rate);
@@ -24,7 +26,11 @@ public interface ProductMapper {
 	// ---------------------------DTO To Entity----------------------------
 	@Mapping(source = "user", target = "user.username")
 	Rate rateDtoToRate(RateDto dto);
+	
+	/**ProductInputDto*/
+	Product productInputDtoToProduct(ProductInputDto dto);
 
+	/**ProductDto*/
 	// ----------------------------Entity To DTO---------------------------
 	ProductDto productToProductDto(Product product);
 
