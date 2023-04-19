@@ -14,13 +14,10 @@ import vn.com.gigo.entities.Customer;
 import vn.com.gigo.entities.Employee;
 import vn.com.gigo.entities.Order;
 import vn.com.gigo.entities.OrderDetail;
-import vn.com.gigo.entities.Product;
 import vn.com.gigo.entities.Voucher;
 import vn.com.gigo.exception.ResourceNotFoundException;
 import vn.com.gigo.mapstruct.CustomerMapper;
 import vn.com.gigo.mapstruct.OrderMapper;
-import vn.com.gigo.notification.Notification;
-import vn.com.gigo.notification.OrderNotificaion;
 import vn.com.gigo.repositories.AccountRepository;
 import vn.com.gigo.repositories.CustomerRepository;
 import vn.com.gigo.repositories.EmployeeRepository;
@@ -65,8 +62,8 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private CustomerMapper customerMapper;
 	
-	@Autowired
-	private OrderNotificaion orderNotification;
+//	@Autowired
+//	private OrderNotificaion orderNotification;
 
 	@Override
 	public Object getOrder(Long id) {
@@ -121,9 +118,11 @@ public class OrderServiceImpl implements OrderService {
 			orderDetailRepo.save(orderDetail);
 			details.add(orderDetail);
 		}
-		//sendNotification(orderToAdd.getStore().getId());
 		return mapper.orderToOrderDto(newOrder);
 	}
+	
+	
+	
 	
 //	private void sendNotification(Long storeId) {
 //		Object content = getAllOrdersByStoreId(storeId);

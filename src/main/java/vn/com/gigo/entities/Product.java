@@ -16,6 +16,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -23,8 +25,10 @@ import javax.persistence.Table;
 @NamedNativeQuery(name = "Product.getAllProductsByCategoryId", query = "SELECT * FROM products WHERE category_id = ?1", resultClass = Product.class)
 @NamedNativeQuery(name = "Product.getAllProductsByCategoryId.count", query = "SELECT count(*) FROM products WHERE category_id = ?1")
 
-@NamedNativeQuery(name="Product.searchByName",query="SELECT * FROM products WHERE products.name LIKE %:search%",resultClass=Product.class)
-@NamedNativeQuery(name="Product.searchByName.count",query="SELECT count(*) FROM products WHERE name LIKE %:search%")
+@NamedNativeQuery(name = "Product.searchByName", query = "SELECT * FROM products WHERE products.name LIKE %:search%", resultClass = Product.class)
+@NamedNativeQuery(name = "Product.searchByName.count", query = "SELECT count(*) FROM products WHERE name LIKE %:search%")
+
+@NamedEntityGraph(name = "product-entity-graph", attributeNodes = { @NamedAttributeNode("category"), @NamedAttributeNode("rates")  })
 @Entity
 @Table(name = "products")
 public class Product {
@@ -38,9 +42,9 @@ public class Product {
 	private Double price;
 
 	private Double discount;
-	
-	@Lob 
-	@Column(name="description", length=512)
+
+	@Lob
+	@Column(name = "description", length = 512)
 	private String description;
 
 	@Column(columnDefinition = "boolean default true")
@@ -51,13 +55,13 @@ public class Product {
 	@ManyToOne
 	@JoinColumn(name = "category_id")
 	private Category category;
-	
-	@OneToMany(mappedBy="product",cascade = CascadeType.ALL,fetch=FetchType.LAZY,orphanRemoval=true)
+
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Rate> rates = new ArrayList<Rate>();
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE }, mappedBy = "roles")
 	private Set<Account> accounts = new HashSet<>();
-	
+
 	public Product() {
 		super();
 		// TODO Auto-generated constructor stub

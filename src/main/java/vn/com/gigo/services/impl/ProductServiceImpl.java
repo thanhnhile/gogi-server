@@ -10,12 +10,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import vn.com.gigo.dtos.PagingDto;
-import vn.com.gigo.dtos.ProductDto;
-import vn.com.gigo.entities.Account;
+import vn.com.gigo.dtos.ProductInputDto;
 import vn.com.gigo.entities.Category;
 import vn.com.gigo.entities.Product;
 import vn.com.gigo.exception.ResourceNotFoundException;
 import vn.com.gigo.mapstruct.ProductMapper;
+import vn.com.gigo.mapstruct.custom.ProductCustomMapper;
 import vn.com.gigo.repositories.CategoryRepository;
 import vn.com.gigo.repositories.ProductRepository;
 import vn.com.gigo.security.SecurityUtils;
@@ -32,17 +32,20 @@ public class ProductServiceImpl implements ProductService {
 
 	@Autowired
 	private ProductMapper mapper;
+	
+	@Autowired
+	private ProductCustomMapper customMapper;
 
 	@Override
 	public Object getById(Long id) {
-		Product product = productRepo.findById(id).orElse(null);
+		Product product = productRepo.findOneById(id);
 		if(product != null)
-			return mapper.productToProductDto(product);
+			return customMapper.mapProductDetailDto(product);
 		else throw new ResourceNotFoundException("Product with id "+id+" does not exist");
 	}
 
 	@Override
-	public Object add(ProductDto productDto) {
+	public Object add(ProductInputDto productDto) {
 		if (productDto.getDiscount() == null) {
 			productDto.setDiscount(0.0);
 		}
@@ -50,17 +53,17 @@ public class ProductServiceImpl implements ProductService {
 			productDto.setStatus(true);
 		}
 		Category category = categoryRepo.getReferenceById(productDto.getCategory().getId());
-		Product productToAdd = mapper.productDtoToProduct(productDto);
+		Product productToAdd = mapper.productInputDtoToProduct(productDto);
 		productToAdd.setCategory(category);
 		return mapper.productToProductDto(productRepo.save(productToAdd));
 	}
 
 	@Override
-	public Object update(Long id, ProductDto productDto) {
+	public Object update(Long id, ProductInputDto productDto) {
 		Optional<Product> productOptional = productRepo.findById(id);
 		if (productOptional.isPresent()) {
-			productDto.setId(id);
-			Product productToUpdate = mapper.productDtoToProduct(productDto);
+			Product productToUpdate = mapper.productInputDtoToProduct(productDto);
+			productToUpdate.setId(id);
 			if (productDto.getStatus() == null) {
 				productToUpdate.setStatus(productOptional.get().getStatus());
 			}
@@ -82,7 +85,7 @@ public class ProductServiceImpl implements ProductService {
 		}
 		Page<Product> pageProduct = productRepo.findAll(pageable);
 		PagingDto response = new PagingDto();
-		response.setContent(mapper.productsToProductDtos(pageProduct.getContent()));
+		response.setContent(customMapper.mapToProductDtos(pageProduct.getContent()));
 		response.setTotalElements(pageProduct.getTotalElements());
 		response.setTotalPages(pageProduct.getTotalPages());
 		response.setCurrentPage(offSet);
@@ -94,7 +97,7 @@ public class ProductServiceImpl implements ProductService {
 		Pageable pageable = PageRequest.of(offSet - 1, limit);
 		Page<Product> pageProduct = productRepo.getAllProductsByCategoryId(id, pageable);
 		PagingDto response = new PagingDto();
-		response.setContent(mapper.productsToProductDtos(pageProduct.getContent()));
+		response.setContent(customMapper.mapToProductDtos(pageProduct.getContent()));
 		response.setCurrentPage(offSet);
 		response.setTotalElements(pageProduct.getTotalElements());
 		response.setTotalPages(pageProduct.getTotalPages());
@@ -107,7 +110,7 @@ public class ProductServiceImpl implements ProductService {
 			Pageable pageable = PageRequest.of(offSet - 1, limit);
 			Page<Product> pageProduct = productRepo.searchByName(search.trim(), pageable);
 			PagingDto response = new PagingDto();
-			response.setContent(mapper.productsToProductDtos(pageProduct.getContent()));
+			response.setContent(customMapper.mapToProductDtos(pageProduct.getContent()));
 			response.setCurrentPage(offSet);
 			response.setTotalElements(pageProduct.getTotalElements());
 			response.setTotalPages(pageProduct.getTotalPages());
@@ -128,18 +131,19 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Object getAllProduct() {
-		return mapper.productsToProductDtos(productRepo.findAll());
+		return customMapper.mapToProductDtos(productRepo.findAll());
 	}
 
 	@Override
 	public Object search(String keyword) {
 		// TODO Auto-generated method stub
-		return mapper.productsToProductDtos(productRepo.search(keyword.trim()));
+		return customMapper.mapToProductDtos(productRepo.search(keyword.trim()));
 	}
 
 	@Override
 	public Object getProductsByCategoryId(Long id) {
-		return mapper.productsToProductDtos(productRepo.getProductsByCategoryId(id));
+		// TODO Auto-generated method stub
+		return customMapper.mapToProductDtos(productRepo.getProductsByCategoryId(id));
 	}
 
 	@Override

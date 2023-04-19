@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import vn.com.gigo.dtos.DataResponse;
-import vn.com.gigo.dtos.ProductDto;
+import vn.com.gigo.dtos.ProductInputDto;
 import vn.com.gigo.services.impl.ProductServiceImpl;
 import vn.com.gigo.utils.DefaultRequestParam;
 
@@ -50,12 +50,12 @@ public class ProductController {
 	}
 	
 	@PostMapping("/add")
-	private DataResponse add(@RequestBody ProductDto productDto) {
+	private DataResponse add(@RequestBody ProductInputDto productDto) {
 		return new DataResponse(productService.add(productDto));
 	}
 	
 	@PutMapping("/update/{id}")
-	private DataResponse update(@PathVariable(value="id") Long id,@RequestBody ProductDto productDto) {
+	private DataResponse update(@PathVariable(value="id") Long id,@RequestBody ProductInputDto productDto) {
 		return new DataResponse(productService.update(id, productDto));
 	}
 	
