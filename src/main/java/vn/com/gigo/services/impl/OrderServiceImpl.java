@@ -14,6 +14,7 @@ import vn.com.gigo.entities.Customer;
 import vn.com.gigo.entities.Employee;
 import vn.com.gigo.entities.Order;
 import vn.com.gigo.entities.OrderDetail;
+import vn.com.gigo.entities.Product;
 import vn.com.gigo.entities.Voucher;
 import vn.com.gigo.exception.ResourceNotFoundException;
 import vn.com.gigo.mapstruct.CustomerMapper;
@@ -208,8 +209,10 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Object getAllOrdersByAccountUsername(String username) {
-		return mapper.ordersToOrderDtos(orderRepo.getOrdersByAccountUsername(username));
+	public Object getAllOrdersByAccountUsername() {
+		String username = SecurityUtils.getLoggedUsername();
+		List<Order> listOrder = orderRepo.getOrdersByAccountUsername(username);
+		return mapper.ordersToOrderDtos(listOrder);
 	}
 
 	@Override

@@ -11,12 +11,14 @@ import org.springframework.stereotype.Service;
 
 import vn.com.gigo.dtos.PagingDto;
 import vn.com.gigo.dtos.ProductDto;
+import vn.com.gigo.entities.Account;
 import vn.com.gigo.entities.Category;
 import vn.com.gigo.entities.Product;
 import vn.com.gigo.exception.ResourceNotFoundException;
 import vn.com.gigo.mapstruct.ProductMapper;
 import vn.com.gigo.repositories.CategoryRepository;
 import vn.com.gigo.repositories.ProductRepository;
+import vn.com.gigo.security.SecurityUtils;
 import vn.com.gigo.services.ProductService;
 
 @Service
@@ -137,8 +139,23 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Object getProductsByCategoryId(Long id) {
-		// TODO Auto-generated method stub
 		return mapper.productsToProductDtos(productRepo.getProductsByCategoryId(id));
+	}
+
+	@Override
+	public Object getBestSeller() {
+		return mapper.productsToProductDtos(productRepo.getBestSeller());
+	}
+
+	@Override
+	public Object getProductsForYou() {
+		String username = SecurityUtils.getLoggedUsername();
+		return mapper.productsToProductDtos(productRepo.getProductsForYou(username));
+	}
+
+	@Override
+	public Object getCombo() {
+		return mapper.productsToProductDtos(productRepo.getCombo());
 	}
 
 }

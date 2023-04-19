@@ -39,9 +39,9 @@ public class OrderController {
 		return new DataResponse(orderService.getAllOrdersByStoreId(storeId));
 	}
 	
-	@GetMapping("/account/{username}")
-	private DataResponse getAllOrdersByAccountUsername(@PathVariable (value="username") String username) {
-		return new DataResponse(orderService.getAllOrdersByAccountUsername(username));
+	@GetMapping("/history")
+	private DataResponse getAllOrdersByAccountUsername() {
+		return new DataResponse(orderService.getAllOrdersByAccountUsername());
 	}
 	
 

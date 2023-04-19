@@ -22,4 +22,10 @@ public interface ProductService {
 	Object search(String keyword);
 	
 	Object getProductsByCategoryId(Long id);
+	
+	Object getBestSeller();
+	
+	Object getProductsForYou();
+	
+	Object getCombo();
 }
