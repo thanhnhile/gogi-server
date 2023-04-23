@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.EntityGraph;
-import org.springframework.data.jpa.repository.EntityGraph.EntityGraphType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -23,11 +21,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	@Query(value = "SELECT * FROM products WHERE products.name LIKE %:search%", nativeQuery = true)
 	List<Product> search(String search);
 
-	
 	@Query(value = "SELECT * FROM products WHERE id in (SELECT product_id FROM accounts_products WHERE account_id = ?1)", nativeQuery = true)
 	List<Product> getAllProductsLiked(Long account_id);
 
-	@EntityGraph(type = EntityGraphType.FETCH, attributePaths = { "category", "accounts" })
 	@Query(value = "SELECT * FROM products WHERE category_id = ?1", nativeQuery = true)
 	List<Product> getProductsByCategoryId(Long categoryId);
 }
