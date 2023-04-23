@@ -27,7 +27,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	@Query(value = "SELECT * FROM products WHERE id in (SELECT product_id FROM accounts_products WHERE account_id = ?1)", nativeQuery = true)
 	List<Product> getAllProductsLiked(Long account_id);
 
-	@EntityGraph(type = EntityGraphType.FETCH, attributePaths = { "category", "accounts" })
 	@Query(value = "SELECT * FROM products WHERE category_id = ?1", nativeQuery = true)
 	List<Product> getProductsByCategoryId(Long categoryId);
 	

@@ -148,18 +148,18 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Object getBestSeller() {
-		return mapper.productsToProductDtos(productRepo.getBestSeller());
+		return customMapper.mapToProductDtos(productRepo.getBestSeller());
 	}
 
 	@Override
 	public Object getProductsForYou() {
 		String username = SecurityUtils.getLoggedUsername();
-		return mapper.productsToProductDtos(productRepo.getProductsForYou(username));
+		return customMapper.mapToProductDtos(productRepo.getProductsForYou(username));
 	}
 
 	@Override
 	public Object getCombo() {
-		return mapper.productsToProductDtos(productRepo.getCombo());
+		return customMapper.mapToProductDtos(productRepo.getCombo());
 	}
 
 }

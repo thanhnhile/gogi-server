@@ -26,7 +26,7 @@ import vn.com.gigo.exception.ResourceNotFoundException;
 import vn.com.gigo.mapstruct.AccountMapper;
 import vn.com.gigo.mapstruct.CustomerMapper;
 import vn.com.gigo.mapstruct.EmployeeMapper;
-import vn.com.gigo.mapstruct.ProductMapper;
+import vn.com.gigo.mapstruct.custom.ProductCustomMapper;
 import vn.com.gigo.repositories.AccountRepository;
 import vn.com.gigo.repositories.CustomerRepository;
 import vn.com.gigo.repositories.EmployeeRepository;
@@ -56,7 +56,7 @@ public class AccountServiceImpl implements AccountService {
 	private AccountMapper accountMapper;
 	
 	@Autowired
-	private ProductMapper productMapper;
+	private ProductCustomMapper customMapper;
 
 	@Autowired
 	private CustomerMapper customerMapper;
@@ -292,7 +292,7 @@ public class AccountServiceImpl implements AccountService {
 		String username = SecurityUtils.getLoggedUsername();
 		Account account = accountRepo.findOneByUsername(username);
 		List<Product> listProductsLiked = productRepo.getAllProductsLiked(account.getId());
-		return productMapper.productsToProductDtos(listProductsLiked);
+		return customMapper.mapToProductDtos(listProductsLiked);
 	}
 
 }
