@@ -68,7 +68,7 @@ public class ProductController {
 	private DataResponse getAllProducts() {
 		return new DataResponse(productService.getAllProduct());
 	}
-	
+	//app
 	@GetMapping("/searchKeyword")
 	private DataResponse search(@RequestParam(value = "k") String keyword) {
 		return new DataResponse(productService.search(keyword));
@@ -76,5 +76,20 @@ public class ProductController {
 	@GetMapping("/categoryId/{category_id}")
 	private DataResponse getProductsByCatetoryId(@PathVariable(value="category_id") Long categoryId){
 		return new DataResponse(productService.getProductsByCategoryId(categoryId));
+	}
+	
+	@GetMapping("/bestSeller")
+	private DataResponse getBestSeller(){
+		return new DataResponse(productService.getBestSeller());
+	}
+	
+	@GetMapping("/forYou")
+	private DataResponse getProductsForYou(){
+		return new DataResponse(productService.getProductsForYou());
+	}
+	
+	@GetMapping("/combo")
+	private DataResponse getCombo(){
+		return new DataResponse(productService.getCombo());
 	}
 }

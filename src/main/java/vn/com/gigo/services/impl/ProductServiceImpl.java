@@ -18,6 +18,7 @@ import vn.com.gigo.mapstruct.ProductMapper;
 import vn.com.gigo.mapstruct.custom.ProductCustomMapper;
 import vn.com.gigo.repositories.CategoryRepository;
 import vn.com.gigo.repositories.ProductRepository;
+import vn.com.gigo.security.SecurityUtils;
 import vn.com.gigo.services.ProductService;
 
 @Service
@@ -143,6 +144,22 @@ public class ProductServiceImpl implements ProductService {
 	public Object getProductsByCategoryId(Long id) {
 		// TODO Auto-generated method stub
 		return customMapper.mapToProductDtos(productRepo.getProductsByCategoryId(id));
+	}
+
+	@Override
+	public Object getBestSeller() {
+		return customMapper.mapToProductDtos(productRepo.getBestSeller());
+	}
+
+	@Override
+	public Object getProductsForYou() {
+		String username = SecurityUtils.getLoggedUsername();
+		return customMapper.mapToProductDtos(productRepo.getProductsForYou(username));
+	}
+
+	@Override
+	public Object getCombo() {
+		return customMapper.mapToProductDtos(productRepo.getCombo());
 	}
 
 }

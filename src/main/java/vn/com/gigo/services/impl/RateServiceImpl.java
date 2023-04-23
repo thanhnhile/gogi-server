@@ -56,4 +56,9 @@ public class RateServiceImpl implements RateService{
 		return rateRepo.findProduct_IdByUser_Username(loggedUser);
 		
 	}
+
+	@Override
+	public Object getRatesByProductId(Long id) {
+		return rateMapper.ratesToRateDtos(rateRepo.findByProductId(id));
+	}
 }
