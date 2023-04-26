@@ -61,4 +61,11 @@ public class RateServiceImpl implements RateService{
 	public Object getRatesByProductId(Long id) {
 		return rateMapper.ratesToRateDtos(rateRepo.findByProductId(id));
 	}
+
+	@Override
+	public Boolean checkExisted(Long id) {
+		@SuppressWarnings("unchecked")
+		List<Long> ratedProduct = (List<Long>) getRatesByUsername();
+		return ratedProduct.contains(id);
+	}
 }

@@ -8,4 +8,6 @@ public interface RateService {
 	Object getRatesByUsername();
 	
 	Object getRatesByProductId(Long id);
+	
+	Boolean checkExisted(Long id);
 }
