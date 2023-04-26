@@ -32,4 +32,9 @@ public class RateController {
 	private DataResponse getRateByProductId(@PathVariable(value="id") Long id) {
 		return new DataResponse(rateService.getRatesByProductId(id));
 	}
+	
+	@GetMapping("/username/{id}")
+	private DataResponse checkExisted(@PathVariable(value="id") Long id) {
+		return new DataResponse(rateService.checkExisted(id));
+	}
 }
