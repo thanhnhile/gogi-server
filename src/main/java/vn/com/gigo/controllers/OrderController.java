@@ -46,7 +46,8 @@ public class OrderController {
 	
 	@PostMapping
 	private DataResponse addOrder(@RequestBody OrderInputDto orderInputDto) {
-		DataResponse response = new DataResponse(orderService.addOrder(orderInputDto));
+		orderService.addNewOrder(orderInputDto);
+		DataResponse response = new DataResponse("ADDED");
 		return response;
 	}
 

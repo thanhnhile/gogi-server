@@ -18,6 +18,8 @@ import vn.com.gigo.entities.Voucher;
 import vn.com.gigo.exception.ResourceNotFoundException;
 import vn.com.gigo.mapstruct.CustomerMapper;
 import vn.com.gigo.mapstruct.OrderMapper;
+import vn.com.gigo.notification.Notification;
+import vn.com.gigo.notification.OrderNotificaion;
 import vn.com.gigo.repositories.AccountRepository;
 import vn.com.gigo.repositories.CustomerRepository;
 import vn.com.gigo.repositories.EmployeeRepository;
@@ -62,12 +64,35 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private CustomerMapper customerMapper;
 	
-//	@Autowired
-//	private OrderNotificaion orderNotification;
+	@Autowired
+	private OrderNotificaion orderNotificaion;
+	
 
 	@Override
 	public Object getOrder(Long id) {
 		return mapper.orderToOrderDto(orderRepo.getReferenceById(id));
+	}
+	public void addNewOrder (OrderInputDto orderInputDto) {
+//		Thread addOrderThread = new Thread(new AddOrder(orderInputDto));
+//		Thread sendNotification = new Thread(new SendOrderUpdateNotification(orderInputDto.getStore()));
+//		addOrderThread.start();
+//		sendNotification.start();
+		Thread t1 = new Thread(new Runnable(){
+		    @Override
+		    public void run() {
+		    	addOrder(orderInputDto);
+		    }
+		});
+		Thread t2 = new Thread(new Runnable(){
+		    @Override
+		    public void run() {
+		    	Object content = mapper.ordersToOrderDtos(orderRepo.getOrdersByStoreId(orderInputDto.getStore()));
+				Notification notification = new Notification(orderInputDto.getStore(), content);
+				orderNotificaion.setNotification(notification);
+		    }
+		});
+		t1.start();
+		t2.start();
 	}
 
 	@Override
@@ -121,14 +146,6 @@ public class OrderServiceImpl implements OrderService {
 		return mapper.orderToOrderDto(newOrder);
 	}
 	
-	
-	
-	
-//	private void sendNotification(Long storeId) {
-//		Object content = getAllOrdersByStoreId(storeId);
-//		Notification notification = new Notification(storeId, content);
-//		orderNotification.setNotification(notification);
-//	}
 
 	@Override
 	public Object deleteOrder(Long id) {

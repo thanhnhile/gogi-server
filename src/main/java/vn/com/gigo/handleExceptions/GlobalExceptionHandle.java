@@ -21,12 +21,6 @@ import vn.com.gigo.dtos.DataResponse;
 @ControllerAdvice
 public class GlobalExceptionHandle {
 
-	@ExceptionHandler(RuntimeException.class)
-	@ResponseBody
-	public DataResponse handleRuntimeException(RuntimeException e) {
-		return new DataResponse("500", e.getMessage(), 200);
-	}
-
 	@ExceptionHandler(Exception.class)
 	@ResponseBody
 	public DataResponse handle(Exception ex, HttpServletRequest request, HttpServletResponse response) {
@@ -65,5 +59,11 @@ public class GlobalExceptionHandle {
 	@ResponseBody
 	public DataResponse handleJWTException(Exception e) {
 		return new DataResponse("403", e.getMessage(), 200);
+	}
+	
+	@ExceptionHandler(RuntimeException.class)
+	@ResponseBody
+	public DataResponse handleRuntimeException(RuntimeException e) {
+		return new DataResponse("500", e.getMessage(), 200);
 	}
 }
