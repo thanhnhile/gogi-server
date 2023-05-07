@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vn.com.gigo.dtos.CustomerDto;
 import vn.com.gigo.dtos.OrderDetailDto;
+import vn.com.gigo.dtos.OrderDto;
 import vn.com.gigo.dtos.OrderInputDto;
 import vn.com.gigo.entities.Account;
 import vn.com.gigo.entities.Customer;
@@ -73,28 +74,14 @@ public class OrderServiceImpl implements OrderService {
 		return mapper.orderToOrderDto(orderRepo.getReferenceById(id));
 	}
 	public void addNewOrder (OrderInputDto orderInputDto) {
-//		Thread addOrderThread = new Thread(new AddOrder(orderInputDto));
-//		Thread sendNotification = new Thread(new SendOrderUpdateNotification(orderInputDto.getStore()));
-//		addOrderThread.start();
-//		sendNotification.start();
-		Thread t1 = new Thread(new Runnable(){
-		    @Override
-		    public void run() {
-		    	addOrder(orderInputDto);
-		    }
-		});
-		Thread t2 = new Thread(new Runnable(){
-		    @Override
-		    public void run() {
-		    	Object content = mapper.ordersToOrderDtos(orderRepo.getOrdersByStoreId(orderInputDto.getStore()));
-				Notification notification = new Notification(orderInputDto.getStore(), content);
-				orderNotificaion.setNotification(notification);
-		    }
-		});
-		t1.setPriority(1);
-		t2.setPriority(2);
-		t1.start();
-		t2.start();
+		addOrder(orderInputDto);
+		sendNotification(orderInputDto.getStore());
+	}
+	
+	private void sendNotification (Long storeId) {
+		Object content = mapper.ordersToOrderDtos(orderRepo.findByStore_IdAndStatus(storeId, OrderStatus.IN_PROGRESS.getValue()));
+		Notification notification = new Notification(storeId, content);
+		orderNotificaion.setNotification(notification);
 	}
 
 	@Override
@@ -165,8 +152,7 @@ public class OrderServiceImpl implements OrderService {
 		return mapper.ordersToOrderDtos(list);
 	}
 
-	@Override
-	public Object updateOrderStatus(Long id, int status) {
+	private OrderDto updateOrder(Long id, int status) {
 		String loggedUser = SecurityUtils.getLoggedUsername();
 		Employee employee = employeeRepo.findByAccount_Username(loggedUser);
 		Optional<Order> orderOptional = orderRepo.findById(id);
@@ -184,14 +170,19 @@ public class OrderServiceImpl implements OrderService {
 			case 3:
 				orderToUpdate.setStatus(status);
 				orderToUpdate.setEmployee(employee);
-				//sseService.sendNewOrders(orderToUpdate.getStore().getId());
 				break;
-			default:throw new ResourceNotFoundException("Not found order status id " + id);
+			default:throw new ResourceNotFoundException("Not found order status " + status);
 			}
-			//sendNotification(orderToUpdate.getStore().getId());
 			return mapper.orderToOrderDto(orderRepo.save(orderToUpdate));
 		} else
 			throw new ResourceNotFoundException("Not found order with id " + id);
+	}
+	
+	@Override
+	public Object updateOrderStatus (Long id, int status) {
+		OrderDto order = updateOrder(id, status);
+		sendNotification(order.getStore().getId());
+		return order;
 	}
 
 	@Override

@@ -72,7 +72,7 @@ public class ApplicationSecurity {
 		http.csrf().disable();
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-		http.authorizeRequests().antMatchers("/auth", "/register", "/employees/account/**").permitAll()
+		http.authorizeRequests().antMatchers("/auth", "/register", "/employees/account/**","/subscribe/**").permitAll()
 		.antMatchers(HttpMethod.GET, "/categories/**", "/products/**", "/stores/**").permitAll()
 		.anyRequest().authenticated();
 
