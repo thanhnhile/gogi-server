@@ -1,5 +1,6 @@
 package vn.com.gigo.dtos;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class OrderDto {
 	private StoreDto store;
 	
 	@JsonProperty("createdDate")
-	private Date createdDate;
+	private LocalDateTime createdDate;
 	
 	@JsonProperty("account_username")
 	private String accountUsername;
@@ -127,11 +128,11 @@ public class OrderDto {
 		this.store = store;
 	}
 
-	public Date getCreatedDate() {
+	public LocalDateTime getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(Date createdDate) {
+	public void setCreatedDate(LocalDateTime createdDate) {
 		this.createdDate = createdDate;
 	}
 
