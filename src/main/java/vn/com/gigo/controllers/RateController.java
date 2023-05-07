@@ -2,6 +2,7 @@ package vn.com.gigo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,5 +26,15 @@ public class RateController {
 	@PostMapping
 	private DataResponse add(@RequestBody RateInputDto rateInputDto) {
 		return new DataResponse(rateService.add(rateInputDto));
+	}
+	
+	@GetMapping("/product/{id}")
+	private DataResponse getRateByProductId(@PathVariable(value="id") Long id) {
+		return new DataResponse(rateService.getRatesByProductId(id));
+	}
+	
+	@GetMapping("/username/{id}")
+	private DataResponse checkExisted(@PathVariable(value="id") Long id) {
+		return new DataResponse(rateService.checkExisted(id));
 	}
 }

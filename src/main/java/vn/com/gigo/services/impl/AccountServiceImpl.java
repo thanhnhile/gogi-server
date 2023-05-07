@@ -26,7 +26,7 @@ import vn.com.gigo.exception.ResourceNotFoundException;
 import vn.com.gigo.mapstruct.AccountMapper;
 import vn.com.gigo.mapstruct.CustomerMapper;
 import vn.com.gigo.mapstruct.EmployeeMapper;
-import vn.com.gigo.mapstruct.ProductMapper;
+import vn.com.gigo.mapstruct.custom.ProductCustomMapper;
 import vn.com.gigo.repositories.AccountRepository;
 import vn.com.gigo.repositories.CustomerRepository;
 import vn.com.gigo.repositories.EmployeeRepository;
@@ -34,7 +34,6 @@ import vn.com.gigo.repositories.ProductRepository;
 import vn.com.gigo.repositories.RoleRepository;
 import vn.com.gigo.security.SecurityUtils;
 import vn.com.gigo.services.AccountService;
-import vn.com.gigo.utils.Contanst;
 import vn.com.gigo.utils.RoleType;
 
 @Service
@@ -57,7 +56,7 @@ public class AccountServiceImpl implements AccountService {
 	private AccountMapper accountMapper;
 	
 	@Autowired
-	private ProductMapper productMapper;
+	private ProductCustomMapper customMapper;
 
 	@Autowired
 	private CustomerMapper customerMapper;
@@ -71,8 +70,6 @@ public class AccountServiceImpl implements AccountService {
 	@Autowired
 	private EmployeeMapper employeeMapper;
 	
-	@Autowired
-	private VoucherServiceImpl voucherService;
 
 	@Autowired
 	public AccountServiceImpl(AccountMapper accountMapper, AccountRepository accountRepo) {
@@ -132,7 +129,7 @@ public class AccountServiceImpl implements AccountService {
 		account.getRoles().add(roleUser);
 		accountRepo.save(account);
 		//Add voucher for new account
-		voucherService.addVoucherToAccount(accountDto.getUsername(), Contanst.VOUCHER_FOR_NEW_ACCOUNT_ID);
+		//voucherService.addVoucherToAccount(accountDto.getUsername(), Contanst.VOUCHER_FOR_NEW_ACCOUNT_ID);
 		return accountDto;
 	}
 
@@ -295,7 +292,7 @@ public class AccountServiceImpl implements AccountService {
 		String username = SecurityUtils.getLoggedUsername();
 		Account account = accountRepo.findOneByUsername(username);
 		List<Product> listProductsLiked = productRepo.getAllProductsLiked(account.getId());
-		return productMapper.productsToProductDtos(listProductsLiked);
+		return customMapper.mapToProductDtos(listProductsLiked);
 	}
 
 }

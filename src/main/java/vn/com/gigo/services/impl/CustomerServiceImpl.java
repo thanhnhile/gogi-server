@@ -43,6 +43,7 @@ public class CustomerServiceImpl implements CustomerService {
 						"Account with username " + customerDto.getAccountUsername() + " does not exist");
 			}
 			customerToAdd.setAccount(account);
+			customerToAdd.setIsDefault(false);
 			Customer newCustomer = customerRepo.save(customerToAdd);
 			account.addCustomer(newCustomer);
 			accountRepo.save(account);
