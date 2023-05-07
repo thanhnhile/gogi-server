@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -28,6 +29,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import vn.com.gigo.repositories.AccountRepository;
 import vn.com.gigo.security.JwtTokenFilter;
+import vn.com.gigo.utils.RoleType;
 
 @Configuration
 @EnableWebSecurity(debug = true)
@@ -69,16 +71,22 @@ public class ApplicationSecurity {
 		http.cors().and();
 		http.csrf().disable();
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		// permitAll api
-		http.authorizeRequests().antMatchers("/auth", "/register").permitAll();
 
-		http.authorizeRequests().antMatchers("/statistics/**","/categories/**", "/products/**","/orders/**","/customers/**","/stores/**").permitAll();
+		http.authorizeRequests().antMatchers("/auth", "/register", "/employees/account/**","/subscribe/**").permitAll()
+		.antMatchers(HttpMethod.GET, "/categories/**", "/products/**", "/stores/**").permitAll()
+		.anyRequest().authenticated();
 
-		// role admin
-		http.authorizeRequests().antMatchers("/categories/add","/products/add").hasAuthority("ADMIN");
-		
-		//role employee
-		http.authorizeRequests().antMatchers("/orders/update/**","/products/update/**","/categories/update/**").hasAnyAuthority("ADMIN","EMPLOYEE");
+//		http.authorizeRequests().antMatchers(HttpMethod.POST, "/categories/**", "/products/**", "/stores/**")
+//				.hasAuthority("ADMIN").antMatchers(HttpMethod.DELETE, "/categories/**", "/products/**", "/stores/**")
+//				.hasAuthority("ADMIN").antMatchers(HttpMethod.PUT, "/categories/**", "/products/**", "/stores/**")
+//				.hasAuthority("ADMIN");
+//
+//		// role employee
+//		http.authorizeRequests().antMatchers("/orders/update/delivering/{id}", "/orders/update/delivering/{id}",
+//				"/orders/update/success/{id}").hasAuthority("EMPLOYEE");
+//
+//		http.authorizeRequests().antMatchers(HttpMethod.GET, "/categories/**", "/products/**", "/stores/**").permitAll()
+//				.anyRequest().authenticated();
 
 		http.exceptionHandling().authenticationEntryPoint((request, response, ex) -> {
 			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
