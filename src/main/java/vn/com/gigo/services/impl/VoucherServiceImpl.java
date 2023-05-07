@@ -87,7 +87,9 @@ public class VoucherServiceImpl implements VoucherService{
 
 	@Override
 	public Object getVoucher(String code) {
-		return voucherMapper.voucherToVoucherDto(voucherRepo.findOneByCode(code));
+		String username = SecurityUtils.getLoggedUsername();
+		Account account = accountRepo.findOneByUsername(username);
+		return voucherMapper.voucherToVoucherDto(voucherRepo.findOneByCode(account.getId(), code));
 	}
 
 	@Override

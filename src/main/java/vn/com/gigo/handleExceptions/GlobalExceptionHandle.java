@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
@@ -20,6 +21,12 @@ import vn.com.gigo.dtos.DataResponse;
 
 @ControllerAdvice
 public class GlobalExceptionHandle {
+	
+	@ExceptionHandler(RuntimeException.class)
+	@ResponseBody
+	public DataResponse handleRuntimeException(RuntimeException e) {
+		return new DataResponse("500", e.getMessage(), 200);
+	}
 
 	@ExceptionHandler(Exception.class)
 	@ResponseBody
@@ -51,19 +58,14 @@ public class GlobalExceptionHandle {
 	@ExceptionHandler(ResourceNotFoundException.class)
 	@ResponseBody
 	public DataResponse handleResourceNotFoundException(ResourceNotFoundException e) {
-		return new DataResponse("500", e.getMessage(), 200);
+		return new DataResponse("404", e.getMessage(), 200);
 	}
 
-	@ExceptionHandler({ ExpiredJwtException.class, SignatureException.class, IllegalArgumentException.class,
-			MalformedJwtException.class, UnsupportedJwtException.class })
-	@ResponseBody
-	public DataResponse handleJWTException(Exception e) {
-		return new DataResponse("403", e.getMessage(), 200);
-	}
-	
-	@ExceptionHandler(RuntimeException.class)
-	@ResponseBody
-	public DataResponse handleRuntimeException(RuntimeException e) {
-		return new DataResponse("500", e.getMessage(), 200);
-	}
+//	@ExceptionHandler({ ExpiredJwtException.class, SignatureException.class, IllegalArgumentException.class,
+//			MalformedJwtException.class, UnsupportedJwtException.class })
+//	@ResponseBody
+//	public DataResponse handleJWTException(JwtException e) {
+//		return new DataResponse("403", e.getMessage(), 200);
+//	}
+//	
 }

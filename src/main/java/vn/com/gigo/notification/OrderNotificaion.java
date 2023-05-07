@@ -19,7 +19,7 @@ import vn.com.gigo.repositories.OrderRepository;
 @Service
 public class OrderNotificaion implements Sender {
 	public static final Map<Long, List<SseEmitter>> emitters = new HashMap<>();
-	private static Map<Long, Integer> listViewer = new HashMap<>();
+	private static final Map<Long, Integer> listViewer = new HashMap<>();
 	private final String EVENT_NAME = "LIST_ORDERS_UPDATE";
 
 	@Autowired
@@ -49,30 +49,35 @@ public class OrderNotificaion implements Sender {
 	}
 
 	public SseEmitter addNewEmitter(Long storeId, Long employeeId) {
-		SseEmitter newEmitter;
-		if (emitters.get(storeId) == null) {
-			List<SseEmitter> emittersForStore = new ArrayList<>();
-			emitters.put(storeId, emittersForStore);
+		try {
+			SseEmitter newEmitter;
+			if (emitters.get(storeId) == null) {
+				List<SseEmitter> emittersForStore = new ArrayList<>();
+				emitters.put(storeId, emittersForStore);
+			}
+			if (checkClientExist(employeeId)) {
+				System.out.print(checkClientExist(employeeId));
+				System.out.print(listViewer.get(employeeId));
+				Integer index = listViewer.get(employeeId);
+				newEmitter = emitters.get(storeId).get(index);
+			} else {
+				newEmitter = new SseEmitter(Long.MAX_VALUE);
+				newEmitter.onCompletion(() -> removeEmitter(storeId, employeeId));
+				newEmitter.onTimeout(() -> removeEmitter(storeId, employeeId));
+				newEmitter.onError((e) -> {
+					e.printStackTrace();
+					removeEmitter(storeId, employeeId);
+				});
+				emitters.get(storeId).add(newEmitter);
+				listViewer.put(employeeId, emitters.get(storeId).size() - 1);
+			}
+			Object data = orderMapper.ordersToOrderDtos(orderRepository.getOrdersByStoreId(storeId));
+			sendEvent(newEmitter, data);
+			return newEmitter;
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
-		if (checkClientExist(employeeId)) {
-			System.out.print(checkClientExist(employeeId));
-			System.out.print(listViewer.get(employeeId));
-			Integer index = listViewer.get(employeeId);
-			newEmitter = emitters.get(storeId).get(index);
-		} else {
-			newEmitter = new SseEmitter(Long.MAX_VALUE);
-			newEmitter.onCompletion(() -> removeEmitter(storeId, employeeId));
-			newEmitter.onTimeout(() -> removeEmitter(storeId, employeeId));
-			newEmitter.onError((e) -> {
-				e.printStackTrace();
-				removeEmitter(storeId, employeeId);
-			});
-			emitters.get(storeId).add(newEmitter);
-			listViewer.put(employeeId, emitters.get(storeId).size() - 1);
-		}
-		Object data = orderMapper.ordersToOrderDtos(orderRepository.getOrdersByStoreId(storeId));
-		sendEvent(newEmitter, data);
-		return newEmitter;
+		
 	}
 
 	public void sendEvent(SseEmitter emitter, Object data) {
