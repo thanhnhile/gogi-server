@@ -1,6 +1,6 @@
 package vn.com.gigo.dtos;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -18,7 +18,7 @@ public class RateDto {
 	private String user;
 	
 	@JsonProperty("created_date")
-	private Date createdDate;
+	private LocalDateTime createdDate;
 
 	public Long getId() {
 		return id;
@@ -52,11 +52,11 @@ public class RateDto {
 		this.user = user;
 	}
 
-	public Date getCreatedDate() {
+	public LocalDateTime getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(Date createdDate) {
+	public void setCreatedDate(LocalDateTime createdDate) {
 		this.createdDate = createdDate;
 	}
 	

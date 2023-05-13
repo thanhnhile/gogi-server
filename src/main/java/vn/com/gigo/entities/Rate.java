@@ -1,6 +1,6 @@
 package vn.com.gigo.entities;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -43,8 +43,8 @@ public class Rate {
 	private Product product;
 	
 	@CreationTimestamp
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date createdDate;
+	//@Temporal(TemporalType.TIMESTAMP)
+	private LocalDateTime createdDate;
 
 	
 	public Rate() {
@@ -52,7 +52,7 @@ public class Rate {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Rate(int point, String content, Account user, Product product, Date createdDate) {
+	public Rate(int point, String content, Account user, Product product, LocalDateTime createdDate) {
 		super();
 		this.point = point;
 		this.content = content;
@@ -101,11 +101,11 @@ public class Rate {
 		this.product = product;
 	}
 
-	public Date getCreatedDate() {
+	public LocalDateTime getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(Date createdDate) {
+	public void setCreatedDate(LocalDateTime createdDate) {
 		this.createdDate = createdDate;
 	}
 	
