@@ -1,5 +1,6 @@
 package vn.com.gigo.dtos;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,10 +16,10 @@ public class VoucherDto {
 	private Double value;
 	
 	@JsonProperty("startDate")
-	private Date startDate;
+	private LocalDateTime startDate;
 	
 	@JsonProperty("endDate")
-	private Date endDate;
+	private LocalDateTime endDate;
 	
 	@JsonProperty("code")
 	private String code;
@@ -54,19 +55,19 @@ public class VoucherDto {
 		this.value = value;
 	}
 
-	public Date getStartDate() {
+	public LocalDateTime getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDateTime startDate) {
 		this.startDate = startDate;
 	}
 
-	public Date getEndDate() {
+	public LocalDateTime getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(LocalDateTime endDate) {
 		this.endDate = endDate;
 	}
 

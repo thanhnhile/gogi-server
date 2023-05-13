@@ -1,6 +1,6 @@
 package vn.com.gigo.entities;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,11 +31,14 @@ public class Voucher {
 	@Column(nullable=false)
 	private Double value;
 	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern ="yyyy-MM-dd'T'HH:mm:ss.SSSZZ")
-    private Date startDate;
+//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern ="yyyy-MM-dd'T'HH:mm:ss.SSSZZ")
+//    private Date startDate;
+//	
+//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern ="yyyy-MM-dd'T'HH:mm:ss.SSSZZ")
+//    private Date endDate;
+	private LocalDateTime startDate;
 	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern ="yyyy-MM-dd'T'HH:mm:ss.SSSZZ")
-    private Date endDate;
+	private LocalDateTime endDate;
 	
 	@Column(nullable=false)
 	private String code;
@@ -55,7 +58,7 @@ public class Voucher {
 	}
 
 	
-	public Voucher(String name, Double value, Date startDate, Date endDate, String code, Double minimumOrderValue,
+	public Voucher(String name, Double value, LocalDateTime startDate, LocalDateTime endDate, String code, Double minimumOrderValue,
 			Double maximumDiscountAmount, Set<Account> accounts) {
 		super();
 		this.name = name;
@@ -93,19 +96,19 @@ public class Voucher {
 		this.value = value;
 	}
 
-	public Date getStartDate() {
+	public LocalDateTime getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDateTime startDate) {
 		this.startDate = startDate;
 	}
 
-	public Date getEndDate() {
+	public LocalDateTime getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(LocalDateTime endDate) {
 		this.endDate = endDate;
 	}
 

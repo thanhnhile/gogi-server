@@ -1,5 +1,6 @@
 package vn.com.gigo.entities;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -61,7 +62,7 @@ public class Order {
 	private Store store;
 	
 	@CreationTimestamp
-	private Date createdDate;
+	private LocalDateTime createdDate;
 	
 	@Nullable
 	@ManyToOne
@@ -164,11 +165,11 @@ public class Order {
 		this.store = store;
 	}
 
-	public Date getCreatedDate() {
+	public LocalDateTime getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(Date createdDate) {
+	public void setCreatedDate(LocalDateTime createdDate) {
 		this.createdDate = createdDate;
 	}
 

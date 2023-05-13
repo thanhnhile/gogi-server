@@ -27,10 +27,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	@Query(value = "SELECT * FROM products WHERE category_id = ?1", nativeQuery = true)
 	List<Product> getProductsByCategoryId(Long categoryId);
 	
-	@Query(value="SELECT * FROM products WHERE id in (SELECT product_id FROM order_details GROUP BY product_id ORDER BY COUNT(product_id) DESC) LIMIT 6", nativeQuery=true)
+	@Query(value="SELECT * FROM products WHERE id in (SELECT t.product_id FROM (SELECT product_id FROM order_details GROUP BY product_id ORDER BY SUM(quantity) DESC LIMIT 6) AS t)", nativeQuery=true)
 	List<Product> getBestSeller();
 	
-	@Query(value="SELECT * FROM products WHERE id in (SELECT product_id FROM order_details, orders WHERE order_details.order_id = orders.id AND orders.account = ?1 GROUP BY product_id ORDER BY COUNT(product_id) DESC) LIMIT 6", nativeQuery=true)
+	@Query(value="SELECT * FROM products WHERE id in (SELECT t.product_id FROM (SELECT product_id FROM order_details, orders WHERE order_details.order_id = orders.id AND orders.account = ?1 GROUP BY product_id ORDER BY SUM(quantity) DESC LIMIT 6) AS t)", nativeQuery=true)
 	List<Product> getProductsForYou(String username);
 	
 	@Query(value="SELECT * FROM products WHERE products.name LIKE '%combo%'",

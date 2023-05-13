@@ -49,17 +49,17 @@ public class VoucherServiceImpl implements VoucherService{
 	@Override
 	public Object addVoucher(VoucherDto voucherDto) {
 		Voucher voucherToAdd = voucherMapper.voucherDtoToVoucher(voucherDto);
-		SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-		isoFormat.setTimeZone(TimeZone.getTimeZone("GMT-7:00"));
-		try {
-			Date startDate = isoFormat.parse(voucherDto.getStartDate().toString());
-			Date endDate = isoFormat.parse(voucherDto.getEndDate().toString());
-			voucherToAdd.setStartDate(startDate);
-			voucherToAdd.setEndDate(endDate);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+//		isoFormat.setTimeZone(TimeZone.getTimeZone("GMT-7:00"));
+//		try {
+//			Date startDate = isoFormat.parse(voucherDto.getStartDate().toString());
+//			Date endDate = isoFormat.parse(voucherDto.getEndDate().toString());
+//			voucherToAdd.setStartDate(startDate);
+//			voucherToAdd.setEndDate(endDate);
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		return voucherMapper.voucherToVoucherDto(voucherRepo.save(voucherToAdd));
 	}
 
