@@ -19,6 +19,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import io.jsonwebtoken.Claims;
 import vn.com.gigo.entities.Account;
 import vn.com.gigo.entities.Role;
+import vn.com.gigo.utils.RoleType;
 
 @Component
 public class JwtTokenFilter extends OncePerRequestFilter {
@@ -35,8 +36,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 		}
 
 		String token = getAccessToken(request);
-
 		if (!jwtUtil.validateAccessToken(token)) {
+			((HttpServletResponse) response).sendError(HttpServletResponse.SC_FORBIDDEN, "JWT is invalid");
 			filterChain.doFilter(request, response);
 			return;
 		}
@@ -62,7 +63,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
 	private void setAuthenticationContext(String token, HttpServletRequest request) {
 		UserDetails userDetails = getUserDetails(token);
-
 		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
 				userDetails.getAuthorities());
 
@@ -77,11 +77,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 		String subject = (String) claims.get(Claims.SUBJECT);
 		String roles = (String) claims.get("roles");
 
-		System.out.println("SUBJECT: " + subject);
-		System.out.println("roles: " + roles);
 		roles = roles.replace("[", "").replace("]", "");
 		String[] roleNames = roles.split(",");
 
+		
 		for (String aRoleName : roleNames) {
 			accountDetails.addRole(new Role(aRoleName));
 		}
@@ -90,7 +89,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
 		accountDetails.setId(Long.parseLong(jwtSubject[0]));
 		accountDetails.setUsername(jwtSubject[1]);
-		System.out.println(accountDetails.getUsername());
 		return accountDetails;
 	}
 }

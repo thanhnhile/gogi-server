@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vn.com.gigo.dtos.CustomerDto;
 import vn.com.gigo.dtos.OrderDetailDto;
+import vn.com.gigo.dtos.OrderDto;
 import vn.com.gigo.dtos.OrderInputDto;
 import vn.com.gigo.entities.Account;
 import vn.com.gigo.entities.Customer;
@@ -18,6 +19,8 @@ import vn.com.gigo.entities.Voucher;
 import vn.com.gigo.exception.ResourceNotFoundException;
 import vn.com.gigo.mapstruct.CustomerMapper;
 import vn.com.gigo.mapstruct.OrderMapper;
+import vn.com.gigo.notification.Notification;
+import vn.com.gigo.notification.OrderNotificaion;
 import vn.com.gigo.repositories.AccountRepository;
 import vn.com.gigo.repositories.CustomerRepository;
 import vn.com.gigo.repositories.EmployeeRepository;
@@ -62,12 +65,23 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private CustomerMapper customerMapper;
 	
-//	@Autowired
-//	private OrderNotificaion orderNotification;
+	@Autowired
+	private OrderNotificaion orderNotificaion;
+	
 
 	@Override
 	public Object getOrder(Long id) {
 		return mapper.orderToOrderDto(orderRepo.getReferenceById(id));
+	}
+	public void addNewOrder (OrderInputDto orderInputDto) {
+		addOrder(orderInputDto);
+		sendNotification(orderInputDto.getStore());
+	}
+	
+	private void sendNotification (Long storeId) {
+		Object content = mapper.ordersToOrderDtos(orderRepo.findByStore_IdAndStatus(storeId, OrderStatus.IN_PROGRESS.getValue()));
+		Notification notification = new Notification(storeId, content);
+		orderNotificaion.setNotification(notification);
 	}
 
 	@Override
@@ -121,14 +135,6 @@ public class OrderServiceImpl implements OrderService {
 		return mapper.orderToOrderDto(newOrder);
 	}
 	
-	
-	
-	
-//	private void sendNotification(Long storeId) {
-//		Object content = getAllOrdersByStoreId(storeId);
-//		Notification notification = new Notification(storeId, content);
-//		orderNotification.setNotification(notification);
-//	}
 
 	@Override
 	public Object deleteOrder(Long id) {
@@ -146,8 +152,7 @@ public class OrderServiceImpl implements OrderService {
 		return mapper.ordersToOrderDtos(list);
 	}
 
-	@Override
-	public Object updateOrderStatus(Long id, int status) {
+	private OrderDto updateOrder(Long id, int status) {
 		String loggedUser = SecurityUtils.getLoggedUsername();
 		Employee employee = employeeRepo.findByAccount_Username(loggedUser);
 		Optional<Order> orderOptional = orderRepo.findById(id);
@@ -165,14 +170,19 @@ public class OrderServiceImpl implements OrderService {
 			case 3:
 				orderToUpdate.setStatus(status);
 				orderToUpdate.setEmployee(employee);
-				//sseService.sendNewOrders(orderToUpdate.getStore().getId());
 				break;
-			default:throw new ResourceNotFoundException("Not found order status id " + id);
+			default:throw new ResourceNotFoundException("Not found order status " + status);
 			}
-			//sendNotification(orderToUpdate.getStore().getId());
 			return mapper.orderToOrderDto(orderRepo.save(orderToUpdate));
 		} else
 			throw new ResourceNotFoundException("Not found order with id " + id);
+	}
+	
+	@Override
+	public Object updateOrderStatus (Long id, int status) {
+		OrderDto order = updateOrder(id, status);
+		sendNotification(order.getStore().getId());
+		return order;
 	}
 
 	@Override
