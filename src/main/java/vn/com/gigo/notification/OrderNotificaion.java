@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.Embeddable;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -91,6 +89,9 @@ public class OrderNotificaion implements Sender {
 	@Override
 	public void sendNotification(Notification notification) {
 		List<SseEmitter> listReceiver = emitters.get(notification.getReceiverId());
+		if(listReceiver == null) {
+			return;
+		}
 		for (int i = listReceiver.size() - 1; i >= 0; i--) {
 			sendEvent(listReceiver.get(i), notification.getContent());
 		}
