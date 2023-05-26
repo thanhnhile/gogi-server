@@ -29,6 +29,9 @@ public class ProductDto {
 	
 	@JsonProperty("avgPoint")
 	private Double avgPoint;
+	
+	@JsonProperty("hasTopping")
+	private Boolean hasTopping;
 
 	public Long getId() {
 		return id;
@@ -100,6 +103,14 @@ public class ProductDto {
 
 	public void setAvgPoint(Double avgPoint) {
 		this.avgPoint = avgPoint;
+	}
+
+	public Boolean getHasTopping() {
+		return hasTopping;
+	}
+
+	public void setHasTopping(Boolean hasTopping) {
+		this.hasTopping = hasTopping;
 	}
 
 }

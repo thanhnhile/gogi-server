@@ -28,6 +28,10 @@ public class OrderController {
 		return new DataResponse(orderService.getAllOrders());
 	}
 
+	@GetMapping("detail/{id}")
+	private DataResponse getOrderDetail(@PathVariable(value = "id") Long id) {
+		return new DataResponse(orderService.getOrderDetail(id));
+	}
 	@GetMapping("/{id}")
 	private DataResponse getOrder(@PathVariable(value = "id") Long id) {
 		return new DataResponse(orderService.getOrder(id));
