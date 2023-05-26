@@ -1,24 +1,34 @@
 package vn.com.gigo.services.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import vn.com.gigo.dtos.AccountNoPassDto;
 import vn.com.gigo.dtos.CustomerDto;
 import vn.com.gigo.dtos.OrderDetailDto;
+import vn.com.gigo.dtos.OrderDetailResponseDto;
 import vn.com.gigo.dtos.OrderDto;
 import vn.com.gigo.dtos.OrderInputDto;
+import vn.com.gigo.dtos.ToppingDto;
 import vn.com.gigo.entities.Account;
 import vn.com.gigo.entities.Customer;
 import vn.com.gigo.entities.Employee;
 import vn.com.gigo.entities.Order;
 import vn.com.gigo.entities.OrderDetail;
+import vn.com.gigo.entities.Role;
+import vn.com.gigo.entities.Topping;
 import vn.com.gigo.entities.Voucher;
+import vn.com.gigo.exception.AccountException;
 import vn.com.gigo.exception.ResourceNotFoundException;
 import vn.com.gigo.mapstruct.CustomerMapper;
 import vn.com.gigo.mapstruct.OrderMapper;
+import vn.com.gigo.mapstruct.ToppingMapper;
 import vn.com.gigo.notification.Notification;
 import vn.com.gigo.notification.OrderNotificaion;
 import vn.com.gigo.repositories.AccountRepository;
@@ -66,12 +76,33 @@ public class OrderServiceImpl implements OrderService {
 	private CustomerMapper customerMapper;
 	
 	@Autowired
+	private ToppingMapper toppingMapper;
+	
+	@Autowired
 	private OrderNotificaion orderNotificaion;
 	
-
+	public Object getOrderDetail(Long id) {
+		OrderDetail orderDetail = orderDetailRepo.findOneById(id);
+		List<Topping> toppings = new ArrayList<Topping>();
+		for (Topping topping : orderDetail.getToppings()) {
+			toppings.add(topping);
+		}
+		OrderDetailResponseDto orderDetailResponseDto = mapper.detailToDetailResponseDto(orderDetail);
+		orderDetailResponseDto.setToppings(toppingMapper.toppingsToToppingDtos(toppings));
+		
+		return orderDetailResponseDto;
+	}
 	@Override
 	public Object getOrder(Long id) {
-		return mapper.orderToOrderDto(orderRepo.getReferenceById(id));
+		Order order = orderRepo.getReferenceById(id);
+		List<OrderDetailResponseDto> orderDetailResponseDtos = new ArrayList<OrderDetailResponseDto>();;
+		for (OrderDetail orderDetail  : order.getDetailList()) {
+			orderDetailResponseDtos.add((OrderDetailResponseDto) getOrderDetail(orderDetail.getId()));
+		}
+		OrderDto orderDto = mapper.orderToOrderDto(order);
+		orderDto.setDetailList(orderDetailResponseDtos);
+		return orderDto;
+		//return mapper.orderToOrderDto(orderRepo.getReferenceById(id));
 	}
 	public void addNewOrder (OrderInputDto orderInputDto) {
 		addOrder(orderInputDto);

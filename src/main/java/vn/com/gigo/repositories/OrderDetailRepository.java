@@ -7,5 +7,5 @@ import vn.com.gigo.entities.OrderDetail;
 
 @Repository
 public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long>{
-
+	OrderDetail findOneById(Long id);
 }
