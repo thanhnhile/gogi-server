@@ -29,7 +29,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import vn.com.gigo.repositories.AccountRepository;
 import vn.com.gigo.security.JwtTokenFilter;
-import vn.com.gigo.utils.RoleType;
 
 @Configuration
 @EnableWebSecurity(debug = true)
@@ -72,21 +71,15 @@ public class ApplicationSecurity {
 		http.csrf().disable();
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-		http.authorizeRequests().antMatchers("/auth", "/register", "/employees/account/**","/subscribe/**").permitAll()
-		.antMatchers(HttpMethod.GET, "/categories/**", "/products/**", "/stores/**").permitAll()
+		http.authorizeRequests().antMatchers(
+				"/auth", "/register", 
+				"/employees/account/**","/subscribe/**",
+				"/accounts/forgot_password/**","/accounts/reset_password/**",
+				"/sendFeedback"
+				).permitAll()
+		.antMatchers(HttpMethod.GET, "/categories/**", "/products/**", "/stores/**","/vouchers/**","/rates/**").permitAll()
+		.antMatchers(HttpMethod.POST, "/orders").permitAll()
 		.anyRequest().authenticated();
-
-//		http.authorizeRequests().antMatchers(HttpMethod.POST, "/categories/**", "/products/**", "/stores/**")
-//				.hasAuthority("ADMIN").antMatchers(HttpMethod.DELETE, "/categories/**", "/products/**", "/stores/**")
-//				.hasAuthority("ADMIN").antMatchers(HttpMethod.PUT, "/categories/**", "/products/**", "/stores/**")
-//				.hasAuthority("ADMIN");
-//
-//		// role employee
-//		http.authorizeRequests().antMatchers("/orders/update/delivering/{id}", "/orders/update/delivering/{id}",
-//				"/orders/update/success/{id}").hasAuthority("EMPLOYEE");
-//
-//		http.authorizeRequests().antMatchers(HttpMethod.GET, "/categories/**", "/products/**", "/stores/**").permitAll()
-//				.anyRequest().authenticated();
 
 		http.exceptionHandling().authenticationEntryPoint((request, response, ex) -> {
 			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
