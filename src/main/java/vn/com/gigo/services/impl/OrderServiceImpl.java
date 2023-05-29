@@ -81,6 +81,9 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private OrderNotificaion orderNotificaion;
 	
+	@Autowired
+	private ToppingServiceImpl toppingServiceImpl;
+	
 	public Object getOrderDetail(Long id) {
 		OrderDetail orderDetail = orderDetailRepo.findOneById(id);
 		List<Topping> toppings = new ArrayList<Topping>();
@@ -102,7 +105,6 @@ public class OrderServiceImpl implements OrderService {
 		OrderDto orderDto = mapper.orderToOrderDto(order);
 		orderDto.setDetailList(orderDetailResponseDtos);
 		return orderDto;
-		//return mapper.orderToOrderDto(orderRepo.getReferenceById(id));
 	}
 	public void addNewOrder (OrderInputDto orderInputDto) {
 		addOrder(orderInputDto);
@@ -159,12 +161,16 @@ public class OrderServiceImpl implements OrderService {
 		List<OrderDetail> details = new ArrayList<OrderDetail>();
 		for (OrderDetailDto detailDto : detailDtos) {
 			OrderDetail orderDetail = mapper.detailDtoToDetail(detailDto);
+			if(detailDto.getToppings() != null) {
+				orderDetail.setToppings(toppingServiceImpl.saveOrderDetaiToppings(detailDto.getToppings()));
+			}
 			orderDetail.setOrder(newOrder);
 			orderDetailRepo.save(orderDetail);
 			details.add(orderDetail);
 		}
 		return mapper.orderToOrderDto(newOrder);
 	}
+	
 	
 
 	@Override
@@ -174,7 +180,7 @@ public class OrderServiceImpl implements OrderService {
 			orderRepo.deleteById(id);
 			return "Deleted";
 		}
-		throw new ResourceNotFoundException("Not found order with id " + id);
+		throw new ResourceNotFoundException("Order with id "+ id + " does not exist");
 	}
 
 	@Override
