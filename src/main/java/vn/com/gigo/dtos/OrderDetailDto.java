@@ -53,8 +53,6 @@ public class OrderDetailDto {
 		this.quantity = quantity;
 	}
 	
-	
-
 	public String getSize() {
 		return size;
 	}
@@ -85,22 +83,6 @@ public class OrderDetailDto {
 
 	public void setProduct(Long product) {
 		this.product = product;
-	}
-
-	public String getSugar() {
-		return sugar;
-	}
-
-	public void setSugar(String sugar) {
-		this.sugar = sugar;
-	}
-
-	public String getIced() {
-		return iced;
-	}
-
-	public void setIced(String iced) {
-		this.iced = iced;
 	}
 
 	public Set<ToppingDto> getToppings() {
