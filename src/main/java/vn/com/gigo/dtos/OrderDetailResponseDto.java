@@ -17,6 +17,12 @@ public class OrderDetailResponseDto {
 	@JsonProperty("size")
 	private String size;
 	
+	@JsonProperty("sugar")
+	private String sugar;
+	
+	@JsonProperty("iced")
+	private String iced;
+	
 	@JsonProperty("product_id")
 	private Long productId;
 	
@@ -68,9 +74,23 @@ public class OrderDetailResponseDto {
 
 	public void setSize(String size) {
 		this.size = size;
+	}	
+
+	public String getSugar() {
+		return sugar;
 	}
 
-	
+	public void setSugar(String sugar) {
+		this.sugar = sugar;
+	}
+
+	public String getIced() {
+		return iced;
+	}
+
+	public void setIced(String iced) {
+		this.iced = iced;
+	}
 
 	public Long getProductId() {
 		return productId;
