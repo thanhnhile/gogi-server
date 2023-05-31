@@ -1,5 +1,7 @@
 package vn.com.gigo.dtos;
 
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class OrderDetailDto {
@@ -23,6 +25,9 @@ public class OrderDetailDto {
 	
 	@JsonProperty("product_id")
 	private Long product;
+	
+	@JsonProperty("toppings")
+	private Set<ToppingDto> toppings;
 
 	public Long getId() {
 		return id;
@@ -81,6 +86,28 @@ public class OrderDetailDto {
 	public void setProduct(Long product) {
 		this.product = product;
 	}
-	
-	
+
+	public String getSugar() {
+		return sugar;
+	}
+
+	public void setSugar(String sugar) {
+		this.sugar = sugar;
+	}
+
+	public String getIced() {
+		return iced;
+	}
+
+	public void setIced(String iced) {
+		this.iced = iced;
+	}
+
+	public Set<ToppingDto> getToppings() {
+		return toppings;
+	}
+
+	public void setToppings(Set<ToppingDto> toppings) {
+		this.toppings = toppings;
+	}
 }

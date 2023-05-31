@@ -77,7 +77,7 @@ public class ApplicationSecurity {
 				"/accounts/forgot_password/**","/accounts/reset_password/**",
 				"/sendFeedback"
 				).permitAll()
-		.antMatchers(HttpMethod.GET, "/categories/**", "/products/**", "/stores/**","/vouchers/**","/rates/**").permitAll()
+		.antMatchers(HttpMethod.GET, "/categories/**", "/products/**", "/stores/**","/vouchers/**","/rates/**","/toppings/**").permitAll()
 		.antMatchers(HttpMethod.POST, "/orders").permitAll()
 		.anyRequest().authenticated();
 
