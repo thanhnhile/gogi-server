@@ -19,7 +19,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import io.jsonwebtoken.Claims;
 import vn.com.gigo.entities.Account;
 import vn.com.gigo.entities.Role;
-import vn.com.gigo.utils.RoleType;
 
 @Component
 public class JwtTokenFilter extends OncePerRequestFilter {

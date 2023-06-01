@@ -31,17 +31,17 @@ public class CategoryController {
 		return new DataResponse(categoryService.getById(id));
 	}
 	
-	@PostMapping("/add")
+	@PostMapping()
 	private DataResponse add(@RequestBody CategoryDto categoryDto) {
 		return new DataResponse(categoryService.add(categoryDto));
 	}
 	
-	@PutMapping("/update/{id}")
+	@PutMapping("/{id}")
 	private DataResponse update(@PathVariable(value="id") Long id, @RequestBody CategoryDto categoryDto) {
 		return new DataResponse(categoryService.update(id, categoryDto)); 
 	}
 	
-	@PutMapping("/update/category/{id}")
+	@PutMapping("/update/status/{id}")
 	private DataResponse updateStatus(@PathVariable(value="id") Long id) {
 		return new DataResponse(categoryService.updateStatus(id)); 
 	}
