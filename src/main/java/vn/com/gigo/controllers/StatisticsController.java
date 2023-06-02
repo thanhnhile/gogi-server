@@ -18,10 +18,4 @@ public class StatisticsController {
 	private DataResponse getAdminStatistics() {
 		return new DataResponse(serviceImpl.getAdmindStatistics());
 	}
-	
-	@GetMapping("/store")
-	private DataResponse getStoreStatistics() {
-		return new DataResponse("Store here");
-	}
-
 }

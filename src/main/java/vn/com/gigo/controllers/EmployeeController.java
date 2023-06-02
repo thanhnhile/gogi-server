@@ -64,7 +64,7 @@ public class EmployeeController {
 	}
 
 	@GetMapping("/store/{store_id}")
-	public DataResponse getEmployeeByProductId(@PathVariable(value = "store_id") Long storeId){
+	public DataResponse getEmployeeByStoreId(@PathVariable(value = "store_id") Long storeId){
 		return new DataResponse(employeeImpl.getEmployeeByStoreId(storeId));
 	}
 }

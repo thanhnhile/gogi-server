@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import antlr.build.Tool;
+
 @Entity
 @Table(name="roles")
 public class Role {
@@ -64,5 +66,9 @@ public class Role {
 		this.accounts = accounts;
 	}
 	
+	@Override
+	public String toString() {
+		return this.name;
+	}
 	
 }
