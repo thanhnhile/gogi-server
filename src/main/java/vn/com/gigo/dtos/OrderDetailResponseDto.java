@@ -1,5 +1,7 @@
 package vn.com.gigo.dtos;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class OrderDetailResponseDto {
@@ -24,6 +26,9 @@ public class OrderDetailResponseDto {
 	@JsonProperty("img_url")
 	private String imgURL;
 
+	@JsonProperty("toppings")
+	private List<ToppingDto> toppings;
+	
 	public Long getId() {
 		return id;
 	}
@@ -83,6 +88,12 @@ public class OrderDetailResponseDto {
 		this.productName = productName;
 	}
 
-	
+	public List<ToppingDto> getToppings() {
+		return toppings;
+	}
 
+	public void setToppings(List<ToppingDto> toppings) {
+		this.toppings = toppings;
+	}
+	
 }

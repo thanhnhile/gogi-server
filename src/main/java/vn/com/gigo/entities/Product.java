@@ -59,15 +59,18 @@ public class Product {
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Rate> rates = new ArrayList<Rate>();
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE }, mappedBy = "roles")
+	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE }, mappedBy = "products")
 	private Set<Account> accounts = new HashSet<>();
+	
+	@Column(columnDefinition = "boolean default true")
+	private Boolean hasTopping;
 
 	public Product() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Product(String name, Double price, Double discount, String description, Boolean status, String imgURL) {
+	public Product(String name, Double price, Double discount, String description, Boolean status, String imgURL, Boolean hasTopping) {
 		super();
 		this.name = name;
 		this.price = price;
@@ -75,6 +78,7 @@ public class Product {
 		this.description = description;
 		this.status = status;
 		this.imgURL = imgURL;
+		this.hasTopping = hasTopping;
 	}
 
 	public Long getId() {
@@ -156,5 +160,15 @@ public class Product {
 	public void setAccounts(Set<Account> accounts) {
 		this.accounts = accounts;
 	}
+
+	public Boolean getHasTopping() {
+		return hasTopping;
+	}
+
+	public void setHasTopping(Boolean hasTopping) {
+		this.hasTopping = hasTopping;
+	}
+	
+	
 
 }

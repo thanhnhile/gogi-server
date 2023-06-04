@@ -24,6 +24,9 @@ public class ProductInputDto {
 	@JsonProperty("img_url")
 	private String imgURL;
 
+	@JsonProperty("hasTopping")
+	private Boolean hasTopping;
+	
 	public String getName() {
 		return name;
 	}
@@ -78,6 +81,14 @@ public class ProductInputDto {
 
 	public void setImgURL(String imgURL) {
 		this.imgURL = imgURL;
+	}
+
+	public Boolean getHasTopping() {
+		return hasTopping;
+	}
+
+	public void setHasTopping(Boolean hasTopping) {
+		this.hasTopping = hasTopping;
 	}
 	
 }

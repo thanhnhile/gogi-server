@@ -10,39 +10,39 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import vn.com.gigo.dtos.CategoryDto;
 import vn.com.gigo.dtos.DataResponse;
-import vn.com.gigo.services.impl.CategoryServiceImpl;
+import vn.com.gigo.dtos.ToppingDto;
+import vn.com.gigo.services.impl.ToppingServiceImpl;
 
 @RestController
-@RequestMapping("/categories")
-public class CategoryController {
+@RequestMapping("/toppings")
+public class ToppingController {
 	
 	@Autowired
-	private CategoryServiceImpl categoryService;
+	private ToppingServiceImpl toppingService;
 	
 	@GetMapping
 	private DataResponse getAll() {
-		return new DataResponse(categoryService.getAll());
+		return new DataResponse(toppingService.getAll());
 	}
 	
 	@GetMapping("/{id}")
 	private DataResponse getById(@PathVariable(value="id") Long id) {
-		return new DataResponse(categoryService.getById(id));
+		return new DataResponse(toppingService.getById(id));
 	}
 	
-	@PostMapping()
-	private DataResponse add(@RequestBody CategoryDto categoryDto) {
-		return new DataResponse(categoryService.add(categoryDto));
+	@PostMapping("/add")
+	private DataResponse add(@RequestBody ToppingDto toppingDto) {
+		return new DataResponse(toppingService.add(toppingDto));
 	}
 	
-	@PutMapping("/{id}")
-	private DataResponse update(@PathVariable(value="id") Long id, @RequestBody CategoryDto categoryDto) {
-		return new DataResponse(categoryService.update(id, categoryDto)); 
+	@PutMapping("/update/{id}")
+	private DataResponse update(@PathVariable(value="id") Long id, @RequestBody ToppingDto toppingDto) {
+		return new DataResponse(toppingService.update(id, toppingDto)); 
 	}
 	
-	@PutMapping("/update/status/{id}")
+	@PutMapping("/delete/{id}")
 	private DataResponse updateStatus(@PathVariable(value="id") Long id) {
-		return new DataResponse(categoryService.updateStatus(id)); 
+		return new DataResponse(toppingService.updateStatus(id)); 
 	}
 }

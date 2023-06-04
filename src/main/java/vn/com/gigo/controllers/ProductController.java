@@ -49,17 +49,17 @@ public class ProductController {
 		return new DataResponse(productService.searchByName(search, offSet, limit));
 	}
 	
-	@PostMapping("/add")
+	@PostMapping()
 	private DataResponse add(@RequestBody ProductInputDto productDto) {
 		return new DataResponse(productService.add(productDto));
 	}
 	
-	@PutMapping("/update/{id}")
+	@PutMapping("/{id}")
 	private DataResponse update(@PathVariable(value="id") Long id,@RequestBody ProductInputDto productDto) {
 		return new DataResponse(productService.update(id, productDto));
 	}
 	
-	@PutMapping("/update/product/{id}")
+	@PutMapping("/update/status/{id}")
 	private DataResponse updateStatus(@PathVariable(value="id") Long id) {
 		return new DataResponse(productService.updateStatus(id));
 	}
