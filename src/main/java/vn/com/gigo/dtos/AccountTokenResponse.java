@@ -1,9 +1,6 @@
 package vn.com.gigo.dtos;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.springframework.security.core.GrantedAuthority;
 
 public class AccountTokenResponse {
