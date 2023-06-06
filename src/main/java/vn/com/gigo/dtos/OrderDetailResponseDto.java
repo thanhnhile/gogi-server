@@ -79,11 +79,7 @@ public class OrderDetailResponseDto {
 	public String getSugar() {
 		return sugar;
 	}
-
-	public void setSugar(String sugar) {
-		this.sugar = sugar;
-	}
-
+	
 	public String getIced() {
 		return iced;
 	}
