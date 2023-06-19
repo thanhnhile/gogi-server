@@ -64,5 +64,10 @@ public class CategoryServiceImpl implements CategoryService{
 		}
 		else return null;
 	}
+
+	@Override
+	public Object getAvailable() {
+		return mapper.categorysToCategoryDtos(categoryRepo.getAvailableCategory());
+	}
 	
 }
