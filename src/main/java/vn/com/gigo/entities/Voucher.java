@@ -16,8 +16,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 @Entity
 @Table(name="vouchers")
 public class Voucher {
@@ -31,11 +29,6 @@ public class Voucher {
 	@Column(nullable=false)
 	private Double value;
 	
-//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern ="yyyy-MM-dd'T'HH:mm:ss.SSSZZ")
-//    private Date startDate;
-//	
-//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern ="yyyy-MM-dd'T'HH:mm:ss.SSSZZ")
-//    private Date endDate;
 	private LocalDateTime startDate;
 	
 	private LocalDateTime endDate;
