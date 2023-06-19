@@ -53,6 +53,7 @@ public class ToppingServiceImpl implements ToppingService {
 		if (toppingOptional.isPresent()) {
 			Topping topping = toppingOptional.get();
 			topping.setName(toppingDto.getName());
+			topping.setPrice(toppingDto.getPrice());
 			if (toppingDto.getStatus() != null) {
 				topping.setStatus(toppingDto.getStatus());
 			}
@@ -87,6 +88,11 @@ public class ToppingServiceImpl implements ToppingService {
 			toppings.add(topping);
 		}
 		return toppings;
+	}
+
+	@Override
+	public Object getAvailable() {
+		return mapper.toppingsToToppingDtos(toppingRepo.getAvailableTopping());
 	}
 
 }

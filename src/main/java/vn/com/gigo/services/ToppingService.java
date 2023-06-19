@@ -18,5 +18,7 @@ public interface ToppingService {
 
 	Object updateStatus(Long id);
 	
+	Object getAvailable();
+	
 	Set<Topping> saveOrderDetaiToppings(Set<ToppingDto> toppingDtos);
 }

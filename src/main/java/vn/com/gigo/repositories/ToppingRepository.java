@@ -14,4 +14,7 @@ public interface ToppingRepository extends JpaRepository<Topping, Long>{
 	
 	@Query(value = "SELECT * FROM toppings WHERE id in (SELECT topping_id FROM orderDetails_toppings WHERE orderDetail_id = ?1)", nativeQuery = true)
 	List<Topping> getToppingByOrderDetailId(Long orderDetail_id);
+	
+	@Query(value = "SELECT * FROM toppings WHERE status = 1",nativeQuery=true)
+	List<Topping> getAvailableTopping();
 }
