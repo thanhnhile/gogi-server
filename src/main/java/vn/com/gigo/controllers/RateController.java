@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import vn.com.gigo.dtos.DataResponse;
-import vn.com.gigo.dtos.RateInputDto;
+import vn.com.gigo.dtos.request.RateRequestDto;
 import vn.com.gigo.services.impl.RateServiceImpl;
 
 @RestController
@@ -24,7 +24,7 @@ public class RateController {
 	}
 	
 	@PostMapping
-	private DataResponse add(@RequestBody RateInputDto rateInputDto) {
+	private DataResponse add(@RequestBody RateRequestDto rateInputDto) {
 		return new DataResponse(rateService.add(rateInputDto));
 	}
 	

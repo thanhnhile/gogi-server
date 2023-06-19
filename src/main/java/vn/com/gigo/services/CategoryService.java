@@ -1,6 +1,6 @@
 package vn.com.gigo.services;
 
-import vn.com.gigo.dtos.CategoryDto;
+import vn.com.gigo.dtos.response.CategoryDto;
 
 public interface CategoryService {
 	Object getAll();

@@ -1,9 +1,9 @@
 package vn.com.gigo.services;
 
-import vn.com.gigo.dtos.OrderDetailDto;
+import vn.com.gigo.dtos.request.OrderDetailRequestDto;
 
 public interface OrderDetailService {
 	Object getOrderDetail(Long id);
 	
-	Object addOrderDetail(OrderDetailDto orderDetailDto);
+	Object addOrderDetail(OrderDetailRequestDto orderDetailDto);
 }

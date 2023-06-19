@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import vn.com.gigo.dtos.DataResponse;
-import vn.com.gigo.dtos.FeedBackInputDto;
+import vn.com.gigo.dtos.request.FeedBackRequestDto;
 
 @RestController
 @RequestMapping("/sendFeedback")
@@ -23,7 +23,7 @@ public class ContactController {
 	JavaMailSender mailSender;
 
 	@PostMapping
-	public DataResponse sendFeedback(@RequestBody FeedBackInputDto feedBackInputDto)
+	public DataResponse sendFeedback(@RequestBody FeedBackRequestDto feedBackInputDto)
 			throws MessagingException, UnsupportedEncodingException {
 		try {
 			MimeMessage message = mailSender.createMimeMessage();

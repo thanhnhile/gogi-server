@@ -1,6 +1,6 @@
 package vn.com.gigo.services;
 
-import vn.com.gigo.dtos.CustomerDto;
+import vn.com.gigo.dtos.response.CustomerDto;
 
 public interface CustomerService {
 	Object getCustomer(Long id);

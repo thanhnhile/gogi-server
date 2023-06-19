@@ -9,13 +9,13 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import vn.com.gigo.dtos.AccountNoPassDto;
-import vn.com.gigo.dtos.CustomerDto;
-import vn.com.gigo.dtos.OrderDetailDto;
-import vn.com.gigo.dtos.OrderDetailResponseDto;
-import vn.com.gigo.dtos.OrderDto;
-import vn.com.gigo.dtos.OrderInputDto;
-import vn.com.gigo.dtos.ToppingDto;
+import vn.com.gigo.dtos.request.AccountNoPassDto;
+import vn.com.gigo.dtos.request.OrderDetailRequestDto;
+import vn.com.gigo.dtos.request.OrderRequestDto;
+import vn.com.gigo.dtos.response.CustomerDto;
+import vn.com.gigo.dtos.response.OrderDetailDto;
+import vn.com.gigo.dtos.response.OrderDto;
+import vn.com.gigo.dtos.response.ToppingDto;
 import vn.com.gigo.entities.Account;
 import vn.com.gigo.entities.Customer;
 import vn.com.gigo.entities.Employee;
@@ -90,7 +90,7 @@ public class OrderServiceImpl implements OrderService {
 		for (Topping topping : orderDetail.getToppings()) {
 			toppings.add(topping);
 		}
-		OrderDetailResponseDto orderDetailResponseDto = mapper.detailToDetailResponseDto(orderDetail);
+		OrderDetailDto orderDetailResponseDto = mapper.detailToDetailResponseDto(orderDetail);
 		orderDetailResponseDto.setToppings(toppingMapper.toppingsToToppingDtos(toppings));
 		
 		return orderDetailResponseDto;
@@ -98,17 +98,17 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public Object getOrder(Long id) {
 		Order order = orderRepo.getReferenceById(id);
-		List<OrderDetailResponseDto> orderDetailResponseDtos = new ArrayList<OrderDetailResponseDto>();;
+		List<OrderDetailDto> orderDetailResponseDtos = new ArrayList<OrderDetailDto>();;
 		for (OrderDetail orderDetail  : order.getDetailList()) {
-			orderDetailResponseDtos.add((OrderDetailResponseDto) getOrderDetail(orderDetail.getId()));
+			orderDetailResponseDtos.add((OrderDetailDto) getOrderDetail(orderDetail.getId()));
 		}
 		OrderDto orderDto = mapper.orderToOrderDto(order);
 		orderDto.setDetailList(orderDetailResponseDtos);
 		return orderDto;
 	}
-	public void addNewOrder (OrderInputDto orderInputDto) {
+	public void addNewOrder (OrderRequestDto orderInputDto) {
 		addOrder(orderInputDto);
-		sendNotification(orderInputDto.getStore());
+		//sendNotification(orderInputDto.getStore());
 	}
 	
 	private void sendNotification (Long storeId) {
@@ -118,7 +118,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Object addOrder(OrderInputDto orderInputDto) {
+	public Object addOrder(OrderRequestDto orderInputDto) {
 		Order orderToAdd = mapper.orderInputDtoToOrder(orderInputDto);
 		orderToAdd.setStore(storeRepo.getReferenceById(orderInputDto.getStore()));
 		CustomerDto customerDto = orderInputDto.getCustomer();
@@ -155,11 +155,11 @@ public class OrderServiceImpl implements OrderService {
 		// set order status
 		orderToAdd.setStatus(OrderStatus.IN_PROGRESS.getValue());
 		// save order detail
-		List<OrderDetailDto> detailDtos = orderInputDto.getDetailList();
+		List<OrderDetailRequestDto> detailDtos = orderInputDto.getDetailList();
 		// save order
 		Order newOrder = orderRepo.save(orderToAdd);
 		List<OrderDetail> details = new ArrayList<OrderDetail>();
-		for (OrderDetailDto detailDto : detailDtos) {
+		for (OrderDetailRequestDto detailDto : detailDtos) {
 			OrderDetail orderDetail = mapper.detailDtoToDetail(detailDto);
 			if(detailDto.getToppings() != null) {
 				orderDetail.setToppings(toppingServiceImpl.saveOrderDetaiToppings(detailDto.getToppings()));
@@ -234,13 +234,13 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Object updateOrderDetail(Long id, List<OrderDetailDto> detailDtos) {
+	public Object updateOrderDetail(Long id, List<OrderDetailRequestDto> detailDtos) {
 		Optional<Order> orderOptional = orderRepo.findById(id);
 		if (orderOptional.isPresent()) {
 			Order orderToUpdate = orderOptional.get();
 			Double total = 0.0;
 			List<OrderDetail> newDetails = new ArrayList<OrderDetail>();
-			for (OrderDetailDto detailDto : detailDtos) {
+			for (OrderDetailRequestDto detailDto : detailDtos) {
 				OrderDetail orderDetail = mapper.detailDtoToDetail(detailDto);
 				orderDetail.setOrder(orderToUpdate);
 				orderDetailRepo.save(orderDetail);

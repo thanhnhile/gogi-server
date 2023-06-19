@@ -10,7 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import vn.com.gigo.dtos.PagingDto;
-import vn.com.gigo.dtos.ProductInputDto;
+import vn.com.gigo.dtos.request.ProductRequestDto;
 import vn.com.gigo.entities.Category;
 import vn.com.gigo.entities.Product;
 import vn.com.gigo.exception.ResourceNotFoundException;
@@ -45,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Object add(ProductInputDto productDto) {
+	public Object add(ProductRequestDto productDto) {
 		if (productDto.getDiscount() == null) {
 			productDto.setDiscount(0.0);
 		}
@@ -59,7 +59,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Object update(Long id, ProductInputDto productDto) {
+	public Object update(Long id, ProductRequestDto productDto) {
 		Optional<Product> productOptional = productRepo.findById(id);
 		if (productOptional.isPresent()) {
 			Product productToUpdate = mapper.productInputDtoToProduct(productDto);

@@ -1,7 +1,7 @@
 package vn.com.gigo.services;
 
-import vn.com.gigo.dtos.AccountRoleDto;
-import vn.com.gigo.dtos.RoleDto;
+import vn.com.gigo.dtos.request.AccountRoleDto;
+import vn.com.gigo.dtos.response.RoleDto;
 
 public interface RoleService {
 	Object getAllRole();

@@ -5,7 +5,7 @@ import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-import vn.com.gigo.dtos.ToppingDto;
+import vn.com.gigo.dtos.response.ToppingDto;
 import vn.com.gigo.entities.Topping;
 @Mapper(componentModel = "spring")
 public interface ToppingMapper {

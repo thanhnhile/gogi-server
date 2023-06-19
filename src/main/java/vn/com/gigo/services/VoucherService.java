@@ -1,6 +1,6 @@
 package vn.com.gigo.services;
 
-import vn.com.gigo.dtos.VoucherDto;
+import vn.com.gigo.dtos.response.VoucherDto;
 
 public interface VoucherService {
 	Object getAllVoucher();

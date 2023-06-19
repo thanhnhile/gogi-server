@@ -1,10 +1,12 @@
-package vn.com.gigo.dtos;
+package vn.com.gigo.dtos.request;
 
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class OrderInputDto {
+import vn.com.gigo.dtos.response.CustomerDto;
+
+public class OrderRequestDto {
 	
 	@JsonProperty("orderType")
 	private String orderType;
@@ -16,7 +18,7 @@ public class OrderInputDto {
 	private int total;
 
 	@JsonProperty("details")
-	private List<OrderDetailDto> detailList;
+	private List<OrderDetailRequestDto> detailList;
 
 	@JsonProperty("customer")
 	private CustomerDto customer;
@@ -54,11 +56,11 @@ public class OrderInputDto {
 		this.total = total;
 	}
 
-	public List<OrderDetailDto> getDetailList() {
+	public List<OrderDetailRequestDto> getDetailList() {
 		return detailList;
 	}
 
-	public void setDetailList(List<OrderDetailDto> detailList) {
+	public void setDetailList(List<OrderDetailRequestDto> detailList) {
 		this.detailList = detailList;
 	}
 

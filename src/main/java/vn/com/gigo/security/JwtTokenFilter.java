@@ -59,7 +59,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 		String token = header.split(" ")[1].trim();
 		return token;
 	}
-
+	
 	private void setAuthenticationContext(String token, HttpServletRequest request) {
 		UserDetails userDetails = getUserDetails(token);
 		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null,

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import vn.com.gigo.dtos.DataResponse;
-import vn.com.gigo.dtos.ToppingDto;
+import vn.com.gigo.dtos.response.ToppingDto;
 import vn.com.gigo.services.impl.ToppingServiceImpl;
 
 @RestController

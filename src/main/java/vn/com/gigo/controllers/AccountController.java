@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import vn.com.gigo.dtos.AccountDto;
 import vn.com.gigo.dtos.DataResponse;
+import vn.com.gigo.dtos.request.AccountDto;
 import vn.com.gigo.security.JwtTokenUtil;
 import vn.com.gigo.services.impl.AccountServiceImpl;
 

@@ -1,4 +1,4 @@
-package vn.com.gigo.dtos;
+package vn.com.gigo.dtos.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

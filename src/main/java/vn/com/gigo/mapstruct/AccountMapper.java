@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.mapstruct.Mapper;
 
-import vn.com.gigo.dtos.AccountDto;
-import vn.com.gigo.dtos.AccountNoPassDto;
+import vn.com.gigo.dtos.request.AccountDto;
+import vn.com.gigo.dtos.request.AccountNoPassDto;
 import vn.com.gigo.entities.Account;
 
 @Mapper(componentModel = "spring")

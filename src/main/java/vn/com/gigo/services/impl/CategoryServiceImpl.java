@@ -5,8 +5,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import vn.com.gigo.dtos.CategoryDto;
+import vn.com.gigo.dtos.response.CategoryDto;
 import vn.com.gigo.entities.Category;
+import vn.com.gigo.exception.ResourceNotFoundException;
 import vn.com.gigo.mapstruct.CategoryMapper;
 import vn.com.gigo.repositories.CategoryRepository;
 import vn.com.gigo.services.CategoryService;
@@ -27,8 +28,11 @@ public class CategoryServiceImpl implements CategoryService{
 
 	@Override
 	public Object getById(Long id) {
-		Optional<Category> category = categoryRepo.findById(id);
-		return mapper.categoryToCategoryDto(category.get());
+		Category category = categoryRepo.findById(id).orElseGet(null);
+		if (category != null) {
+			return mapper.categoryToCategoryDto(category);
+		}
+		throw new ResourceNotFoundException("Category with id " + id + " doest not exist");
 	}
 
 	@Override

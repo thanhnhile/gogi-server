@@ -1,8 +1,8 @@
-package vn.com.gigo.dtos;
+package vn.com.gigo.dtos.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class RateInputDto {
+public class RateRequestDto {
 	@JsonProperty("point")
 	private int point;
 	

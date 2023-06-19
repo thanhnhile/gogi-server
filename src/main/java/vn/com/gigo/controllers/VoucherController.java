@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import vn.com.gigo.dtos.DataResponse;
-import vn.com.gigo.dtos.VoucherDto;
+import vn.com.gigo.dtos.response.VoucherDto;
 import vn.com.gigo.services.impl.VoucherServiceImpl;
 
 @RestController

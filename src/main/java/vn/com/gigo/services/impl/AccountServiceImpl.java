@@ -13,9 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import vn.com.gigo.dtos.AccountDto;
-import vn.com.gigo.dtos.AccountNoPassDto;
-import vn.com.gigo.dtos.EmployeeDto;
+import vn.com.gigo.dtos.request.AccountDto;
+import vn.com.gigo.dtos.request.AccountNoPassDto;
+import vn.com.gigo.dtos.response.EmployeeDto;
 import vn.com.gigo.entities.Account;
 import vn.com.gigo.entities.Customer;
 import vn.com.gigo.entities.Product;

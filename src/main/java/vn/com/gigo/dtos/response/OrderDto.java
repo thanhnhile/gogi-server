@@ -1,4 +1,4 @@
-package vn.com.gigo.dtos;
+package vn.com.gigo.dtos.response;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,7 +23,7 @@ public class OrderDto {
 	private double total;
 	
 	@JsonProperty("details")
-	private List<OrderDetailResponseDto> detailList;
+	private List<OrderDetailDto> detailList;
 	
 	@JsonProperty("customer")
 	private CustomerDto customer;
@@ -95,11 +95,11 @@ public class OrderDto {
 
 
 	
-	public List<OrderDetailResponseDto> getDetailList() {
+	public List<OrderDetailDto> getDetailList() {
 		return detailList;
 	}
 
-	public void setDetailList(List<OrderDetailResponseDto> detailList) {
+	public void setDetailList(List<OrderDetailDto> detailList) {
 		this.detailList = detailList;
 	}
 

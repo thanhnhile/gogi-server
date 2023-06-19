@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import vn.com.gigo.dtos.CategoryDto;
 import vn.com.gigo.dtos.DataResponse;
+import vn.com.gigo.dtos.response.CategoryDto;
 import vn.com.gigo.services.impl.CategoryServiceImpl;
 
 @RestController

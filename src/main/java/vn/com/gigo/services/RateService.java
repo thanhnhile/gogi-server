@@ -1,9 +1,9 @@
 package vn.com.gigo.services;
 
-import vn.com.gigo.dtos.RateInputDto;
+import vn.com.gigo.dtos.request.RateRequestDto;
 
 public interface RateService {
-	Object add(RateInputDto rateInputDto);
+	Object add(RateRequestDto rateInputDto);
 	
 	Object getRatesByUsername();
 	

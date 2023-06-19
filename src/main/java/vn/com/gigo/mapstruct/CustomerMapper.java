@@ -5,7 +5,7 @@ import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import vn.com.gigo.dtos.CustomerDto;
+import vn.com.gigo.dtos.response.CustomerDto;
 import vn.com.gigo.entities.Customer;
 
 @Mapper(componentModel = "spring")
