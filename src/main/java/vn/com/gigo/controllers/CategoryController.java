@@ -26,6 +26,11 @@ public class CategoryController {
 		return new DataResponse(categoryService.getAll());
 	}
 	
+	@GetMapping("/available")
+	private DataResponse getAvailable() {
+		return new DataResponse(categoryService.getAvailable());
+	}
+	
 	@GetMapping("/{id}")
 	private DataResponse getById(@PathVariable(value="id") Long id) {
 		return new DataResponse(categoryService.getById(id));

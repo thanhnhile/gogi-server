@@ -74,8 +74,8 @@ public class OrderDetailDto {
 
 	public void setSize(String size) {
 		this.size = size;
-	}
-
+	}	
+	
 	public String getSugar() {
 		return sugar;
 	}

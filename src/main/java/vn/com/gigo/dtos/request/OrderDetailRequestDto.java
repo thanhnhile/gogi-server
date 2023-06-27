@@ -55,22 +55,12 @@ public class OrderDetailRequestDto {
 		this.quantity = quantity;
 	}
 	
-	
-
 	public String getSize() {
 		return size;
 	}
 
 	public void setSize(String size) {
 		this.size = size;
-	}
-
-	public Long getProduct() {
-		return product;
-	}
-
-	public void setProduct(Long product) {
-		this.product = product;
 	}
 
 	public String getSugar() {
@@ -87,6 +77,14 @@ public class OrderDetailRequestDto {
 
 	public void setIced(String iced) {
 		this.iced = iced;
+	}
+
+	public Long getProduct() {
+		return product;
+	}
+
+	public void setProduct(Long product) {
+		this.product = product;
 	}
 
 	public Set<ToppingDto> getToppings() {

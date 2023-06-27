@@ -12,4 +12,6 @@ public interface CategoryService {
 	Object update(Long id,CategoryDto categoryDto);
 	
 	Object updateStatus(Long id);
+	
+	Object getAvailable();
 }

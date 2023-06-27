@@ -26,6 +26,11 @@ public class ToppingController {
 		return new DataResponse(toppingService.getAll());
 	}
 	
+	@GetMapping("/available")
+	private DataResponse getAvailable() {
+		return new DataResponse(toppingService.getAvailable());
+	}
+	
 	@GetMapping("/{id}")
 	private DataResponse getById(@PathVariable(value="id") Long id) {
 		return new DataResponse(toppingService.getById(id));
