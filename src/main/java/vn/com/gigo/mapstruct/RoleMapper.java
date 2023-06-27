@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.mapstruct.Mapper;
 
-import vn.com.gigo.dtos.RoleDto;
+import vn.com.gigo.dtos.response.RoleDto;
 import vn.com.gigo.entities.Role;
 
 

@@ -4,7 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import vn.com.gigo.dtos.RateInputDto;
+import vn.com.gigo.dtos.request.RateRequestDto;
 import vn.com.gigo.entities.Account;
 import vn.com.gigo.entities.Product;
 import vn.com.gigo.entities.Rate;
@@ -30,7 +30,7 @@ public class RateServiceImpl implements RateService{
 	private RateMapper rateMapper;
 
 	@Override
-	public Object add(RateInputDto rateInputDto) {
+	public Object add(RateRequestDto rateInputDto) {
 		if(checkProductHasRated(rateInputDto.getProduct())) {
 			return "The Product has rated by user";
 		}

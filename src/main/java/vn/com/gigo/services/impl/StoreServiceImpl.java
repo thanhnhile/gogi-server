@@ -12,7 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import vn.com.gigo.dtos.PagingDto;
-import vn.com.gigo.dtos.StoreDto;
+import vn.com.gigo.dtos.response.StoreDto;
 import vn.com.gigo.entities.Store;
 import vn.com.gigo.mapstruct.StoreMapper;
 import vn.com.gigo.repositories.StoreRepository;

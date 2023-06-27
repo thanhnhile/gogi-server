@@ -6,9 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import vn.com.gigo.dtos.ProductDetailDto;
-import vn.com.gigo.dtos.ProductDto;
-import vn.com.gigo.dtos.RateDto;
+import vn.com.gigo.dtos.response.ProductDetailDto;
+import vn.com.gigo.dtos.response.ProductDto;
+import vn.com.gigo.dtos.response.RateDto;
 import vn.com.gigo.entities.Product;
 import vn.com.gigo.entities.Rate;
 import vn.com.gigo.mapstruct.ProductMapper;

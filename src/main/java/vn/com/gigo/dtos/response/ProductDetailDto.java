@@ -1,4 +1,4 @@
-package vn.com.gigo.dtos;
+package vn.com.gigo.dtos.response;
 
 import java.util.List;
 

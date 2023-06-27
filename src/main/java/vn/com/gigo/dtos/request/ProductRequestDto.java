@@ -1,11 +1,10 @@
-package vn.com.gigo.dtos;
+package vn.com.gigo.dtos.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ProductDto {
-	@JsonProperty("id")
-	private Long id;
-	
+import vn.com.gigo.dtos.response.CategoryDto;
+
+public class ProductRequestDto {
 	@JsonProperty("name")
 	private String name;
 	
@@ -26,21 +25,10 @@ public class ProductDto {
 	
 	@JsonProperty("img_url")
 	private String imgURL;
-	
-	@JsonProperty("avgPoint")
-	private Double avgPoint;
-	
+
 	@JsonProperty("hasTopping")
 	private Boolean hasTopping;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
+	
 	public String getName() {
 		return name;
 	}
@@ -97,14 +85,6 @@ public class ProductDto {
 		this.imgURL = imgURL;
 	}
 
-	public Double getAvgPoint() {
-		return avgPoint;
-	}
-
-	public void setAvgPoint(Double avgPoint) {
-		this.avgPoint = avgPoint;
-	}
-
 	public Boolean getHasTopping() {
 		return hasTopping;
 	}
@@ -112,6 +92,5 @@ public class ProductDto {
 	public void setHasTopping(Boolean hasTopping) {
 		this.hasTopping = hasTopping;
 	}
-
+	
 }
-

@@ -12,7 +12,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import vn.com.gigo.dtos.VoucherDto;
+import vn.com.gigo.dtos.response.VoucherDto;
 import vn.com.gigo.entities.Account;
 import vn.com.gigo.entities.Voucher;
 import vn.com.gigo.exception.ResourceNotFoundException;

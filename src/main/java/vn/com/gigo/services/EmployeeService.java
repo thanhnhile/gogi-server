@@ -1,6 +1,6 @@
 package vn.com.gigo.services;
 
-import vn.com.gigo.dtos.EmployeeDto;
+import vn.com.gigo.dtos.response.EmployeeDto;
 
 public interface EmployeeService {
 	Object getAllEmployee();

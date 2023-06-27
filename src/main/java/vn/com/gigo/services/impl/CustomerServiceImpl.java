@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import vn.com.gigo.dtos.CustomerDto;
+import vn.com.gigo.dtos.response.CustomerDto;
 import vn.com.gigo.entities.Account;
 import vn.com.gigo.entities.Customer;
 import vn.com.gigo.exception.ResourceNotFoundException;

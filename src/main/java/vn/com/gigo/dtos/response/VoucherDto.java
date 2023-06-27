@@ -1,8 +1,6 @@
-package vn.com.gigo.dtos;
+package vn.com.gigo.dtos.response;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class VoucherDto {

@@ -1,14 +1,14 @@
 package vn.com.gigo.services;
-import vn.com.gigo.dtos.ProductInputDto;
+import vn.com.gigo.dtos.request.ProductRequestDto;
 
 public interface ProductService {
 	Object getAllPagnation(int offSet, int limit, String sortBy, Boolean asc);
 
 	Object getById(Long id);
 
-	Object add(ProductInputDto productDto);
+	Object add(ProductRequestDto productDto);
 
-	Object update(Long id, ProductInputDto productDto);
+	Object update(Long id, ProductRequestDto productDto);
 	
 	Object getAllProductsByCategoryId(Long id,int offSet,int limit);
 	

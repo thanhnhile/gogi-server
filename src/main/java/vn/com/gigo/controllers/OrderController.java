@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import vn.com.gigo.dtos.DataResponse;
-import vn.com.gigo.dtos.OrderInputDto;
+import vn.com.gigo.dtos.request.OrderRequestDto;
 import vn.com.gigo.services.impl.OrderServiceImpl;
 import vn.com.gigo.utils.OrderStatus;
 
@@ -49,7 +49,7 @@ public class OrderController {
 	}
 	
 	@PostMapping
-	private DataResponse addOrder(@RequestBody OrderInputDto orderInputDto) {
+	private DataResponse addOrder(@RequestBody OrderRequestDto orderInputDto) {
 		orderService.addNewOrder(orderInputDto);
 		DataResponse response = new DataResponse("Order is created");
 		return response;

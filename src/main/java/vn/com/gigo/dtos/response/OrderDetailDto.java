@@ -1,10 +1,10 @@
-package vn.com.gigo.dtos;
+package vn.com.gigo.dtos.response;
 
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class OrderDetailResponseDto {
+public class OrderDetailDto {
 	@JsonProperty("detail_id")
 	private Long id;
 	

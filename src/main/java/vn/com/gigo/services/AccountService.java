@@ -1,6 +1,6 @@
 package vn.com.gigo.services;
 
-import vn.com.gigo.dtos.AccountDto;
+import vn.com.gigo.dtos.request.AccountDto;
 
 public interface AccountService {
 	Object getAccount(Long id);
