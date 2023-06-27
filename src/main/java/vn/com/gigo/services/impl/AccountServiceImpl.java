@@ -218,7 +218,6 @@ public class AccountServiceImpl implements AccountService {
 			} else {
 				if (listCustomer.contains(customerToUpdate)) {
 					Customer oldDefault = customerRepo.getCustomerInfoDefaultByUsername(loggedUsername);
-					System.out.println(oldDefault);
 					if(oldDefault != null) {
 						oldDefault.setIsDefault(false);
 						customerRepo.save(oldDefault);
@@ -293,6 +292,13 @@ public class AccountServiceImpl implements AccountService {
 		Account account = accountRepo.findOneByUsername(username);
 		List<Product> listProductsLiked = productRepo.getAllProductsLiked(account.getId());
 		return customMapper.mapToProductDtos(listProductsLiked);
+	}
+
+	@Override
+	public Object getProductIdsLikeByUsername() {
+		String username = SecurityUtils.getLoggedUsername();
+		Account account = accountRepo.findOneByUsername(username);
+		return accountRepo.findAllProductIdByAccountId(account.getId());
 	}
 
 }

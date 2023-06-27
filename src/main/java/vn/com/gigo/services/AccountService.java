@@ -35,4 +35,5 @@ public interface AccountService {
 	
 	Object getAllProductsLiked();
 
+	Object getProductIdsLikeByUsername();
 }
