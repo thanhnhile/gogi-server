@@ -36,4 +36,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	@Query(value="SELECT * FROM products WHERE products.name LIKE '%combo%' AND status = 1",
 			nativeQuery=true)
 	List<Product> getCombo();
+	
+	@Query(value="SELECT * FROM products WHERE status = 1", nativeQuery=true)
+	List<Product> getAvailableProduct();
 }

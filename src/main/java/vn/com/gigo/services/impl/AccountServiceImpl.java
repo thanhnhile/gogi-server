@@ -295,4 +295,9 @@ public class AccountServiceImpl implements AccountService {
 		return customMapper.mapToProductDtos(listProductsLiked);
 	}
 
+	@Override
+	public Object getAvailableAccount() {
+		return accountMapper.accountsToAccountDtos(accountRepo.getAvailableAccount());
+	}
+
 }

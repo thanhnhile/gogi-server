@@ -68,6 +68,12 @@ public class ProductController {
 	private DataResponse getAllProducts() {
 		return new DataResponse(productService.getAllProduct());
 	}
+	
+	@GetMapping("/available")
+	private DataResponse getAvailableProducts() {
+		return new DataResponse(productService.getAvailable());
+	}
+	
 	//app
 	@GetMapping("/searchKeyword")
 	private DataResponse search(@RequestParam(value = "k") String keyword) {

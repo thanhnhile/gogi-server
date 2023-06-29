@@ -27,4 +27,6 @@ public interface ProductService {
 	Object getProductsForYou();
 	
 	Object getCombo();
+	
+	Object getAvailable();
 }
