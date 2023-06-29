@@ -23,6 +23,9 @@ public interface AccountRepository extends JpaRepository<Account, Long>{
 	@Query("SELECT a FROM Account a WHERE a.token = ?1")
 	Account findByToken(String token);
 	
+	@Query(value="SELECT * FROM accounts WHERE accounts.account_id in (SELECT account_id FROM accounts_roles WHERE role_id != 2 GROUP BY account_id HAVING COUNT(accounts_roles.account_id) = 1)", nativeQuery=true)
+	List<Account> getAvailableAccount();
+
 	@Query(value="SELECT product_id FROM accounts_products WHERE account_id = ?1", nativeQuery = true)
 	List<Long> findAllProductIdByAccountId(Long accountId);
 }

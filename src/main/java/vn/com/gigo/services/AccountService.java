@@ -3,6 +3,8 @@ package vn.com.gigo.services;
 import vn.com.gigo.dtos.request.AccountDto;
 
 public interface AccountService {
+	Object getAvailableAccount();
+	
 	Object getAccount(Long id);
 	
 	Object getCustomerInfoByUserName();

@@ -43,6 +43,11 @@ public class AccountController {
 		return new DataResponse(accountImpl.getAllAccount());
 	}
 
+	@GetMapping("/available")
+	public DataResponse getAvailableAccount() {
+		return new DataResponse(accountImpl.getAvailableAccount());
+	}
+	
 	@GetMapping("/{id}")
 	public DataResponse getAccount(@PathVariable(value = "id") Long id) {
 		return new DataResponse(accountImpl.getAccount(id));

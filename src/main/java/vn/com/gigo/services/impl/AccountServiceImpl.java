@@ -295,6 +295,11 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
+	public Object getAvailableAccount() {
+		return accountMapper.accountsToAccountDtos(accountRepo.getAvailableAccount());
+	}
+	
+	@Override
 	public Object getProductIdsLikeByUsername() {
 		String username = SecurityUtils.getLoggedUsername();
 		Account account = accountRepo.findOneByUsername(username);

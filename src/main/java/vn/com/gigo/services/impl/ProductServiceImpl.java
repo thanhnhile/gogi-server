@@ -162,4 +162,9 @@ public class ProductServiceImpl implements ProductService {
 		return customMapper.mapToProductDtos(productRepo.getCombo());
 	}
 
+	@Override
+	public Object getAvailable() {
+		return mapper.productsToProductDtos(productRepo.getAvailableProduct());
+	}
+
 }
