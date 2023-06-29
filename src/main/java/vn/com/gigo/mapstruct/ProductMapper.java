@@ -6,9 +6,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-import vn.com.gigo.dtos.ProductDto;
-import vn.com.gigo.dtos.ProductInputDto;
-import vn.com.gigo.dtos.RateDto;
+import vn.com.gigo.dtos.request.ProductRequestDto;
+import vn.com.gigo.dtos.response.ProductDto;
+import vn.com.gigo.dtos.response.RateDto;
 import vn.com.gigo.entities.Product;
 import vn.com.gigo.entities.Rate;
 
@@ -27,16 +27,18 @@ public interface ProductMapper {
 	@Mapping(source = "user", target = "user.username")
 	Rate rateDtoToRate(RateDto dto);
 	
-	/**ProductInputDto*/
-	Product productInputDtoToProduct(ProductInputDto dto);
-
-	/**ProductDto*/
+	
+	/**Product*/
 	// ----------------------------Entity To DTO---------------------------
 	ProductDto productToProductDto(Product product);
 
 	List<ProductDto> productsToProductDtos(List<Product> list);
 
 	// ---------------------------DTO To Entity---------------------------
+	//ProductRequestDto
+	Product productInputDtoToProduct(ProductRequestDto dto);
+	
+	//ProductDto
 	Product productDtoToProduct(ProductDto dto);
 
 	List<Product> productDtosToProducts(List<ProductDto> list);

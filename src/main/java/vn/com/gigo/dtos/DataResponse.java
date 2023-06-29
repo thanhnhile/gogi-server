@@ -5,9 +5,9 @@ public class DataResponse {
 	private String errMsg;
 	private int status;
 	private Object data;
+	
 	public DataResponse() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	public DataResponse (Object data) {
 		this.errCode = "200";

@@ -11,8 +11,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import vn.com.gigo.dtos.EmployeeDto;
 import vn.com.gigo.dtos.PagingDto;
+import vn.com.gigo.dtos.response.EmployeeDto;
 import vn.com.gigo.entities.Account;
 import vn.com.gigo.entities.Employee;
 import vn.com.gigo.entities.Store;

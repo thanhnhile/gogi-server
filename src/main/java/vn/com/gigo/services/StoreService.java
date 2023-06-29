@@ -1,6 +1,6 @@
 package vn.com.gigo.services;
 
-import vn.com.gigo.dtos.StoreDto;
+import vn.com.gigo.dtos.response.StoreDto;
 
 public interface StoreService {
 	Object getAllStore();

@@ -34,7 +34,7 @@ import vn.com.gigo.security.JwtTokenFilter;
 @EnableWebSecurity(debug = true)
 @RestController
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
-@CrossOrigin(value = "http://localhost:3000")
+@CrossOrigin(value = "http://localhost:3000", allowCredentials = "true")
 public class ApplicationSecurity {
 
 	@Autowired
@@ -90,7 +90,7 @@ public class ApplicationSecurity {
 				.hasAuthority("EMPLOYEE");
 
 		http.authorizeRequests()
-				.antMatchers("/auth", "/register", "/employees/account/**", "/subscribe/**",
+				.antMatchers("/auth", "/register", "/refresh", "/employees/account/**", "/subscribe/**",
 						"/accounts/forgot_password/**", "/accounts/reset_password/**", "/sendFeedback")
 				.permitAll()
 				.antMatchers(HttpMethod.GET, "/categories/**", "/products/**", "/stores/**", "/vouchers/**",
@@ -110,8 +110,8 @@ public class ApplicationSecurity {
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 		configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+		configuration.setAllowCredentials(true);
 		configuration.addAllowedHeader("*");
-		configuration.addAllowedOrigin("*");
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);

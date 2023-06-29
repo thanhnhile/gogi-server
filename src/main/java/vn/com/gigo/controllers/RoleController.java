@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import vn.com.gigo.dtos.AccountRoleDto;
 import vn.com.gigo.dtos.DataResponse;
-import vn.com.gigo.dtos.RoleDto;
+import vn.com.gigo.dtos.request.AccountRoleDto;
+import vn.com.gigo.dtos.response.RoleDto;
 import vn.com.gigo.services.impl.RoleServiceImpl;
 
 

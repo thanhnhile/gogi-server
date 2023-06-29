@@ -13,9 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import vn.com.gigo.dtos.AccountDto;
-import vn.com.gigo.dtos.AccountNoPassDto;
-import vn.com.gigo.dtos.EmployeeDto;
+import vn.com.gigo.dtos.request.AccountDto;
+import vn.com.gigo.dtos.request.AccountNoPassDto;
+import vn.com.gigo.dtos.response.EmployeeDto;
 import vn.com.gigo.entities.Account;
 import vn.com.gigo.entities.Customer;
 import vn.com.gigo.entities.Product;
@@ -218,7 +218,6 @@ public class AccountServiceImpl implements AccountService {
 			} else {
 				if (listCustomer.contains(customerToUpdate)) {
 					Customer oldDefault = customerRepo.getCustomerInfoDefaultByUsername(loggedUsername);
-					System.out.println(oldDefault);
 					if(oldDefault != null) {
 						oldDefault.setIsDefault(false);
 						customerRepo.save(oldDefault);
@@ -298,6 +297,13 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public Object getAvailableAccount() {
 		return accountMapper.accountsToAccountDtos(accountRepo.getAvailableAccount());
+	}
+	
+	@Override
+	public Object getProductIdsLikeByUsername() {
+		String username = SecurityUtils.getLoggedUsername();
+		Account account = accountRepo.findOneByUsername(username);
+		return accountRepo.findAllProductIdByAccountId(account.getId());
 	}
 
 }

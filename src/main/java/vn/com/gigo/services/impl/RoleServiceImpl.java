@@ -7,8 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import vn.com.gigo.dtos.AccountRoleDto;
-import vn.com.gigo.dtos.RoleDto;
+import vn.com.gigo.dtos.request.AccountRoleDto;
+import vn.com.gigo.dtos.response.RoleDto;
 import vn.com.gigo.entities.Account;
 import vn.com.gigo.entities.Role;
 import vn.com.gigo.mapstruct.RoleMapper;

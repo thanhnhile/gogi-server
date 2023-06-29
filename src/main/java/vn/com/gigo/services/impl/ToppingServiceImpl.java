@@ -10,7 +10,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import vn.com.gigo.dtos.ToppingDto;
+import vn.com.gigo.dtos.response.ToppingDto;
 import vn.com.gigo.entities.Topping;
 import vn.com.gigo.exception.ResourceNotFoundException;
 import vn.com.gigo.mapstruct.ToppingMapper;

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import vn.com.gigo.dtos.DataResponse;
-import vn.com.gigo.dtos.StoreDto;
+import vn.com.gigo.dtos.response.StoreDto;
 import vn.com.gigo.services.impl.StoreServiceImpl;
 
 

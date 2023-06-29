@@ -1,4 +1,4 @@
-package vn.com.gigo.dtos;
+package vn.com.gigo.dtos.response;
 
 import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,7 +10,7 @@ public class AccountTokenResponse {
 
 	public AccountTokenResponse() { }
 
-	
+
 	public Collection<? extends GrantedAuthority> getRoles() {
 		return roles;
 	}
@@ -45,5 +45,9 @@ public class AccountTokenResponse {
 
 	public void setAccessToken(String accessToken) {
 		this.accessToken = accessToken;
+	}
+
+	public void setRoles(Collection<? extends GrantedAuthority> roles) {
+		this.roles = roles;
 	}
 }

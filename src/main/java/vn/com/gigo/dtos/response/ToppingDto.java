@@ -1,16 +1,20 @@
-package vn.com.gigo.dtos;
+package vn.com.gigo.dtos.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class CategoryDto {
+public class ToppingDto {
 	@JsonProperty("id")
 	private Long id;
 	
 	@JsonProperty("name")
 	private String name;
 	
+	@JsonProperty("price")
+	private Double price;
+	
 	@JsonProperty("status")
 	private Boolean status;
+
 
 	public Long getId() {
 		return id;
@@ -28,6 +32,14 @@ public class CategoryDto {
 		this.name = name;
 	}
 
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
 	public Boolean getStatus() {
 		return status;
 	}
@@ -35,6 +47,4 @@ public class CategoryDto {
 	public void setStatus(Boolean status) {
 		this.status = status;
 	}
-	
-	
 }
