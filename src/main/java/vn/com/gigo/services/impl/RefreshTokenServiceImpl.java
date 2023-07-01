@@ -23,7 +23,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 	@Autowired
 	private AccountRepository accountRepo;
 
-	private static final long EXPIRE_DURATION = 24 * 60 * 60 * 1000 * 7; // 1 week
+	private static final long EXPIRE_DURATION = 24 * 60 * 60 * 1000 * 1; // 1 week
 
 	@Override
 	public RefreshToken findByToken(String refreshToken) {
@@ -33,12 +33,13 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 
 	@Override
 	public RefreshToken createRefreshToken(Long userId) {
+		//delete old token
+		deleteByUserId(userId);
 		RefreshToken refreshToken = new RefreshToken();
-
 		refreshToken.setAccount(accountRepo.findOneById(userId));
 		refreshToken.setExpiryDate(Instant.now().plusMillis(EXPIRE_DURATION));
 		refreshToken.setToken(UUID.randomUUID().toString());
-
+		//save new token
 		refreshToken = refreshTokenRepo.save(refreshToken);
 		return refreshToken;
 	}
