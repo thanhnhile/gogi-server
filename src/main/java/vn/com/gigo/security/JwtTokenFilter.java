@@ -36,7 +36,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
 		String token = getAccessToken(request);
 		if (!jwtUtil.validateAccessToken(token)) {
-			((HttpServletResponse) response).sendError(HttpServletResponse.SC_FORBIDDEN, "JWT is invalid");
 			filterChain.doFilter(request, response);
 			return;
 		}
