@@ -2,8 +2,6 @@ package vn.com.gigo;
 
 import java.util.Arrays;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +26,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import vn.com.gigo.repositories.AccountRepository;
+import vn.com.gigo.security.DelegatedAuthenticationEntryPoint;
 import vn.com.gigo.security.JwtTokenFilter;
 
 @Configuration
@@ -42,6 +41,9 @@ public class ApplicationSecurity {
 
 	@Autowired
 	private JwtTokenFilter jwtTokenFilter;
+	
+	@Autowired
+	private DelegatedAuthenticationEntryPoint delegatedAuthenticationEntryPoint;
 
 	@Bean
 	public UserDetailsService userDetailsService() {
@@ -71,6 +73,7 @@ public class ApplicationSecurity {
 		http.csrf().disable();
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
+        
 		// role admin
 		http.authorizeRequests()
 				.antMatchers(HttpMethod.POST, "/categories/**", "/products/**", "/stores/**", "/vouchers/**",
@@ -97,12 +100,15 @@ public class ApplicationSecurity {
 						"/rates/**", "/toppings/**")
 				.permitAll().antMatchers(HttpMethod.POST, "/orders").permitAll().anyRequest().authenticated();
 
-		http.exceptionHandling().authenticationEntryPoint((request, response, ex) -> {
-			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
-		});
+//		http.exceptionHandling().authenticationEntryPoint((request, response, ex) -> {
+//			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
+//		});
+		
+		// Configure your security settings
+        http.exceptionHandling().authenticationEntryPoint(delegatedAuthenticationEntryPoint);
 
 		http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
-
+		
 		return http.build();
 	}
 
