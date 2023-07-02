@@ -1,30 +1,24 @@
 package vn.com.gigo.services.impl;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import vn.com.gigo.dtos.request.AccountNoPassDto;
 import vn.com.gigo.dtos.request.OrderDetailRequestDto;
 import vn.com.gigo.dtos.request.OrderRequestDto;
 import vn.com.gigo.dtos.response.CustomerDto;
 import vn.com.gigo.dtos.response.OrderDetailDto;
 import vn.com.gigo.dtos.response.OrderDto;
-import vn.com.gigo.dtos.response.ToppingDto;
 import vn.com.gigo.entities.Account;
 import vn.com.gigo.entities.Customer;
 import vn.com.gigo.entities.Employee;
 import vn.com.gigo.entities.Order;
 import vn.com.gigo.entities.OrderDetail;
-import vn.com.gigo.entities.Role;
 import vn.com.gigo.entities.Topping;
 import vn.com.gigo.entities.Voucher;
-import vn.com.gigo.exception.AccountException;
 import vn.com.gigo.exception.ResourceNotFoundException;
 import vn.com.gigo.mapstruct.CustomerMapper;
 import vn.com.gigo.mapstruct.OrderMapper;
