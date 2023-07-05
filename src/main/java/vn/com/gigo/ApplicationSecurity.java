@@ -2,6 +2,8 @@ package vn.com.gigo;
 
 import java.util.Arrays;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +20,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +29,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import vn.com.gigo.repositories.AccountRepository;
+import vn.com.gigo.security.CustomAccessDeniedHandler;
 import vn.com.gigo.security.DelegatedAuthenticationEntryPoint;
 import vn.com.gigo.security.JwtTokenFilter;
 
@@ -100,17 +104,20 @@ public class ApplicationSecurity {
 						"/rates/**", "/toppings/**")
 				.permitAll().antMatchers(HttpMethod.POST, "/orders").permitAll().anyRequest().authenticated();
 
-//		http.exceptionHandling().authenticationEntryPoint((request, response, ex) -> {
-//			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
-//		});
+		// configure access denied handler
+		http.exceptionHandling().accessDeniedHandler(accessDeniedHandler());
 		
-		// Configure your security settings
+		// configure access token exception handler
         http.exceptionHandling().authenticationEntryPoint(delegatedAuthenticationEntryPoint);
 
 		http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
 		
 		return http.build();
 	}
+	
+	public AccessDeniedHandler accessDeniedHandler() {
+        return new CustomAccessDeniedHandler();
+    }
 
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {

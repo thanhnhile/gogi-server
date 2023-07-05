@@ -36,6 +36,4 @@ public interface AccountService {
 	Object unlikeProduct(Long id);
 	
 	Object getAllProductsLiked();
-
-	Object getProductIdsLikeByUsername();
 }

@@ -13,6 +13,6 @@ public class SecurityUtils {
 			String currentUserName = authentication.getName();
 			return currentUserName;
 		}
-		throw new ResourceNotFoundException("Invalid JWT");
+		throw new ResourceNotFoundException("User does not exist");
 	}
 }
