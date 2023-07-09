@@ -102,7 +102,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 	public void addNewOrder (OrderRequestDto orderInputDto) {
 		addOrder(orderInputDto);
-		//sendNotification(orderInputDto.getStore());
+		sendNotification(orderInputDto.getStore());
 	}
 	
 	private void sendNotification (Long storeId) {

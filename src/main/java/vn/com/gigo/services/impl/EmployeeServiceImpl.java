@@ -37,6 +37,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 	@Autowired
 	private EmployeeMapper employeeMapper;
+	
+	@Autowired
+	private AccountServiceImpl accountImpl;
 
 	@Autowired
 	public EmployeeServiceImpl(EmployeeMapper employeeMapper, EmployeeRepository employeeRepo) {
@@ -91,6 +94,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 			employee.setId(id);
 			employee.setStore(store);
 			employee.setAccount(account);
+			if(employeeOptional.get().getAccount() != account) {
+				accountImpl.removeRoleEmployee(id);
+				accountImpl.addRoleEmployee(account.getUsername());
+			}
 			return employeeMapper.employeeToEmployeeDto(employeeRepo.save(employee));
 
 		}
