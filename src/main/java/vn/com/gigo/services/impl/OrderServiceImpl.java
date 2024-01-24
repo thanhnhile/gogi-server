@@ -24,7 +24,7 @@ import vn.com.gigo.mapstruct.CustomerMapper;
 import vn.com.gigo.mapstruct.OrderMapper;
 import vn.com.gigo.mapstruct.ToppingMapper;
 import vn.com.gigo.notification.Notification;
-import vn.com.gigo.notification.OrderNotificaion;
+import vn.com.gigo.notification.OrderNotification;
 import vn.com.gigo.repositories.AccountRepository;
 import vn.com.gigo.repositories.CustomerRepository;
 import vn.com.gigo.repositories.EmployeeRepository;
@@ -73,7 +73,7 @@ public class OrderServiceImpl implements OrderService {
 	private ToppingMapper toppingMapper;
 	
 	@Autowired
-	private OrderNotificaion orderNotificaion;
+	private OrderNotification orderNotificaion;
 	
 	@Autowired
 	private ToppingServiceImpl toppingServiceImpl;
@@ -107,7 +107,7 @@ public class OrderServiceImpl implements OrderService {
 	
 	private void sendNotification (Long storeId) {
 		Object content = mapper.ordersToOrderDtos(orderRepo.findByStore_IdAndStatus(storeId, OrderStatus.IN_PROGRESS.getValue()));
-		Notification notification = new Notification(storeId, content);
+		Notification notification = new Notification(content);
 		orderNotificaion.setNotification(notification);
 	}
 

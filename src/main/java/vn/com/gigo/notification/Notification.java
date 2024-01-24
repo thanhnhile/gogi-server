@@ -1,23 +1,14 @@
 package vn.com.gigo.notification;
 
+import java.time.LocalDateTime;
+
 public class Notification {
-	private Long receiverId;
 	private Object content;
 	
 	
-	public Notification(Long receiverId, Object content) {
+	public Notification(Object content) {
 		super();
-		this.receiverId = receiverId;
 		this.content = content;
-	}
-	
-	
-	public Long getReceiverId() {
-		return receiverId;
-	}
-
-	public void setReceiverId(Long receiverId) {
-		this.receiverId = receiverId;
 	}
 
 	public Object getContent() {

@@ -79,30 +79,30 @@ public class ApplicationSecurity {
 
         
 		// role admin
-		http.authorizeRequests()
-				.antMatchers(HttpMethod.POST, "/categories/**", "/products/**", "/stores/**", "/vouchers/**",
-						"/toppings/**")
-				.hasAnyAuthority("ADMIN")
-				.antMatchers(HttpMethod.PUT, "/categories/**", "/products/**", "/stores/**", "/vouchers/**",
-						"/toppings/**")
-				.hasAnyAuthority("ADMIN")
-				.antMatchers(HttpMethod.DELETE, "/categories/**", "/products/**", "/stores/**", "/vouchers/**",
-						"/toppings/**", "/accounts")
-				.hasAnyAuthority("ADMIN").antMatchers("/roles", "/statistics/admin", "/employees")
-				.hasAnyAuthority("ADMIN");
+//		http.authorizeRequests()
+//				.antMatchers(HttpMethod.POST, "/categories/**", "/products/**", "/stores/**", "/vouchers/**",
+//						"/toppings/**")
+//				.hasAnyAuthority("ADMIN")
+//				.antMatchers(HttpMethod.PUT, "/categories/**", "/products/**", "/stores/**", "/vouchers/**",
+//						"/toppings/**")
+//				.hasAnyAuthority("ADMIN")
+//				.antMatchers(HttpMethod.DELETE, "/categories/**", "/products/**", "/stores/**", "/vouchers/**",
+//						"/toppings/**", "/accounts")
+//				.hasAnyAuthority("ADMIN").antMatchers("/roles", "/statistics/admin", "/employees")
+//				.hasAnyAuthority("ADMIN");
 
 		// role employee
-		http.authorizeRequests()
-				.antMatchers("/orders/update/delivering/{id}", "/orders/update/success/{id}", "/orders/pay/**")
-				.hasAuthority("EMPLOYEE");
-
-		http.authorizeRequests()
-				.antMatchers("/auth", "/register", "/refresh", "/employees/account/**", "/subscribe/**",
-						"/accounts/forgot_password/**", "/accounts/reset_password/**", "/sendFeedback")
-				.permitAll()
-				.antMatchers(HttpMethod.GET, "/categories/**", "/products/**", "/stores/**", "/vouchers/**",
-						"/rates/**", "/toppings/**")
-				.permitAll().antMatchers(HttpMethod.POST, "/orders").permitAll().anyRequest().authenticated();
+//		http.authorizeRequests()
+//				.antMatchers("/orders/update/delivering/{id}", "/orders/update/success/{id}", "/orders/pay/**")
+//				.hasAuthority("EMPLOYEE");
+//
+//		http.authorizeRequests()
+//				.antMatchers("/auth", "/register", "/refresh", "/employees/account/**", "/subscribe/**",
+//						"/accounts/forgot_password/**", "/accounts/reset_password/**", "/sendFeedback")
+//				.permitAll()
+//				.antMatchers(HttpMethod.GET, "/categories/**", "/products/**", "/stores/**", "/vouchers/**",
+//						"/rates/**", "/toppings/**")
+//				.permitAll().antMatchers(HttpMethod.POST, "/orders").permitAll().anyRequest().authenticated();
 
 		// configure access denied handler
 		http.exceptionHandling().accessDeniedHandler(accessDeniedHandler());

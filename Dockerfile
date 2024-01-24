@@ -1,4 +1,4 @@
-FROM eclipse/ubuntu_jdk8
+FROM xldevops/jdk17-lts
 
 COPY target/gigo-0.0.1-SNAPSHOT.jar app.jar
 
